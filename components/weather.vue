@@ -1,28 +1,28 @@
-<template name="weather">
+<template>
     <view>
 
-        <view class='weather'>
-            <view class='weaLeft'>
-                <view style="display: flex;align-items: center;justify-content: center;">
-                    <image class='todayImg' mode="aspectFit" :src="host+'/public/static/weather/'+todayWeather[1]+'.png'"></image>
+        <view class="weather">
+            <view class="weather-left">
+                <view class="flex-center">
+                    <image class="today-img" mode="aspectFit" :src="host+'/public/static/weather/'"+todayWeather[1]+"'.png'"></image>
                 </view>
-                <view style='text-align:center;margin-top:6px;'>{{todayWeather[0]}}</view>
-                <view style='text-align:center;margin-top:3px;'>{{todayWeather[2]}}℃ - {{todayWeather[3]}}℃</view>
-                <view style='text-align:center;margin-top:3px;'>{{todayWeather[4]}}</view>
+                <view style="text-align:center;margin-top:6px;">{{todayWeather[0]}}</view>
+                <view style="text-align:center;margin-top:3px;">{{todayWeather[2]}}℃ - {{todayWeather[3]}}℃</view>
+                <view style="text-align:center;margin-top:3px;">{{todayWeather[4]}}</view>
             </view>
-            <view class='weaRight'>
-                <view class='weaRightTop'>
-                    <image class='dayImg' mode="aspectFit" :src="host+'/public/static/weather/'+tomorrowWeather[1]+'.png'"></image>
-                    <view class='weatherCon'>
-                        <view style='text-align:center;margin-top:6px;'>{{tomorrowWeather[0]}}</view>
-                        <view style='text-align:center;margin-top:3px;'>{{tomorrowWeather[2]}}℃ - {{tomorrowWeather[3]}}℃</view>
+            <view class="weather-right">
+                <view class="weather-right-top">
+                    <image class="day-img" mode="aspectFit" :src="host+'/public/static/weather/'"+tomorrowWeather[1]+"'.png'"></image>
+                    <view class="weather-con">
+                        <view style="text-align:center;margin-top:6px;">{{tomorrowWeather[0]}}</view>
+                        <view style="text-align:center;margin-top:3px;">{{tomorrowWeather[2]}}℃ - {{tomorrowWeather[3]}}℃</view>
                     </view>
                 </view>
-                <view class='weaRightBot'>
-                    <image class='dayImg' mode="aspectFit" :src="host+'/public/static/weather/'+tdatomoWeather[1]+'.png'"></image>
-                    <view class='weatherCon'>
-                        <view style='text-align:center;margin-top:3px;'>{{tdatomoWeather[0]}}</view>
-                        <view style='text-align:center;'>{{tdatomoWeather[2]}}℃ - {{tdatomoWeather[3]}}℃</view>
+                <view class="weather-right-bot">
+                    <image class="day-img" mode="aspectFit" :src="host+'/public/static/weather/'"+tdatomoWeather[1]+"'.png'"></image>
+                    <view class="weather-con">
+                        <view style="text-align:center;margin-top:3px;">{{tdatomoWeather[0]}}</view>
+                        <view style="text-align:center;">{{tdatomoWeather[2]}}℃ - {{tdatomoWeather[3]}}℃</view>
                     </view>
                 </view>
             </view>
@@ -35,7 +35,7 @@
         name: "weather",
         props: {},
         methods: {},
-        data() {
+        data: function() {
             return {
                 todayWeather: ["", "CLEAR_DAY", 0, 0, "数据获取中"],
                 tomorrowWeather: ["", "CLEAR_DAY", 0, 0],
@@ -78,40 +78,46 @@
         border-bottom-right-radius: 0;
     }
 
-    .weaLeft {
+    .weather-left {
         width: 50% ;
         padding: 10px;
         border-right: 1px solid #eee;
     }
 
-    .todayImg {
+    .today-img {
         width: 40px !important;
         height: 40px !important;
     }
+    
+    .flex-center{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-    .dayImg {
+    .day-img {
         width: 30px !important;
         height: 30px !important;
         margin: 0 0 0 15px;
         align-self: center;
     }
 
-    .weaRight {
+    .weather-right {
         width: 50%;
     }
 
-    .weaRightBot,
-    .weaRightTop {
+    .weather-right-bot,
+    .weather-right-top {
         display: flex;
         height: 50%;
         text-align: center;
     }
 
-    .weaRightBot {
+    .weather-right-bot {
         border-top: 1px solid #eee;
     }
 
-    .weatherCon {
+    .weather-con {
         align-self: center;
         margin: 0 auto;
     }

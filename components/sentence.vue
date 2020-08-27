@@ -1,8 +1,8 @@
-<template name="sentence">
+<template>
     <view>
         
-        <view style="margin: 6px 0 8px 3px;">{{sentence}}</view>
-        <view style="margin: 3px 0 8px 3px;">{{content}}</view>
+        <view class="tips">{{sentence}}</view>
+        <view class="tips">{{content}}</view>
         <image class="sent-image" :src="url" mode="aspectFill"></image>
 
     </view>
@@ -33,6 +33,9 @@
     }
 </script>
 <style>
+    .tips{
+        margin: 6px 0 8px 3px;
+    }
     .sent-image {
         width: 100%;
     }

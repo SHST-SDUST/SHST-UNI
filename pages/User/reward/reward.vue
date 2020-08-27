@@ -1,12 +1,12 @@
 <template>
     <view>
 
-        <view class="x-CenterCon">
-            <image class='rewardImg' src='/static/img/Reward.jpg' data-viewImgUrl="http://windrunner_max.gitee.io/imgpath/SHST/Static/Reward.jpg"
-             @tap='viewImg'></image>
+        <view class="x-center">
+            <image  @click="viewImg('http://windrunner_max.gitee.io/imgpath/SHST/Static/Reward.jpg')" 
+                class="reward-img" src="/static/img/Reward.jpg"></image>
         </view>
 
-        <view class='tipsCon'>
+        <view class="tips-reward">
             
             <!-- #ifdef MP-WEIXIN -->
             <view>点击二维码后长按识别赞赏码</view>
@@ -17,7 +17,7 @@
             <view>记得写上您的名字哦</view>
             <view>感谢您的支持!</view>
 
-            <navigator url="rewardList" open-type="navigate" class='rewardList a-link' hover-class="none">赞赏记录</navigator>
+            <navigator url="reward-ist" open-type="navigate" class="reward-list a-link" hover-class="none">赞赏记录</navigator>
         </view>
 
     </view>
@@ -25,7 +25,7 @@
 
 <script>
     export default {
-        data() {
+        data: function() {
             return {
 
             }
@@ -48,24 +48,13 @@
         background: #FFFFFF;
     }
 
-    .rewardImg {
+    .reward-img {
         width: 497px;
         height: 563px;
         zoom: 0.6;
     }
 
-    .tipsCon {
-        margin-top: 20px;
-        font-size: 20px;
-        text-align: center;
-        color: #8f8f8f;
-    }
-
-    .tipsCon view {
-        margin: 10px 0;
-    }
-
-    .rewardList {
+    .reward-list {
         margin-top: 30px;
         font-size: 17px;
     }

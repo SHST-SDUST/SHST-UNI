@@ -1,8 +1,8 @@
 "use strict";
-import globalData from "@/modules/global-data";
 import request from "@/modules/request";
 import {toast} from "@/modules/toast";
 import {extend} from  "@/modules/copy";
+import {data} from "@/modules/global-data";
 import {PubSub} from "@/modules/event-bus";
 import {extDate} from "@/modules/datetime";
 import {checkUpdate} from  "@/modules/update";
@@ -11,13 +11,18 @@ import {getCurWeek} from  "@/vector/pubFct";
 function disposeApp(app){
     extDate(); //拓展Date原型
     checkUpdate(); // 检查更新
+    uni.$app = $app.$scope;
     app.$scope.toast = toast;
     app.$scope.extend = extend;
     app.$scope.eventBus = new PubSub();
+    app.$scope.extend(app.data, data);
     app.$scope.extend(app.$scope, request);
-    app.$scope.extend(app.globalData, globalData);
-    app.globalData.colorN = app.globalData.colorList.length;
-    app.globalData.curWeek = getCurWeek(app.globalData.curTermStart);
+    app.data.colorN = app.data.colorList.length;
+    app.data.curWeek = getCurWeek(app.data.curTermStart);
+    $app.$scope.onload = (funct, ...args) => {
+        if($app.data.openid) funct(...args);
+        else $app.$scope.eventBus.on("LoginEvent", funct);
+    }
 }
 
 /**
@@ -35,10 +40,10 @@ function onLaunch() {
         return app.$scope.request({
             load: 3,
             // #ifdef MP-WEIXIN
-            url: app.globalData.url + 'auth/wx',
+            url: app.data.url + 'auth/wx',
             // #endif
             // #ifdef MP-QQ
-            url: app.globalData.url + 'auth/QQ',
+            url: app.data.url + 'auth/QQ',
             // #endif
             method: 'POST',
             data: {
@@ -47,46 +52,37 @@ function onLaunch() {
             }
         })
     }).then((res) => {
-        app.globalData.curTerm = res.data.initData.curTerm;
-        app.globalData.curTermStart = res.data.initData.termStart;
-        app.globalData.curWeek = res.data.initData.curWeek;
-        app.globalData.loginStatus = res.data.Message;
-        app.globalData.initData = res.data.initData;
-        if(app.globalData.initData.custom){
-            let custom = app.globalData.initData.custom;
+        app.data.curTerm = res.data.initData.curTerm;
+        app.data.curTermStart = res.data.initData.termStart;
+        app.data.curWeek = res.data.initData.curWeek;
+        app.data.initData = res.data.initData;
+        if(app.data.initData.custom){
+            let custom = app.data.initData.custom;
             if(custom.color_list) {
-                app.globalData.colorList = JSON.parse(custom.color_list);
-                app.globalData.colorN = app.globalData.colorList.length;
+                app.data.colorList = JSON.parse(custom.color_list);
+                app.data.colorN = app.data.colorList.length;
             }
         }
-        if (res.data.Message === "Ex") app.globalData.userFlag = 1;
-        else app.globalData.userFlag = 0;
-        console.log("Status:" + (app.globalData.userFlag === 1 ? "User Login" : "New User"));
-        if (res.data.openid) {
-            var notify = res.data.initData.tips;
-            app.globalData.tips = notify;
-            var point = uni.getStorageSync("point") || "";
-            if (point !== notify) uni.showTabBarRedDot({ index: 2 });
-            console.log("SetOpenid:" + res.data.openid);
-            app.globalData.openid = res.data.openid;
-            uni.setStorageSync('openid', res.data.openid);
-        } else {
-            console.log("Get Openid From Cache");
-            app.globalData.openid = uni.getStorageSync("openid") || "";
-        }
+        /* res.data.status   1 已注册用户  2 未注册用户*/
+        app.data.userFlag = res.data.status === 1 ? 1 : 0;
+        console.log("Status:" + (app.data.userFlag === 1 ? "user Login" : "New user"));
+        var notify = res.data.initData.tips;
+        app.data.tips = point;
+        var point = uni.getStorageSync("point") || "";
+        if (point !== notify) uni.showTabBarRedDot({ index: 2 });
+        console.log("SetOpenid:" + res.data.openid);
+        app.data.openid = res.data.openid;
         return Promise.resolve(res);
     }).then((res) => {
-        if (res.statusCode !== 200 || !res.data.initData || !res.data.initData.curTerm)  return Promise.reject("DATA INIT FAIL");
-        else app.$scope.eventBus.commit('LoginEvent', res);
+        if (!res.data.initData || !res.data.initData.curTerm) return Promise.reject("DATA INIT FAIL");
+        else app.$scope.eventBus.commit("LoginEvent", res);
     }).catch((err) => {
         console.log(err);
         uni.showModal({
-            title: '警告',
-            content: '数据初始化失败,点击确定重新初始化数据',
+            title: "警告",
+            content: "数据初始化失败,点击确定重新初始化数据",
             showCancel: false,
-            success: (res) => {
-                if (res.confirm) onLaunch.apply(app);
-            }
+            success: (res) => onLaunch.apply(app)
         })
     })
 }

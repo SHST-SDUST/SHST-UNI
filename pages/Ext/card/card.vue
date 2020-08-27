@@ -2,55 +2,55 @@
     <view>
 
         <layout title="校园卡查询">
-            <view class='supple'>
-                <view class='info'>
+            <view class="supple">
+                <view class="info a-flex-space-between">
                     <view>姓名</view>
                     <rich-text :nodes="name"></rich-text>
                 </view>
-                <view class='info'>
+                <view class="info a-flex-space-between">
                     <view>卡号</view>
                     <rich-text :nodes="account"></rich-text>
                 </view>
-                <view class='info'>
+                <view class="info a-flex-space-between"> 
                     <view>卡余额</view>
                     <rich-text :nodes="banlance"></rich-text>
                 </view>
-                <view class='info'>
+                <view class="info a-flex-space-between">
                     <view>过渡余额</view>
                     <rich-text :nodes="balanceTemp"></rich-text>
                 </view>
             </view>
         </layout>
         <layout>
-            <view class="x-CenterCon">
-                <view class='a-btn a-btn-blue a-btn-small' @tap='todayQuery'>当日流水查询</view>
-                <view class='a-btn a-btn-blue a-btn-small btn' @tap='historyQuery'>历史流水查询</view>
+            <view class="x-center">
+                <view class="a-btn a-btn-blue a-btn-small" @click="todayQuery">当日流水查询</view>
+                <view class="a-btn a-btn-blue a-btn-small a-lml" @click="historyQuery">历史流水查询</view>
             </view>
         </layout>
         <layout v-if="show">
             <view>
-                <view style='border-left:1px solid #eee;border-top:1px solid #eee;width: 100%;'>
-                    <view class='line'>
-                        <view class='unit'>时间</view>
-                        <view class='unit'>类型</view>
-                        <view class='unit'>商户</view>
-                        <view class='unit'>交易额</view>
-                        <view class='unit'>余额</view>
-                        <view class='unit'>流水号</view>
+                <view class="table">
+                    <view class="a-flex">
+                        <view class="unit x-center y-center">时间</view>
+                        <view class="unit x-center y-center">类型</view>
+                        <view class="unit x-center y-center">商户</view>
+                        <view class="unit x-center y-center">交易额</view>
+                        <view class="unit x-center y-center">余额</view>
+                        <view class="unit x-center y-center">流水号</view>
                     </view>
-                    <view v-for="(item,index) in data" :key="index" class='line'>
-                        <view class='unit'>{{item.time}}</view>
-                        <view class='unit'>{{item.status}}</view>
-                        <view class='unit'>{{item.location}}</view>
-                        <view class='unit'>{{item.money}}</view>
-                        <view class='unit'>{{item.balance}}</view>
-                        <view class='unit'>{{item.serno}}</view>
+                    <view v-for="item in data" :key="item.time" class="a-flex">
+                        <view class="unit x-center y-center">{{item.time}}</view>
+                        <view class="unit x-center y-center">{{item.status}}</view>
+                        <view class="unit x-center y-center">{{item.location}}</view>
+                        <view class="unit x-center y-center">{{item.money}}</view>
+                        <view class="unit x-center y-center">{{item.balance}}</view>
+                        <view class="unit x-center y-center">{{item.serno}}</view>
                     </view>
                 </view>
             </view>
         </layout>
         <layout v-if="show" title="Tips">
-            <view class="tipsCon">
+            <view class="tips-con">
                 <view>1. 历史消费记录只显示一个月内消费的前17条记录</view>
                 <view>2. 仅作参考，具体数据请于行政楼查阅</view>
             </view>
@@ -60,10 +60,9 @@
 </template>
 
 <script>
-    const app = getApp();
     var cardLoad = true;
     export default {
-        data() {
+        data: function() {
             return {
                 name: "",
                 account: "",
@@ -73,69 +72,52 @@
                 show: 0
             }
         },
-        onLoad: async function(options) {
-            var res = await app.request({
-                load: 2,
-                url: app.globalData.url + "card/userInfo",
-            })
-            if (res.data.Message === "Yes") {
+        created: function() {
+            uni.$app.onload(async () => {
+                var res = await uni.$app.request({
+                    load: 2,
+                    url: uni.$app.data.url + "/card/userInfo",
+                })
                 cardLoad = false;
                 var info = res.data.info;
                 var pregInfo = info.match(/<div align="left">[\S]*<\/div>/g);
                 var balanceInfo = info.match(/<td class="neiwen">[\S]*<\/td>/g);
                 var balance = balanceInfo[0].split("（")[0];
                 var balanceTemp = balanceInfo[0].split("）")[1].split("(")[0];
-                this.name = pregInfo[0]
-                this.account = pregInfo[3]
-                this.banlance = balance
-                this.balanceTemp = balanceTemp
-            } else if (res.data.Message === "No") {
-                app.toast(res.data.info);
-            } else {
-                app.toast("未知错误");
-            }
-
+                this.name = pregInfo[0];
+                this.account = pregInfo[3];
+                this.banlance = balance;
+                this.balanceTemp = balanceTemp;
+            })
         },
         methods: {
             todayQuery: async function() {
                 if (cardLoad) {
-                    app.toast("请稍后");
-                    return false;
+                    uni.$app.toast("请稍后");
+                    return void 0;
                 }
-                var res = await app.request({
+                var res = await uni.$app.request({
                     load: 2,
-                    url: app.globalData.url + "card/today",
+                    url: uni.$app.data.url + "/card/today",
                 })
-                if (res.data.Message === "Yes") {
-                    this.diposeCardData(res.data.info);
-                } else if (res.data.Message === "No") {
-                    app.toast(res.data.info);
-                } else {
-                    app.toast("未知错误");
-                }
+                this.diposeCardData(res.data.info);
             },
             historyQuery: async function() {
                 if (cardLoad) {
-                    app.toast("请稍后");
-                    return false;
+                    uni.$app.toast("请稍后");
+                    return void 0;
                 }
-                var res = await app.request({
+                var res = await uni.$app.request({
                     load: 2,
-                    url: app.globalData.url + "card/history"
+                    url: uni.$app.data.url + "/card/history"
                 })
-                if (res.data.Message === "Yes") {
-                    this.diposeCardData(res.data.info);
-                } else if (res.data.Message === "No") {
-                    app.toast(res.data.info);
-                } else {
-                    app.toast("未知错误");
-                }
+                this.diposeCardData(res.data.info);
             },
             diposeCardData: function(data) {
                 var line = [];
                 var lineData = data.match(/<tr class="listbg[2]?">[\s\S]*?<\/tr>/g);
                 if (!lineData) {
-                    app.toast("暂无数据");
+                    uni.$app.toast("暂无数据");
                 } else {
                     lineData.forEach((value) => {
                         var infoArr = value.match(/<td[\s\S]*?>[\s\S]*?<\/td>/g);
@@ -157,7 +139,7 @@
     }
 </script>
 
-<style>
+<style scoped>
     .supple {
         box-sizing: border-box;
         color: rgb(134, 134, 134);
@@ -166,21 +148,12 @@
 
     .info {
         padding: 5px 0;
-        display: flex;
-        justify-content: space-between;
     }
-
-    .btnCon {
-        display: flex;
-        justify-content: center;
-    }
-
-    .btn {
-        margin-left: 10px;
-    }
-
-    .line {
-        display: flex;
+    
+    .table{
+        border-left:1px solid #eee;
+        border-top:1px solid #eee;
+        width: 100%;
     }
 
     .unit {
@@ -190,9 +163,6 @@
         text-align: center;
         border-bottom: 1px solid #eee;
         border-right: 1px solid #eee;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         word-break: break-all;
     }
 </style>

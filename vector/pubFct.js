@@ -1,5 +1,4 @@
 "use strict";
-import md5 from "@/utils/md5";
 import util from "@/modules/datetime";
 
 /**
@@ -16,9 +15,8 @@ function tableDispose(info, flag = 0) {
         var day = parseInt(value.kcsj[0]) - 1;
         if (flag === 1 && day !== week) return;
         var knot = parseInt(parseInt(value.kcsj.substr(1, 2)) / 2);
-        var md5Str = md5.hexMD5(value.kcmc);
-        var md5PickNum = function(){ let r=0; for(let i=0;i<7;++i) r += md5Str[i].charCodeAt(); return r;}();
-        var colorSignal = app.globalData.colorList[ md5PickNum % app.globalData.colorN];
+        var uniqueNum = Array.prototype.reduce.call(v.name, (pre, cur) => pre+cur.charCodeAt(), 0);
+        var colorSignal = app.data.colorList[ uniqueNum % app.data.colorN];
         arrInner.push(day);
         arrInner.push(knot);
         arrInner.push(value.kcmc.split("（")[0]);
@@ -34,9 +32,9 @@ function tableDispose(info, flag = 0) {
 
 function todoDateDiff(startDateString, endDateString, content) {
     const app = getApp();
-    const colorList = app.globalData.colorList;
-    const colorN = app.globalData.colorList.length;
-    var color = colorList[md5.hexMD5(content)[0].charCodeAt() % colorN];
+    const colorList = app.data.colorList;
+    const colorN = app.data.colorList.length;
+    var color = colorList[content.charCodeAt() % colorN];
     var diff = util.dateDiff(startDateString, endDateString);
     if (diff === 0) diff = "今";
     else if (diff < 0) diff = "超期" + Math.abs(diff);

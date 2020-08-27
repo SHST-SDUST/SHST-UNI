@@ -4,7 +4,7 @@
         <view style="width: 100%;">
             <scroll-view scroll-x="true">
                 <view class="top-swich" style="text-align:center;" v-if="!fullscreen">
-                    <label v-for="(item,index) in buildlData" :key="index" :id="index" @tap="changePage" class="top-swich-btn widthLim"
+                    <label v-for="(item,index) in buildlData" :key="index" :id="index" @click="changePage" class="top-swich-btn width-lim"
                      :class="{'active':isSelectedBuildType == index}">{{item.name}}</label>
                 </view>
             </scroll-view>
@@ -12,23 +12,23 @@
              @markertap="markertap" @regionchange="regionchange" :include-points="buildlData[isSelectedBuildType].data"
              :show-location="islocation? 'true': 'false'" enable-overlooking="true" enable-3D="true" :style="{width:'auto',height:fullscreen ? 94+'vh' : 48+'vh'}">
                 <cover-view class="controls" :class="{full:fullscreen}">
-                    <cover-view @tap="navigateSearch">
+                    <cover-view @click="navigateSearch">
                         <cover-image class="img" src="/static/camptour/search.png" />
                     </cover-view>
-                    <cover-view @tap="location">
+                    <cover-view @click="location">
                         <cover-image class="img" src="/static/camptour/location.png" />
                     </cover-view>
                 </cover-view>
             </map>
-            <button @tap="clickButton">共有{{buildlData[isSelectedBuildType].data.length}}个景观 ◕‿◕</button>
+            <button @click="clickButton">共有{{buildlData[isSelectedBuildType].data.length}}个景观 ◕‿◕</button>
             <scroll-view scroll-y="true" :style="{height:fullscreen ? 0:40+'vh'}" :scroll-top="(isSelectedBuild -1 ) * 70">
                 <view v-for="(item,index) in buildlData[isSelectedBuildType].data" :key="index" class="building-item" :style="{'background-color':isSelectedBuild -1 == index ? '#d5d5d5' : ''}">
                     <view class="img-view">
                         <navigator class="img" :url="'details?tid='+isSelectedBuildType+'&bid='+index">
                             <image :src="item.img[0]" mode="aspectFill"> </image>
                             <view class="item">
-                                <view class="itemName">{{item.name}}</view>
-                                <view class="itemFloor" v-if="item.floor">位置：{{item.floor}} </view>
+                                <view class="item-name">{{item.name}}</view>
+                                <view class="item-floor" v-if="item.floor">位置：{{item.floor}} </view>
                             </view>
                         </navigator>
                         <navigator class="text" :url="'polyline?latitude='+item.latitude+'&longitude='+item.longitude">
@@ -73,23 +73,23 @@
                 }
             })
             this.loadSchoolConf();
-            that.buildlData = app.globalData.map
+            that.buildlData = app.data.map
             this.location();
         },
         methods: {
             loadSchoolConf: function() {
-                app.globalData.map = school.map;
-                for (let i = 0; i < app.globalData.map.length; i++) {
-                    for (let b = 0; b < app.globalData.map[i].data.length; b++) {
-                        app.globalData.map[i].data[b].id = b + 1;
+                app.data.map = school.map;
+                for (let i = 0; i < app.data.map.length; i++) {
+                    for (let b = 0; b < app.data.map[i].data.length; b++) {
+                        app.data.map[i].data[b].id = b + 1;
                     }
                 }
             },
-            regionchange(e) {},
-            markertap(e) {
+            regionchange: function(e) {},
+            markertap: function(e) {
                 this.isSelectedBuild= e.markerId
             },
-            navigateSearch() {
+            navigateSearch: function() {
                 uni.navigateTo({
                     url: 'search'
                 })
@@ -99,9 +99,9 @@
                 uni.getLocation({
                     type: 'wgs84', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 uni.openLocation 的坐标  
                     success: function(res) {
-                        app.globalData.latitude = res.latitude;
-                        app.globalData.longitude = res.longitude;
-                        app.globalData.islocation = true;
+                        app.data.latitude = res.latitude;
+                        app.data.longitude = res.longitude;
+                        app.data.islocation = true;
                         if (e) {
                             _this.longitude = res.longitude
                             _this.latitude = res.latitude
@@ -188,12 +188,12 @@
         margin: auto 0;
     }
 
-    .itemName {
+    .item-name {
         margin: 0 20rpx;
         font-size: 32rpx;
     }
 
-    .itemFloor {
+    .item-floor {
         margin: 0 20rpx;
         font-size: 28rpx;
         color: #555;
@@ -226,7 +226,7 @@
         top: 82%;
     }
 
-    .widthLim {
+    .width-lim {
         width: 100%;
     }
 

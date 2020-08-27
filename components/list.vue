@@ -1,4 +1,4 @@
-<template name="list">
+<template>
     <view>
         
         <view class="list-line">

@@ -2,7 +2,7 @@
     <view>
 
         <layout title="空教室">
-            <view class='top'>
+            <view class="top">
                 <picker-view indicator-style="height: 40px;" style="width: 77%; height: 100px;" @change="bindPickerChange">
                     <picker-view-column>
                         <view v-for="(item,index) in queryData" :key="index" style="line-height: 40px">{{item[1]}}</view>
@@ -14,17 +14,17 @@
                         <view v-for="(item,index) in queryFloor" :key="index" style="line-height: 40px">{{item[0]}}</view>
                     </picker-view-column>
                 </picker-view>
-                <view class='buttonCon'>
-                    <view class='a-btn search' @tap='loadClassroom'>搜索</view>
+                <view class="button-con">
+                    <view class="a-btn search" @click="loadClassroom">搜索</view>
                 </view>
             </view>
         </layout>
 
         <layout v-if="show" :title="qShow+'['+searchData+']'">
-            <view class='floorName'>{{room[0].jxl}}</view>
-            <view class="roomCon">
+            <view class="floor-name">{{room[0].jxl}}</view>
+            <view class="room-con">
                 <view v-for="(inner,innerIndex) in room[0].jsList" :key="innerIndex">
-                    <view class='unit'>{{inner.jsmc}}</view>
+                    <view class="unit">{{inner.jsmc}}</view>
                 </view>
             </view>
         </layout>
@@ -33,16 +33,15 @@
 </template>
 
 <script>
-    const app = getApp()
     import util from "@/modules/datetime";
     export default {
-        data() {
+        data: function() {
             return {
                 show: 0,
                 room: [],
                 qShow: "",
                 searchData: util.formatDate(),
-                searchTime: '0102',
+                searchTime: "0102",
                 searchFloor: 1,
                 index: [0, 0, 0],
                 queryData: [],
@@ -50,58 +49,49 @@
                 queryFloor: []
             }
         },
-        onLoad: function(options) {
-            var queryData = this.getTimeArr();
-            var queryTime = [
-                ['12节', '0102', '12节(8:00-9:50)'],
-                ['34节', '0304', '34节(10:10-12:00)'],
-                ['56节', '0506', '56节(14:00-15:50)'],
-                ['78节', '0708', '78节(16:00-17:50)'],
-                ['9X节', '0910', '9X节(19:00-20:50)'],
-                ['上午', 'am', '上午(8:00-12:00)'],
-                ['下午', 'pm', '下午(14:00-17:50)'],
-                ['全天', 'allday', '全天(8:00-20:50)']
-            ];
-            var queryFloor = [
-                ["J1", "1"],
-                ["J3", "3"],
-                ["J5", "5"],
-                ["J7", "7"],
-                ["J14", "14"],
-                ["S1", "S1"]
-            ];
-            this.queryData = queryData
-            this.queryTime = queryTime
-            this.queryFloor = queryFloor
+        created: function() {
+            uni.$app.onload(() => {
+                var queryData = this.getTimeArr();
+                var queryTime = [
+                    ["12节", "0102", "12节(8:00-9:50)"],
+                    ["34节", "0304", "34节(10:10-12:00)"],
+                    ["56节", "0506", "56节(14:00-15:50)"],
+                    ["78节", "0708", "78节(16:00-17:50)"],
+                    ["9X节", "0910", "9X节(19:00-20:50)"],
+                    ["上午", "am", "上午(8:00-12:00)"],
+                    ["下午", "pm", "下午(14:00-17:50)"],
+                    ["全天", "allday", "全天(8:00-20:50)"]
+                ];
+                var queryFloor = [
+                    ["J1", "1"],
+                    ["J3", "3"],
+                    ["J5", "5"],
+                    ["J7", "7"],
+                    ["J14", "14"],
+                    ["S1", "S1"]
+                ];
+                this.queryData = queryData;
+                this.queryTime = queryTime;
+                this.queryFloor = queryFloor;
+            })
         },
         methods: {
-            flagChange:function(e) {
-                var flagIndex = parseInt(e.currentTarget.dataset.index);
-                this.data.flag[flagIndex] = this.data.flag[flagIndex] === 'none' ? "flex" : "none";
-                this.flag = this.data.flag
-            },
             loadClassroom:function (e) {
-                uni.setNavigationBarTitle({
-                    title: '加载中...'
-                })
+                uni.setNavigationBarTitle({title: "加载中..."})
                 setTimeout(() => this.loadClassroomSetTime(e), 300);
             },
             loadClassroomSetTime: async function (e) {
-                var res = await app.request({
+                var res = await uni.$app.request({
                     load: 2,
                     data: {
                         searchData: this.searchData,
                         searchTime: this.searchTime,
                         searchFloor: this.searchFloor,
                     },
-                    url: app.globalData.url + 'sw/classroom',
+                    url: uni.$app.data.url + "/sw/classroom",
                 })
-                if (res.data.MESSAGE !== "Yes") {
-                    app.toast("External Error");
-                    return false;
-                }
                 if (res.data.data.flag) {
-                    app.toast("未生成教学周历");
+                    uni.$app.toast("未生成教学周历");
                     return false;
                 }
                 var data = res.data.data;
@@ -112,10 +102,10 @@
                 data[0].jsList.sort((a, b) => {
                     return a.jsmc > b.jsmc ? 1 : -1;
                 });
-                this.room = data
-                this.show = 1
-                this.qShow = this.queryTime[this.index[1]][2]
-                this.searchData = this.searchData
+                this.room = data;
+                this.show = 1;
+                this.qShow = this.queryTime[this.index[1]][2];
+                this.searchData = this.searchData;
             },
             getTimeArr:function() {
                 var weekShow = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
@@ -144,13 +134,13 @@
             },
             resetInfo:function() {
                 this.searchData = util.formatDate()
-                this.searchTime = '0102'
+                this.searchTime = "0102"
             }
         }
     }
 </script>
 
-<style>
+<style scoped>
     .top {
         display: flex;
         margin: 20px 0;
@@ -166,14 +156,14 @@
         margin: 3px;
     }
     
-    .floorName{
+    .floor-name{
         border-bottom: 1px solid #eee;
         padding: 10px 0 ;
         text-align: center;
         margin: 0 0 8px 0;
     }
 
-    .roomCon {
+    .room-con {
         display: flex;
         flex-wrap: wrap;
         align-content: center;
@@ -182,7 +172,7 @@
         justify-items: center;
     }
 
-    .buttonCon {
+    .button-con {
         margin: 0;
         width: 20%;
         max-width: 78px;

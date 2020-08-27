@@ -1,0 +1,239 @@
+<template>
+    <view>
+
+        <layout title="查课表">
+            <view class="table-top">
+                <view class="week">第{{week}}周</view>
+                <view style="display:flex;">
+                    <view class="a-btn a-btn-white a-btn-mini refresh" @click="refresh(week)">
+                        <view class="operate iconfont icon-shuaxin1"></view>
+                    </view>
+                    <view class="a-btn a-btn-white a-btn-mini pre" style="font-size: 14px;" @click="pre(week)">
+                        <view class="operate iconfont icon-arrow-lift"></view>
+                    </view>
+                    <view class="a-btn a-btn-white a-btn-mini next" style="font-size: 14px;" @click="next(week)">
+                        <view class="operate iconfont icon-arrow-right"></view>
+                    </view>
+                </view>
+            </view>
+            <view class="a-hr timetablehr"></view>
+            <view class="a-flex">
+                <view class="a-flex">
+                    <view v-for="(item, index) in [0,1,2,3,4,5,6]" :key="index" class="week-unit">
+                        <view>{{date[index].n}}</view>
+                        <view :class="date[index].s">{{date[index].d ? date[index].d : "00/00"}}</view>
+                    </view>
+                </view>
+            </view>
+            <view class="a-hr timetablehr"></view>
+            <view v-for="(item,index) in [0,1,2,3,4]" :key="index">
+                <view class="a-flex">
+                    <view v-for="(inner,innerIndex) in [0,1,2,3,4,5,6]" :key="innerIndex" class="a-full">
+                        <view v-if="table[inner] && table[inner][item]" class="timetable-hide" :style="{'background':table[inner][item][5]}">
+                            <view>{{table[inner][item][2]}}</view>
+                            <view>{{table[inner][item][4]}}</view>
+                            <view>{{table[inner][item][3]}}</view>
+                        </view>
+                        <view v-else class="timetable-hide"></view>
+                    </view>
+                </view>
+                <view class="a-hr timetablehr"></view>
+            </view>
+        </layout>
+        
+        <view class="a-hide" :class="{'a-show':today > '2020-03-26'}">
+            <layout>
+                <view class="y-center">
+                    <view class="a-dot" style="margin-right: 6px;"></view>
+                    <navigator url="/pages/home/auxiliary/webview?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2F9L3kFI0jdHajnPm83jRbwA"
+                        open-type="navigate" class="a-link" hover-class="none">自定义课表配色</navigator>
+                </view>
+            </layout>
+        </view>
+        
+        <layout v-if="ad">
+            <!-- #ifdef MP-WEIXIN -->
+            <ad unit-id="adunit-ce81890e6ff0b2a7" class="adapt" @error="adError"></ad>
+            <!-- #endif -->
+            <!-- #ifdef MP-QQ -->
+            <ad unit-id="98766bd6a7f4cc14e978058a3a365551" class="adapt" @error="adError"></ad>
+            <!-- #endif -->
+        </layout>
+
+    </view>
+</template>
+
+<script>
+    import util from "@/modules/datetime";
+    import pubFct from "@/vector/pubFct.js";
+    import { formatDate, extDate } from "@/modules/datetime.js";
+    export default {
+        data: function() {
+            return {
+                week: 1,
+                ad: 1,
+                date: [],
+                table: [],
+                today: util.formatDate()
+            }
+        },
+        created: function(e) {
+            uni.$app.onload(() => {
+                var week = this.week;
+                var today = new Date();
+                var curWeekDate = new Date(this.termStart);
+                curWeekDate.addDate(0, 0, week * 7 - 8);
+                var allWeekDay = [];
+                var week = ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"];
+                for (let i = 0; i < 7; ++i) {
+                    curWeekDate.addDate(0, 0, 1);
+                    allWeekDay.push({
+                        n: week[i],
+                        d: formatDate("MM/dd", curWeekDate),
+                        s: curWeekDate.getDay() === today.getDay() ? "today" : "none"
+                    });
+                }
+                this.date = allWeekDay;
+                this.week = uni.$app.data.curWeek;
+                this.getCache(uni.$app.data.curWeek);
+            })
+        },
+        methods: {
+            getCache: function(e) {
+                var tableCache = uni.getStorageSync("table") || {};
+                if (tableCache.term === uni.$app.data.curTerm && tableCache.classTable && tableCache.classTable[e]) {
+                    console.log("GET TABLE FROM CACHE");
+                    var showTableArr = pubFct.tableDispose(tableCache.classTable[e]);
+                    this.table = showTableArr;
+                    this.week = e;
+                    this.getDate();
+                } else {
+                    this.getRemoteTable(e);
+                }
+            },
+            getRemoteTable: async function(e) {
+                var urlTemp = "";
+                if (typeof(e) === "number") urlTemp += ("/" + e);
+                var res = await uni.$app.request({
+                    load: 2,
+                    url: uni.$app.data.url + "/sw/table" + urlTemp,
+                    data: {
+                        week: uni.$app.data.curWeek,
+                        term: uni.$app.data.curTerm
+                    },
+                })
+                console.log("GET TABLE FROM REMOTE WEEK " + e);
+                var showTableArr = pubFct.tableDispose(res.data.data);
+                this.table = showTableArr
+                this.week = res.data.week
+                var tableCache = uni.getStorageSync("table") || {
+                    term: uni.$app.data.curTerm,
+                    classTable: []
+                };
+                tableCache.term = uni.$app.data.curTerm;
+                tableCache.classTable[e] = res.data.data;
+                uni.setStorage({
+                    key: "table",
+                    data: tableCache
+                })
+                this.getDate();
+            },
+            pre: function(week) {
+                if (week <= 1) return;
+                this.getCache(--week);
+            },
+            next: function(week) {
+                this.getCache(++week);
+            },
+            adError: function(e) {
+                this.ad = 0;
+            },
+            refresh: function(week) {
+                uni.setStorageSync("table", {term: uni.$app.data.curTerm,classTable: []});
+                this.getRemoteTable(week);
+            },
+            getDate: function(e) {
+                var week = this.week;
+                var curWeekDate = new Date(uni.$app.data.curTermStart);
+                curWeekDate.addDate(0, 0, week * 7 - 8);
+                console.log(week, curWeekDate);
+                var dataObject = [];
+                for (let i = 0; i < 7; ++i) {
+                    curWeekDate.addDate(0, 0, 1);
+                    var month = curWeekDate.getMonth() + 1;
+                    var day = curWeekDate.getDate();
+                    if (month < 10) month = "0" + month;
+                    if (day < 10) day = "0" + day;
+                    let today = new Date();
+                    dataObject.push({
+                        d: month + "/" + day,
+                        s: curWeekDate.getDay() === today.getDay() ? "today-line" : "none"
+                    });
+                }
+                this.date = dataObject
+            }
+        }
+    }
+</script>
+
+<style scoped>
+    .table-top {
+        display: flex;
+        padding: 5px;
+        justify-content: space-between;
+        height: 30px;
+    }
+
+    .week {
+        align-self: center;
+        margin-left: 10px;
+    }
+
+    .pre,
+    .next,
+    .refresh {
+        height: 100%;
+        margin-left: 10px;
+        align-self: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+    }
+
+    .timetable-hide {
+        min-height: 130px;
+        margin: 0 1.5px;
+        /* text-align: center; */
+        word-break: break-all;
+        color: #fff;
+        padding: 3px;
+        background: #fff;
+        font-size: 12px;
+        border-radius: 2px;
+    }
+    
+    .timetable-hide > view{
+        margin-bottom: 3px;
+    }
+
+    .timetablehr {
+        margin: 3px 0;
+        background-color: #eee !important;
+        height: 1px;
+        border: none;
+    }
+    
+    .week-unit view{
+        padding: 3px 0;
+    }
+
+    .operate {
+        align-self: center;
+    }
+
+    .none {
+        border: none;
+        font-size: 8px;
+    }
+</style>

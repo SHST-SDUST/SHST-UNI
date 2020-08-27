@@ -3,7 +3,7 @@
 
         <view>
             <layout title="校历查询">
-                <view class="selectCon">
+                <view class="select-con">
                     <view>请选择学期</view>
                     <picker @change="bindPickerChange" :value="index" :range="range" class="a-link">
                         <view>{{range[index]}}</view>
@@ -15,28 +15,28 @@
 
         <view v-show="show">
             <layout>
-                <view class="y-CenterCon head">
-                    <view class="y-CenterCon">
-                        <view class="arrow-left iconfont icon-arrow-lift" @tap="switchMonth" data-s="l"></view>
-                        <view class="showDate">{{curYear}}年 {{curMonth}}月</view>
-                        <view class="arrow-right iconfont icon-arrow-right" @tap="switchMonth" data-s="r"></view>
+                <view class="y-center head">
+                    <view class="y-center">
+                        <view class="arrow-left iconfont icon-arrow-lift" @click="switchMonth('l')"></view>
+                        <view class="show-date">{{curYear}}年 {{curMonth}}月</view>
+                        <view class="arrow-right iconfont icon-arrow-right" @click="switchMonth('r')"></view>
                     </view>
-                    <view class="y-CenterCon">
-                        <view class="opt y-CenterCon x-CenterCon" style="background-color: #1E9FFF;" @tap="jumpDate" :data-d="today">今</view>
-                        <view class="opt y-CenterCon x-CenterCon" style="background-color: #FF6347;" @tap="jumpDate" :data-d="termStart">开</view>
-                        <view class="opt y-CenterCon x-CenterCon" style="background-color: #3CB371;" @tap="jumpDate" :data-d="vacationStartDate">假</view>
+                    <view class="y-center">
+                        <view class="opt y-center x-center" style="background-color: #1E9FFF;" @click="jumpDate(today)">今</view>
+                        <view class="opt y-center x-center" style="background-color: #FF6347;" @click="jumpDate(term-start)">开</view>
+                        <view class="opt y-center x-center" style="background-color: #3CB371;" @click="jumpDate(vacationStartDate)">假</view>
                     </view>
                 </view>
 
                 <view>
-                    <view class="y-CenterCon line">
+                    <view class="y-center line">
                         <view v-for='(item,index) in ["周","一","二","三","四","五","六","日"]' :key="index" class="unit">{{item}}</view>
                     </view>
                     <view v-for="(item,index) in calendarData" :key="index" class="line">
                         <view v-for="(innerItem,innerIndex) in item" :key="innerIndex">
-                            <view class="unitCon" :class="innerItem.color">
+                            <view class="unit-con" :class="innerItem.color">
                                 <view class="unit u">{{innerItem.day}}</view>
-                                <view class="x-CenterCon intro" :class="innerItem.detach">{{innerItem.type}}</view>
+                                <view class="x-center intro" :class="innerItem.detach">{{innerItem.type}}</view>
                             </view>
                         </view>
                     </view>
@@ -44,7 +44,7 @@
             </layout>
 
             <layout>
-                <view class="card y-CenterCon info">
+                <view class="card y-center info">
                     <view style="width: 40%;">
                         <view class="a-dot" style="background: #3CB371;"></view>
                         <view>学期:{{term}}</view>
@@ -61,7 +61,7 @@
             </layout>
 
             <layout>
-                <view class="y-CenterCon info">
+                <view class="y-center info">
                     <view style="width: 40%;">
                         <view class="a-dot" style="background: #3CB371;"></view>
                         <view>假期:{{vacationStartDate}}</view>
@@ -82,11 +82,10 @@
 </template>
 
 <script>
-    const app = getApp();
     const date = new Date();
     import util from "@/modules/datetime";;
     export default {
-        data() {
+        data: function() {
             return {
                 range: ["请稍后"],
                 index: 0,
@@ -103,19 +102,21 @@
                 today: util.formatDate(undefined, date)
             }
         },
-        onLoad: async function() {
-            var res = await app.request({
-                load: 2,
-                url: app.globalData.url + 'ext/calendar',
+        created: async function() {
+            uni.$app.onload(async () => {
+                var res = await uni.$app.request({
+                    load: 2,
+                    url: uni.$app.data.url + 'ext/calendar',
+                })
+                res.data.info = res.data.info.reverse();
+                this.data = res.data.info
+                var range = [];
+                res.data.info.forEach((value) => {
+                    range.push(value.term);
+                })
+                this.range = range;
+                this.bindPickerChange({detail: {value: 0}})
             })
-            res.data.info = res.data.info.reverse();
-            this.data = res.data.info
-            var range = [];
-            res.data.info.forEach((value) => {
-                range.push(value.term);
-            })
-            this.range = range;
-            this.bindPickerChange({detail: {value: 0}})
         },
         methods: {
             bindPickerChange: function(e) {
@@ -128,15 +129,14 @@
                 this.calcVacation();
                 this.redayForDate(date);
             },
-            jumpDate: function(e) {
-                var d = new Date(e.currentTarget.dataset.d);
+            jumpDate: function(date) {
+                var d = new Date(date);
                 this.curMonth = util.formatDate("MM", d);
                 this.curYear = util.formatDate("yyyy", d);
                 this.redayForDate(d);
             },
-            switchMonth: function(e) {
+            switchMonth: function(s) {
                 var d = new Date(this.curYear + "-" + this.curMonth + "-01");
-                var s = e.currentTarget.dataset.s;
                 if (s === "l") d.addDate(0, -1);
                 else d.addDate(0, 1);
                 this.curMonth = util.formatDate("MM", d);
@@ -164,11 +164,11 @@
                             week = week > 0 ? week : 0;
                             innerArr.push({day: week,color: "week ",type: "周次",detach: ""})
                         }
-                        let unitObj = {day: unitDate.split("-")[2],color: "notCurMonth ",type: "--",detach: ""};
-                        if (util.formatDate("MM", start) === this.curMonth) unitObj.color = "curMonth ";
+                        let unitObj = {day: unitDate.split("-")[2],color: "not-cur-month ",type: "--",detach: ""};
+                        if (util.formatDate("MM", start) === this.curMonth) unitObj.color = "cur-month ";
                         if (unitDate === this.today) unitObj.color = "today ";
-                        if (unitDate === this.termStart) unitObj.color = "termStart ";
-                        if (unitDate === this.vacationStartDate) unitObj.color = "vacationStart ";
+                        if (unitDate === this.termStart) unitObj.color = "term-start ";
+                        if (unitDate === this.vacationStartDate) unitObj.color = "vacation-start ";
                         if (k === 5 || k === 6) {
                             unitObj.type = "周末";
                             unitObj.color += "weekend ";
@@ -202,8 +202,8 @@
     }
 </script>
 
-<style>
-    .selectCon {
+<style scoped>
+    .select-con {
         display: flex;
         justify-content: space-between;
         padding: 15px 10px 5px 10px;
@@ -214,7 +214,7 @@
         margin: 5px 5px 5px 10px;
     }
 
-    .showDate {
+    .show-date {
         margin: 10px 20px;
         font-weight: bold;
     }
@@ -236,11 +236,11 @@
         margin: 10px 0;
     }
 
-    .unitCon {
+    .unit-con {
         color: #333;
     }
 
-    .unitCon view {
+    .unit-con view {
         color: inherit;
     }
 
@@ -253,23 +253,23 @@
         align-items: center;
     }
 
-    .notCurMonth {
+    .not-cur-month {
         color: #ddd !important;
     }
 
     .today>.u,
-    .termStart>.u,
-    .vacationStart>.u {
+    .term-start>.u,
+    .vacation-start>.u {
         color: #fff !important;
         border-radius: 30px;
         background: #1E9FFF;
     }
 
-    .termStart>.u {
+    .term-start>.u {
         background: #FF6347;
     }
 
-    .vacationStart>.u {
+    ..vacation-start>.u {
         background: #3CB371;
     }
 
@@ -281,7 +281,7 @@
         font-size: 11px;
     }
 
-    .curMonth>.cdetach {
+    .cur-month>.cdetach {
         color: #999;
     }
 

@@ -1,62 +1,59 @@
 <template>
     <view>
 
-        <view class="x-CenterCon">
-            <image class='img' src="https://windrunner_max.gitee.io/imgpath/SHST/Static/SHST.jpg">
+        <view class="x-center">
+            <image class="img" src="https://windrunner_max.gitee.io/imgpath/SHST/Static/SHST.jpg">
             </image>
         </view>
 
 
-        <view class='userInfoCon'>
-            <view class='unitInfo' style='border-top: 1px solid #eee;'>
+        <view class="user-info-con">
+            <view class="unit-info" style="border-top: 1px solid #eee;">
 
-                <view style='display:flex;'>
+                <view class="a-flex">
                     <view>版本号</view>
                 </view>
                 <view>{{version}}</view>
             </view>
-            <view class='a-hide' :class="{'a-show':today > '2020-03-26'}">
-                <view class='unitInfo'>
-                    <view style='display:flex;'>
+            <view class="a-hide" :class="{'a-show':today > '2020-03-26'}">
+                <view class="unit-info">
+                    <view class="a-flex">
                         <view>反馈QQ群</view>
                     </view>
-                    <view class="a-link" data-copy='722942376' @tap='copy'>722942376</view>
+                    <view class="a-link"  @click="copy('722942376')">722942376</view>
                 </view>
             </view>
 
-            <view class='unitInfo'>
-                <view style='display:flex;'>
+            <view class="unit-info">
+                <view class="a-flex">
                     <view>联系开发者</view>
                 </view>
-                <view class="a-link" data-copy='651525974' @tap='copy' style='display: flex;'>
+                <view class="a-link" @click="copy('651525974')">
                     <view>651525974</view>
                 </view>
             </view>
 
-            <view class='unitInfo'>
-                <view style='display:flex;'>
+            <view class="unit-info">
+                <view class="a-flex">
                     <view>项目开源地址</view>
                 </view>
-                <view data-copy='https://github.com/WindrunnerMax/SW' @tap='copy' class='a-link'>点我复制链接</view>
+                <view data-copy="" @click="copy('https://github.com/WindrunnerMax/SHST')" class="a-link">点我复制链接</view>
             </view>
 
-            <view class='unitInfo'>
-                <view style='display:flex;'>
+            <view class="unit-info">
+                <view class="a-flex">
                     <view>项目更新日志</view>
                 </view>
-                <view data-copy='https://github.com/WindrunnerMax/SW/blob/SDUST/ChangeLog.md' @tap='copy' class='a-link'>点我复制链接</view>
+                <view @click="copy('https://github.com/WindrunnerMax/SHST/blob/dev/ChangeLog.md')" class="a-link">点我复制链接</view>
             </view>
 
-            <button class='unitInfo' open-type='share' style="font-size: 14px;">
-                <view style='display:flex;'>
+            <button class="unit-info" open-type="share" style="font-size: 14px;">
+                <view class="a-flex">
                     <view>分享山科小站</view>
                 </view>
                 <view>></view>
             </button>
-
         </view>
-
-
 
         <view class="footer">
             <view class="text">Copyright © 2020 WindrunnerMax</view>
@@ -66,28 +63,24 @@
 </template>
 
 <script>
-    const app = getApp()
     import util from "@/modules/datetime";
     export default {
-        data() {
+        data: function() {
             return {
-                version: app.globalData.version,
+                version: uni.$app.data.version,
                 today: util.formatDate()
             }
         },
         onShareAppMessage: () => {
-            var that = this;
             var shareObj = {
                 title: "山科小站",
-                path: '/pages/Home/tips/tips'
+                path: "/pages/home/tips/tips"
             }
             return shareObj;
         },
         methods: {
-            copy: function(e) {
-                uni.setClipboardData({
-                    data: e.currentTarget.dataset.copy
-                })
+            copy: function(str) {
+                uni.setClipboardData({data: str})
             }
         }
     }
@@ -106,12 +99,12 @@
         margin-top: 20px;
     }
 
-    .userInfoCon {
+    .user-info-con {
         margin-top: 27px;
         padding: 10px;
     }
 
-    .unitInfo {
+    .unit-info {
         height: 30px;
         line-height: 30px;
         border-bottom: 1px solid #eee;
@@ -128,14 +121,6 @@
 
     .footer .text {
         color: #aaa;
-    }
-
-    .Avatar {
-        height: 20px;
-        width: 20px;
-        border-radius: 20px;
-        align-self: center;
-        margin-right: 3px;
     }
     
 </style>

@@ -10,7 +10,7 @@
                     <input @input="bindSearchInput" type="text" name="search" placeholder="请输入景点名称关键词" :value="keyword" style="font-size: 30rpx;" />
                 </form>
             </view>
-            <view class="search-icon" @tap="reset">
+            <view class="search-icon" @click="reset">
                 <icon type="cancel" size="16" color="purple" />
             </view>
         </view>
@@ -21,10 +21,10 @@
                 <navigator class="img" :url="'details?tid='+item.tid+'&bid='+item.bid">
                     <image :src="item.img[0]" mode="aspectFill"> </image>
                     <view class="item">
-                        <view class="itemName">
+                        <view class="item-name">
                             {{item.name}}
                         </view>
-                        <view class="itemFloor" v-if="item.floor">
+                        <view class="item-floor" v-if="item.floor">
                             {{item.floor}}
                         </view>
                     </view>
@@ -44,14 +44,14 @@
         data() {
             return {
                 keyword: null,
-                buildlData: app.globalData.map,
+                buildlData: app.data.map,
                 showData: null,
                 cursor: 0
             }
         },
         methods: {
             bindSearchInput: function(e) {
-                this.buildlData = app.globalData.map
+                this.buildlData = app.data.map
                 let showData = new Array();
                 let searchdata = this.buildlData;
                 if (e.detail.cursor >= this.cursor) {
@@ -178,12 +178,12 @@
         margin: auto 0;
     }
     
-    .itemName {
+    .item-name {
         margin: 0 20rpx;
         font-size: 32rpx;
     }
     
-    .itemFloor {
+    .item-floor {
         margin: 0 20rpx;
         font-size: 28rpx;
         color: #555;
@@ -197,27 +197,6 @@
     .text image {
         width: 70rpx;
         height: 70rpx;
-    }
-    
-    .controls {
-        position: relative;
-        top: 65%;
-        left: 85%;
-        /* display: flex; */
-    }
-    
-    .controls .img {
-        margin-top: 5px;
-        width: 80rpx;
-        height: 80rpx;
-    }
-    
-    .full {
-        top: 82%;
-    }
-    
-    .widthLim {
-        width: 100%;
     }
     
     button:after {

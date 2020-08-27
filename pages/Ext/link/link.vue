@@ -2,10 +2,10 @@
     <view>
 
         <layout title="常用链接">
-            <view v-for="(item,index) in data" :key="index">
-                <view class="line">
+            <view v-for="item in data" :key="item.name">
+                <view class="a-flex line">
                     <view>{{item.name}}：</view>
-                    <view class="a-link" @tap="copy" :data-copy="item.url">{{item.url}}</view>
+                    <view class="a-link" @click="copy(item.url)">{{item.url}}</view>
                 </view>
             </view>
         </layout>
@@ -14,33 +14,29 @@
 </template>
 
 <script>
-    const app = getApp();
     export default {
-        data() {
+        data: function() {
             return {
                 data: []
             }
         },
         onLoad: async function() {
-            var res = await app.request({
+            var res = await uni.$app.request({
                 load: 2,
-                url: app.globalData.url + 'ext/urlshare',
+                url: uni.$app.data.url + "/ext/urlshare",
             })
-            this.data = res.data.url
+            this.data = res.data.url;
         },
         methods: {
-            copy(e) {
-                uni.setClipboardData({
-                    data: e.currentTarget.dataset.copy
-                })
+            copy: function(url) {
+                uni.setClipboardData({data: url})
             }
         }
     }
 </script>
 
-<style>
+<style scoped>
     .line {
-        display: flex;
         padding: 20px 5px;
         border-bottom: 1px solid #EEEEEE;
         flex-wrap: wrap;

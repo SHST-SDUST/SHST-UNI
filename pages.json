@@ -1,113 +1,113 @@
 {
     "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
         {
-            "path": "pages/Home/tips/tips",
+            "path": "pages/home/tips/tips",
             "style": {}
         }, {
-            "path": "pages/Home/auxiliary/webview",
+            "path": "pages/home/auxiliary/webview",
             "style": {}
         }, {
-            "path": "pages/User/announce/announce",
+            "path": "pages/user/announce/announce",
             "style": {}
         }, {
-            "path": "pages/Home/funct/funct",
+            "path": "pages/home/funct/funct",
             "style": {}
         }, {
-            "path": "pages/Home/user/user",
+            "path": "pages/home/user/user",
             "style": {}
         }, {
-            "path": "pages/Study/timeTable/timeTable",
+            "path": "pages/study/time-table/time-table",
             "style": {}
         }, {
-            "path": "pages/Study/classroom/classroom",
+            "path": "pages/study/classroom/classroom",
             "style": {}
         }, {
-            "path": "pages/Study/grade/grade",
+            "path": "pages/study/grade/grade",
             "style": {}
         }, {
-            "path": "pages/Study/tableShare/tableShare",
+            "path": "pages/study/table-share/table-share",
             "style": {}
         }, {
-            "path": "pages/Lib/borrow/borrow",
+            "path": "pages/library/borrow/borrow",
             "style": {}
         }, {
-            "path": "pages/Lib/library/search",
+            "path": "pages/library/library/search",
             "style": {}
         }, {
-            "path": "pages/Lib/library/libDetail",
+            "path": "pages/library/library/detail",
             "style": {}
         }, {
-            "path": "pages/Sdust/calendar/calendar",
+            "path": "pages/sdust/calendar/calendar",
             "style": {}
         }, {
-            "path": "pages/Sdust/map/map",
+            "path": "pages/sdust/map/map",
             "style": {}
         }, {
-            "path": "pages/Sdust/vacation/vacation",
+            "path": "pages/sdust/vacation/vacation",
             "style": {}
         }, {
-            "path": "pages/Sdust/camptour/details",
+            "path": "pages/sdust/camptour/details",
             "style": {
                 "navigationBarBackgroundColor": "#079DF2",
                 "navigationBarTextStyle": "#fff"
             }
         }, {
-            "path": "pages/Sdust/camptour/index",
+            "path": "pages/sdust/camptour/index",
             "style": {
                 "navigationBarBackgroundColor": "#079DF2",
                 "navigationBarTextStyle": "#fff"
             }
         }, {
-            "path": "pages/Sdust/camptour/polyline",
+            "path": "pages/sdust/camptour/polyline",
             "style": {
                 "navigationBarBackgroundColor": "#079DF2",
                 "navigationBarTextStyle": "#fff"
             }
         }, {
-            "path": "pages/Sdust/camptour/search",
+            "path": "pages/sdust/camptour/search",
             "style": {
                 "navigationBarBackgroundColor": "#079DF2",
                 "navigationBarTextStyle": "#fff"
             }
         }, {
-            "path": "pages/Ext/link/link",
+            "path": "pages/ext/link/link",
             "style": {}
         }
         // #ifndef MP-WEIXIN
         , {
-            "path": "pages/Ext/event/event",
+            "path": "pages/ext/event/event",
             "style": {}
         }, {
-            "path": "pages/Ext/event/finEvent",
+            "path": "pages/ext/event/finEvent",
             "style": {}
         }
         // #endif
         , {
-            "path": "pages/Ext/examArrange/examArrange",
+            "path": "pages/ext/exam-arrange/exam-arrange",
             "style": {}
         }, {
-            "path": "pages/Ext/card/card",
+            "path": "pages/ext/card/card",
             "style": {}
         }, {
-            "path": "pages/User/about/about",
+            "path": "pages/user/about/about",
             "style": {
                 "navigationBarBackgroundColor": "#fff"
             }
         }, {
-            "path": "pages/User/reward/reward",
+            "path": "pages/user/reward/reward",
             "style": {
                 "navigationBarBackgroundColor": "#fff"
             }
         }, {
-            "path": "pages/User/reward/rewardList",
+            "path": "pages/user/reward/reward-list",
             "style": {}
         }, {
-            "path": "pages/Home/auxiliary/notFound",
+            "path": "pages/home/auxiliary/not-found",
             "style": {
                 "navigationBarBackgroundColor": "#fff"
             }
         }, {
-            "path": "pages/Home/auxiliary/login",
+            "path": "pages/home/auxiliary/login",
             "style": {
                 "navigationBarBackgroundColor": "#fff"
             }
@@ -129,19 +129,19 @@
         "list": [{
                 "iconPath": "/static/img/index.png",
                 "selectedIconPath": "/static/img/index-active.png",
-                "pagePath": "pages/Home/tips/tips",
+                "pagePath": "pages/home/tips/tips",
                 "text": "首页"
             },
             {
                 "iconPath": "/static/img/fun.png",
                 "selectedIconPath": "/static/img/fun-active.png",
-                "pagePath": "pages/Home/funct/funct",
+                "pagePath": "pages/home/funct/funct",
                 "text": "功能"
             },
             {
                 "iconPath": "/static/img/user.png",
                 "selectedIconPath": "/static/img/user-active.png",
-                "pagePath": "pages/Home/user/user",
+                "pagePath": "pages/home/user/user",
                 "text": "用户"
             }
         ]

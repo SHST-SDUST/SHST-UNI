@@ -17,22 +17,23 @@
 </template>
 
 <script>
-    const app = getApp()
     export default {
-        data() {
+        data: function() {
             return {
                 show: 0,
                 data: [],
-                colorList: app.globalData.colorList
+                colorList: uni.$app.data.colorList
             }
         },
-        onLoad: async function() {
-            var res = await app.request({
-                load: 2,
-                url:app.globalData.url + "ext/vacation",
+        created: function() {
+            uni.$app.onload(async () => {
+                var res = await uni.$app.request({
+                    load: 2,
+                    url:uni.$app.data.url + "/ext/vacation",
+                })
+                this.data = res.data.info;
+                this.show = 1;
             })
-            this.data = res.data.info
-            this.show = 1
         },
         methods: {
             
@@ -41,11 +42,6 @@
 </script>
 
 <style>
-    .dot{
-        width: 8px;
-        height: 8px;
-        border-radius: 8px;
-    }
     .fline{
         display: flex;
         align-items: center;

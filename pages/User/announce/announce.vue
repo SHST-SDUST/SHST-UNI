@@ -1,55 +1,54 @@
 <template>
     <view>
         <headslot title="公告"></headslot>
-        <view style="margin-top: 10px;"></view>
+        <view class="a-lmt"></view>
 
         <layout v-for="(item,index) in data" :key="index">
-            <rich-text :nodes="item.announce" style="line-height: 23px;"></rich-text>
+            <rich-text :nodes="item.announce" class="announce"></rich-text>
         </layout>
 
         <!-- #ifdef MP-WEIXIN -->
-        <official-account style='display: block;'></official-account>
+        <official-account></official-account>
         <!-- #endif -->
 
     </view>
 </template>
 
 <script>
-    const app = getApp()
-    import headslot from "@/components/headslot.vue"
+    import headslot from "@/components/headslot.vue";
     export default {
         components: {
             headslot
         },
-        data() {
+        data: function() {
             return {
                 data: []
             }
         },
         onLoad: async function(options) {
             uni.setStorage({
-                key: 'point',
-                data: app.globalData.tips
+                key: "point",
+                data: uni.$app.data.point
             })
-            var res = await app.request({
+            var res = await uni.$app.request({
                 load: 2,
-                url: app.globalData.url + 'ext/announce',
+                url: uni.$app.data.url + "/ext/announce",
             })
             if (res.data.info) {
                 res.data.info.reverse();
-                this.data = res.data.info
+                this.data = res.data.info;
             }
         },
         methods: {
-            copy(e) {
-                uni.setClipboardData({
-                    data: e.currentTarget.dataset.copy
-                })
+            copy: function(str) {
+                uni.setClipboardData({data: str})
             }
         }
     }
 </script>
 
 <style>
-
+    .announce{
+        line-height: 23px;
+    }
 </style>

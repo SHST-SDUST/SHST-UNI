@@ -1,16 +1,16 @@
-<template name="layout">
+<template>
     <view>
 
         <view class="lay-line" v-show="title">
-            <view class="lay-leftCon">
-                <view class="lay-verline" v-bind:style="{'background-color': color}"></view>
+            <view class="lay-left-con">
+                <view class="lay-verline" :style="{background: color}"></view>
                 <view>{{title}}</view>
             </view>
-            <view >
-                <slot name="headslot"></slot> 
+            <view>
+                <slot name="headslot"></slot>
             </view>
         </view>
-        <view class='lay-card' :class="{'lay-minPaddingTop':title}">
+        <view class="lay-card" :style="{color: computedColor}" :class="{'lay-min-top':!topSpace}">
             <slot></slot>
         </view>
 
@@ -21,12 +21,25 @@
         name: "layout",
         props: {
             title: {
-                type: String
+                type: String,
             },
             color: {
                 type: String,
                 default: "#79B2F9"
             },
+            topSpace: {
+                type: Boolean,
+                default: true
+            },
+            inheritColor: {
+                type: Boolean,
+                default: false
+            }
+        },
+        computed:{
+            computedColor: function(){
+                return this.inheritColor ? this.color : "unset";
+            }
         },
         methods: {}
     }
@@ -54,10 +67,12 @@
         box-sizing: border-box;
         margin-bottom: 10px;
     }
-    .lay-minPaddingTop{
+
+    .lay-min-top {
         padding-top: 3px;
     }
-    .lay-leftCon{
+
+    .lay-left-con {
         display: flex;
     }
 </style>

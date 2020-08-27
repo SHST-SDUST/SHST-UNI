@@ -2,7 +2,7 @@ import {startLoading, endLoading} from "./loading";
 import {getCookies} from "./cookies";
 import {extend} from "./copy";
 import {toast} from "./toast";
-    
+
 var headers = {'content-type': 'application/x-www-form-urlencoded'};
 
 /**
@@ -14,6 +14,7 @@ function ajax(requestInfo) {
         url: "",
         method: "GET",
         data: {},
+        cookie: true,
         headers: headers,
         success: () => {},
         resolve: () => {},
@@ -30,8 +31,16 @@ function ajax(requestInfo) {
         method: option.method,
         header: headers,
         success: function(res) {
-            if (!headers.cookie) headers.cookie = getCookies(res);
-            if(res.statusCode === 200){
+            if(option.cookie && !headers.cookie) headers.cookie = getCookies(res);
+            if(option.cookie && !headers.cookie) {
+                option.fail(res);
+                option.reject(res);
+            }
+            if(res.statusCode === 200 && res.data.status){
+                if(res.data.status === -1 && res.data.msg){
+                    toast(res.data.msg);
+                    return void 0;
+                }
                 try {
                     option.success(res);
                     option.resolve(res);
@@ -43,7 +52,7 @@ function ajax(requestInfo) {
                 option.fail(res);
                 option.reject(res);
             }
-            
+
         },
         fail: function(res) {
             option.fail(res);

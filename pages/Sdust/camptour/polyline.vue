@@ -1,8 +1,8 @@
 <template>
     <view>
 
-        <map id="navi_map" :longitude="longitude" :latitude="latitude" scale="14" :markers="markers" :polyline="polyline"
-         :include-points="markers" class="navi_map" show-location enable-overlooking="true" enable-3D="true">
+        <map id="navi-map" :longitude="longitude" :latitude="latitude" scale="14" :markers="markers" :polyline="polyline"
+         :include-points="markers" class="navi-map" show-location enable-overlooking="true" enable-3D="true">
 
             <cover-view class="distance">{{distance}}</cover-view>
         </map>
@@ -25,7 +25,7 @@
             }
         },
         onLoad: function(options) {
-            if (!app.globalData.islocation) {
+            if (!app.data.islocation) {
                 uni.showModal({
                     title: '提示',
                     content: '本功能需要您的位置信息，请检查是否给予微信以及小程序定位权限，点击确定进入小程序授权页设置',
@@ -37,9 +37,9 @@
                                         uni.getLocation({
                                             type: 'wgs84',
                                             success: function(res) {
-                                                app.globalData.latitude = res.latitude;
-                                                app.globalData.longitude = res.longitude;
-                                                app.globalData.islocation = true;
+                                                app.data.latitude = res.latitude;
+                                                app.data.longitude = res.longitude;
+                                                app.data.islocation = true;
                                             }
                                         })
                                     }
@@ -130,7 +130,7 @@
         padding: 0;
     }
 
-    .navi_map {
+    .navi-map {
         width: auto;
         height: 100vh;
     }

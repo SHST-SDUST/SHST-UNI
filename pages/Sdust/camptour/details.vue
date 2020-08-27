@@ -11,8 +11,8 @@
                 </block>
             </swiper>
             <view class="building">
-                <view class="buildingName">{{building.name}}</view>
-                <navigator class="nav_map" :url="'polyline?latitude='+building.latitude+'&longitude='+building.longitude">
+                <view class="building-name">{{building.name}}</view>
+                <navigator class="nav-map" :url="'polyline?latitude='+building.latitude+'&longitude='+building.longitude">
                     <image src="/static/camptour/location.svg"> </image>
                 </navigator>
             </view>
@@ -30,7 +30,7 @@
 <script>
     var app = getApp();
     export default {
-        data() {
+        data: function() {
             return {
                 tid: 0,
                 bid: 0,
@@ -40,19 +40,17 @@
             }
         },
         onLoad: function(options) {
-            var bid = parseInt(options.bid);
-            var tid = parseInt(options.tid);
+            var bid = ~~(options.bid);
+            var tid = ~~(options.tid);
             if (!options.bid || !options.tid) {
-                var data = app.globalData.introduce;
+                var data = app.data.introduce;
             } else {
-                var data = app.globalData.map[tid].data[bid];
+                var data = app.data.map[tid].data[bid];
             }
             this.bid = bid
             this.tid = tid
             this.building = data
-            uni.setNavigationBarTitle({
-                title: data.name
-            })
+            uni.setNavigationBarTitle({title: data.name})
         },
         methods: {
 
@@ -86,7 +84,7 @@
         margin: auto 20rpx;
     }
 
-    .buildingName {
+    .building-name {
         margin: auto 15rpx;
         width: 80%;
         color: #079df2;
@@ -94,11 +92,11 @@
         white-space: nowrap;
     }
 
-    .nav_map {
+    .nav-map {
         margin: auto 10rpx;
     }
 
-    .nav_map image {
+    .nav-map image {
         width: 80rpx;
         height: 80rpx;
     }

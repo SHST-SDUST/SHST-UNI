@@ -1,20 +1,13 @@
 <script>
     import dispose from "@/vector/dispose";
     export default {
-        globalData: {
-            tips: "0",
-            openid: "",
-            userFlag: 0, // 0 未登录 1 已登陆
-            initData: {},
-            version: "3.3.0",
-            curTerm: "2019-2020-1",
-            curTermStart: "2019-08-26",
-            url: 'https://www.touchczy.top/',
-            // url: 'http://dev.touchczy.top/',
+        data: {
+            url: "https://www.touchczy.top",
+            // url: "http://dev.touchczy.top",
         },
-        onPageNotFound: (res) => { //处理404
+        onPagenotFound: (res) => { //处理404
             uni.reLaunch({
-                url: 'pages/Home/auxiliary/notFound'
+                url: "pages/home/auxiliary/not-found"
             })
         },
         onLaunch: function() {
@@ -47,7 +40,12 @@
     .adapt{
         box-sizing: border-box;
     }
-    .tipsCon view{
-        padding: 5px;
+    .text-ellipsis{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .tips-con{
+        line-height: 27px;
     }
 </style>
