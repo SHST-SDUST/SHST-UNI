@@ -30,12 +30,14 @@
             </view>
 
             <view v-if="data.status === 0">
-                <view v-for="(item,index) in [0,1,2,3,4]" :key="index">
+                <view v-for="item in 5" :key="item">
                     <view class="a-flex">
-                        <view v-for="(inner,innerIndex) in [0,1,2,3,4,5,6]" :key="innerIndex" class="division a-ml">
-                            <view class="table-unit-con" v-if="(data.succ.timeTable1[inner] && data.succ.timeTable1[inner][item]) || (data.succ.timeTable2[inner] && data.succ.timeTable2[inner][item])">
+                        <view v-for="inner in 7" :key="inner" class="division a-ml">
+                            <view class="table-unit-con" v-if="(data.succ.timeTable1[inner] 
+                                && data.succ.timeTable1[inner][item]) || (data.succ.timeTable2[inner] && data.succ.timeTable2[inner][item])">
 
-                                <view v-if="(data.succ.timeTable2[inner] && data.succ.timeTable2[inner][item])" class="timetable-hide-bot" style="background:rgb(100, 149, 237);">
+                                <view v-if="(data.succ.timeTable2[inner] && data.succ.timeTable2[inner][item])" 
+                                    class="timetable-hide-bot" style="background:rgb(100, 149, 237);">
                                     <view>{{data.succ.timeTable2[inner][item][2]}}</view>
                                     <view>{{data.succ.timeTable2[inner][item][4]}}</view>
                                 </view>
@@ -44,7 +46,8 @@
                                 </view>
 
 
-                                <view v-if="(data.succ.timeTable1[inner] && data.succ.timeTable1[inner][item])" class="timetable-hide-top" style="background:rgb(234, 167, 140);}}">
+                                <view v-if="(data.succ.timeTable1[inner] && data.succ.timeTable1[inner][item])" 
+                                    class="timetable-hide-top" style="background:rgb(234, 167, 140);}}">
                                     <view>{{data.succ.timeTable1[inner][item][2]}}</view>
                                     <view>{{data.succ.timeTable1[inner][item][4]}}</view>
                                 </view>
@@ -78,7 +81,7 @@
 </template>
 
 <script>
-    const pubFct = require("@/vector/pubFct.js");
+    import {tableDispose} from "@/vector/pubFct.js";
     export default {
         data: function() {
             return {
@@ -94,18 +97,18 @@
             onloadData: async function(){
                 var res = await uni.$app.request({
                     load: 2,
-                    url: uni.$app.data.url + "/share/table-share",
+                    url: uni.$app.data.url + "/share/tableShare",
                     data: {
                         week: uni.$app.data.curWeek,
                         term: uni.$app.data.curTerm
                     },
                 })
                 if (res.data.info.succ) {
-                    res.data.info.succ.timeTable1 = pubFct.tableDispose(res.data.info.succ.timeTable1);
-                    res.data.info.succ.timeTable2 = pubFct.tableDispose(res.data.info.succ.timeTable2);
+                    res.data.info.succ.timeTable1 = tableDispose(res.data.info.succ.timetable1);
+                    res.data.info.succ.timeTable2 = tableDispose(res.data.info.succ.timetable2);
                 }
                 console.log(res.data.info);
-                this.data = res.data.info
+                this.data = res.data.info;
             },
             accountInput: function(e) {
                 this.account = e.detail.value;

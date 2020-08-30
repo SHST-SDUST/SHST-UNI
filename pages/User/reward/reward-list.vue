@@ -18,7 +18,7 @@
 </template>
 
 <script>
-    import headslot from "@/components/headslot.vue"
+    import headslot from "@/components/headslot.vue";
     export default {
         components: {
             headslot
@@ -29,13 +29,13 @@
             }
         },
         onLoad: async function(options) {
-            var res = await app.request({
+            var res = await uni.$app.request({
                 load: 2,
-                url: app.data.url + "ext/rewardlist",
+                url: uni.$app.data.url + "/ext/rewardlist",
             })
             if (res.data.info) {
                 res.data.info.reverse();
-                this.data = res.data.info
+                this.data = res.data.info;
             }
         },
         methods: {
@@ -54,7 +54,7 @@
     }
 
     .name {
-        font-size: 16px;
+        font-size: 15px;
     }
 
     .time {

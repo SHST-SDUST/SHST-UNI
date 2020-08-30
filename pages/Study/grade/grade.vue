@@ -13,32 +13,32 @@
         <view v-if="show">
             <headslot :title="showSelect">
                 <view class="y-center" style="flex-wrap: wrap; font-size: 13px;">
-                    <view class='y-center over-unit'>
+                    <view class="y-center over-unit">
                         <view class="a-dot" style="background:#6495ED;"></view>
                         <view>学分:{{point}}</view>
                     </view>
-                    <view class='y-center over-unit'>
+                    <view class="y-center over-unit">
                         <view class="a-dot" style="background:#ACA4D5;"></view>
                         <view>绩点:{{pointN}}</view>
                     </view>
-                    <view class='y-center over-unit'>
+                    <view class="y-center over-unit">
                         <view class="a-dot" style="background:#EAA78C;"></view>
                         <view>加权:{{pointW}}</view>
                     </view>
                 </view>
             </headslot>
-            <view style="margin-top: 10px;"></view>
+            <view class="a-lmt"></view>
             <view v-for="(item,index) in grade" :key="index">
                 <layout>
                     <view class="unit adapt">
-                        <view class='info-left'>
-                            <view class='c-name'>{{item.kcmc}}</view>
-                            <view style='color:#aaa;'>{{item.kclbmc}}</view>
-                            <view style='color:#aaa;'>{{item.ksxzmc}}</view>
+                        <view class="info-left">
+                            <view class="c-name">{{item.kcmc}}</view>
+                            <view style="color:#aaa;">{{item.kclbmc}}</view>
+                            <view style="color:#aaa;">{{item.ksxzmc}}</view>
                         </view>
-                        <view class='info-right'>
-                            <view class='cgrade'>{{item.zcj}}</view>
-                            <view style='color:#aaa;margin-top: 3px;'>{{item.xf}}学分</view>
+                        <view class="info-right">
+                            <view class="cgrade">{{item.zcj}}</view>
+                            <view style="color:#aaa;margin-top: 3px;">{{item.xf}}学分</view>
                         </view>
                     </view>
                 </layout>
@@ -72,9 +72,9 @@
                 point: 0,
                 pointN: 0,
                 pointW: 0,
-                show: 0,
+                show: false,
                 grade: 0,
-                ad: 1,
+                ad: true,
                 showSelect: ""
             }
         },
@@ -82,7 +82,7 @@
             // 处理学期
             uni.$app.onload(() => {
                 var year = parseInt(uni.$app.data.curTerm.split("-")[1]);
-                var yearArr = [{ show: '全部学期', value: "" }];
+                var yearArr = [{ show: "全部学期", value: "" }];
                 for (var i = 1; i <= 4; ++i) {
                     let firstTerm = (year - i) + "-" + (year - i + 1) + "-2";
                     let secondTerm = (year - i) + "-" + (year - i + 1) + "-1";
@@ -114,8 +114,12 @@
             getGradeRemote: async function(query) {
                 var res = await uni.$app.request({
                     load: 2,
-                    url: uni.$app.data.url + 'sw/grade' + query,
+                    url: uni.$app.data.url + "sw/grade" + query,
                 })
+                if(!res.data.data) {
+                    uni.$app.toast("加载失败，请重试");
+                    return void 0;
+                }
                 if (res.data.data[0]) {
                     var info = res.data.data;
                     var point = 0;
@@ -153,11 +157,11 @@
                 }
                 let defaultValue = {kclbmc: "暂无",kcmc: this.showSelect+"学期暂无成绩",ksxzmc: "暂无成绩",xf: 0,zcj: "100"}
                 this.grade = !res.data.data[0] ? [defaultValue] : res.data.data;
-                this.ad = !res.data.data[0] ? 0 : 1;
-                this.show = 1;
+                this.ad = !res.data.data[0] ? false : true;
+                this.show = true;
             },
             adError: function(e) {
-                this.ad = 0;
+                this.ad = false;
             }
         }
     }

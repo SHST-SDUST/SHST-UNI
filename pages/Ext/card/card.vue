@@ -69,7 +69,7 @@
                 banlance: "",
                 balanceTemp: "",
                 data: "",
-                show: 0
+                show: false
             }
         },
         created: function() {
@@ -132,8 +132,8 @@
                     })
                     console.log(line);
                 }
-                this.data = line
-                this.show = 1
+                this.data = line;
+                this.show = true;
             }
         }
     }

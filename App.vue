@@ -1,9 +1,9 @@
 <script>
     import dispose from "@/vector/dispose";
     export default {
-        data: {
-            url: "https://www.touchczy.top",
-            // url: "http://dev.touchczy.top",
+        globalData: {
+            url: "https://shst.touchczy.top/",
+            // url: "http://dev.touchczy.top/",
         },
         onPagenotFound: (res) => { //处理404
             uni.reLaunch({

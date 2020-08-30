@@ -172,7 +172,7 @@
                         if (k === 5 || k === 6) {
                             unitObj.type = "周末";
                             unitObj.color += "weekend ";
-                        } else if (week && week < this.weekCount) {
+                        } else if (week && week <= this.weekCount) {
                             var tmpColor = "classes ";
                             unitObj.type = "教学";
                             unitObj.detach = "cdetach";
@@ -189,7 +189,7 @@
                     showArr.push(innerArr);
                 }
                 this.calendarData = showArr;
-                this.show = 1
+                this.show = 1;
             },
             calcVacation: function() {
                 var d = new Date(this.termStart);

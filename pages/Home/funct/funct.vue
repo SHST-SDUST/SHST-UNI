@@ -82,11 +82,11 @@
                     <view>待办管理</view>
                 </view>
                 <!-- #endif -->
-                <view class="icon" @click="jump('/pages/ext/exam-arrange/exam-arrange', 1)">
+                <view class="icon" @click="jump('/pages/ext/exam/exam', 1)">
                     <i class="iconfont icon-biji-copy"></i>
                     <view>考试安排</view>
                 </view>
-                <view class="icon" @click="jump('/pages/Ext/card/card', 1)">
+                <view class="icon" @click="jump('/pages/ext/card/card', 1)">
                     <i class="iconfont icon-xuehao"></i>
                     <view>校园卡</view>
                 </view>
@@ -132,10 +132,9 @@
                     }
                     return void 0;
                 }
-                console.log(e);
                 uni.navigateTo({url: path});
             },
-            adError: function(e) {
+            adError: function() {
                 this.adShow = 0;
             }
         }

@@ -2,7 +2,7 @@
     <view>
 
         <layout title="图书信息">
-            <view class="tips-centent">
+            <view class="tips-con">
                 <view class="strong">{{data.name}}</view>
                 <view>{{data.bookInfoArray[0]}}</view>
                 <view>{{data.bookInfoArray[1]}}</view>

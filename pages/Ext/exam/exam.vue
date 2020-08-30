@@ -3,15 +3,15 @@
 
         <headslot title="考试安排"></headslot>
 
-        <view class="a-lml"></view>
-
+        <view class="gap"></view>
+ 
         <layout v-if="tips">
             <view class="y-center">
                 <view class="a-dot a-mr" style="background: #eee;"></view>
                 <view>{{tips}}</view>
             </view>
         </layout>
-        <layout v-for="(item,index) in exam" :key="index">
+        <layout v-for="item in exam" :key="item.kcmc">
             <view class="unit">
                 <view class="x-center y-center">
                     <view class="c-name">{{item.kcmc}}</view>
@@ -33,7 +33,7 @@
         components: {
             headslot
         },
-        data() {
+        data: function() {
             return {
                 tips: "",
                 exam: []
@@ -77,7 +77,10 @@
     .c-name {
         font-size: 15px;
     }
-
+    
+    .gap{
+        height: 10px;
+    }
 
     .c-grade {
         font-size: 16px;

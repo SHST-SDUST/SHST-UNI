@@ -46,7 +46,7 @@
                         </view>
                         <view :style="{'background':'green', 'display':point}" class="point"></view>
                     </view>
-                    <view>></view>
+                    <view class="iconfont icon-arrow-right"></view>
                 </view>
                 <view class="unit-info"  @click="jump('/pages/user/reward/reward')">
                     <view class="a-flex">
@@ -54,13 +54,13 @@
                             <view>赞赏</view>
                         </view>
                     </view>
-                    <view>></view>
+                    <view class="iconfont icon-arrow-right"></view>
                 </view>
                 <view class="unit-info" @click="jump('/pages/user/about/about')">
                     <view>
                         <view>关于</view>
                     </view>
-                    <view>></view>
+                    <view class="iconfont icon-arrow-right"></view>
                 </view>
 
                 <view class="a-btn a-btn-orange btn-full" @click="logout">注销</view>

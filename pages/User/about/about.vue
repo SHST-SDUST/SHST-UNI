@@ -51,7 +51,7 @@
                 <view class="a-flex">
                     <view>分享山科小站</view>
                 </view>
-                <view>></view>
+                <view class="iconfont icon-arrow-right"></view>
             </button>
         </view>
 

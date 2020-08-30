@@ -54,7 +54,7 @@
             return {
                 book: "",
                 page: 1,
-                show: 0,
+                show: false,
                 pageInfo: "",
                 info: []
             }
@@ -87,7 +87,7 @@
                     var listObject = {};
                     repx = /<em>(.*?)<\/em>/g;
                     listObject.infoList = regMatch(repx,value);
-                    repx = /javascript:bookDetail\("\/opac\/m\/book\/(.*)"\)/g;
+                    repx = /javascript:bookDetail\(['"]\/opac\/m\/book\/(.*)['"]\)/g;
                     listObject.id = regMatch(repx,value)[0];
                     bookList.push(listObject);
                 })
@@ -95,7 +95,7 @@
                 this.info = bookList;
                 this.page = res.data.page;
                 this.pageInfo = pageInfo[0];
-                this.show = 1;
+                this.show = true;
             },
             pre: function() {
                 var curPage = parseInt(this.page);

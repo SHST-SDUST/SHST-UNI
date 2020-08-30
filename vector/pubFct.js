@@ -4,7 +4,7 @@ import util from "@/modules/datetime";
 /**
  * 统一处理课表功能
  */
-function tableDispose(info, flag = 0) {
+function tableDispose(info, oneDay = false) {
     const app = getApp();
     var tableArr = [];
     var week = new Date().getDay() - 1;
@@ -12,10 +12,10 @@ function tableDispose(info, flag = 0) {
     info.forEach(value => {
         if (!value) return;
         var arrInner = [];
-        var day = parseInt(value.kcsj[0]) - 1;
-        if (flag === 1 && day !== week) return;
-        var knot = parseInt(parseInt(value.kcsj.substr(1, 2)) / 2);
-        var uniqueNum = Array.prototype.reduce.call(v.name, (pre, cur) => pre+cur.charCodeAt(), 0);
+        var day = ~~(value.kcsj[0]) - 1;
+        if (oneDay && day !== week) return;
+        var knot = ~~(~~(value.kcsj.substr(1, 2)) / 2);
+        var uniqueNum = Array.prototype.reduce.call(value.kcmc, (pre, cur) => pre+cur.charCodeAt(), 0);
         var colorSignal = app.data.colorList[ uniqueNum % app.data.colorN];
         arrInner.push(day);
         arrInner.push(knot);
@@ -26,7 +26,7 @@ function tableDispose(info, flag = 0) {
         if (!tableArr[day]) tableArr[day] = [];
         tableArr[day][knot] = arrInner;
     })
-    if (flag === 1) return tableArr[week];
+    if (oneDay) return tableArr[week];
     else return tableArr;
 }
 

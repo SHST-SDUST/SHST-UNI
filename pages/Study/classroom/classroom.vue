@@ -37,9 +37,9 @@
     export default {
         data: function() {
             return {
-                show: 0,
                 room: [],
                 qShow: "",
+                show: false,
                 searchData: util.formatDate(),
                 searchTime: "0102",
                 searchFloor: 1,
@@ -91,19 +91,21 @@
                     url: uni.$app.data.url + "/sw/classroom",
                 })
                 if (res.data.data.flag) {
-                    uni.$app.toast("未生成教学周历");
-                    return false;
+                    uni.$app.toast("该日期不在教学周期内");
+                    return void 0;
                 }
                 var data = res.data.data;
+                if(!data) {
+                    uni.$app.toast("加载失败，请重试");
+                    return void 0;
+                }
                 if (!data[0]) data = [{
                     "jxl": "青岛校区-" + this.searchFloor + "号楼",
                     jsList: [{jsmc: "无空教室"}]
                 }];
-                data[0].jsList.sort((a, b) => {
-                    return a.jsmc > b.jsmc ? 1 : -1;
-                });
+                data[0].jsList.sort((a, b) => a.jsmc > b.jsmc ? 1 : -1);
                 this.room = data;
-                this.show = 1;
+                this.show = true;
                 this.qShow = this.queryTime[this.index[1]][2];
                 this.searchData = this.searchData;
             },

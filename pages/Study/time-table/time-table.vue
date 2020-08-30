@@ -18,17 +18,15 @@
             </view>
             <view class="a-hr timetablehr"></view>
             <view class="a-flex">
-                <view class="a-flex">
-                    <view v-for="(item, index) in [0,1,2,3,4,5,6]" :key="index" class="week-unit">
-                        <view>{{date[index].n}}</view>
-                        <view :class="date[index].s">{{date[index].d ? date[index].d : "00/00"}}</view>
-                    </view>
+                <view v-for="item in 7" :key="item" class="week-unit">
+                    <view>{{date[item].n}}</view>
+                    <view :class="date[item].s">{{date[item].d ? date[item].d : "00/00"}}</view>
                 </view>
             </view>
             <view class="a-hr timetablehr"></view>
-            <view v-for="(item,index) in [0,1,2,3,4]" :key="index">
+            <view v-for="item in 5" :key="item">
                 <view class="a-flex">
-                    <view v-for="(inner,innerIndex) in [0,1,2,3,4,5,6]" :key="innerIndex" class="a-full">
+                    <view v-for="inner in 7" :key="inner" class="a-full">
                         <view v-if="table[inner] && table[inner][item]" class="timetable-hide" :style="{'background':table[inner][item][5]}">
                             <view>{{table[inner][item][2]}}</view>
                             <view>{{table[inner][item][4]}}</view>
@@ -44,7 +42,7 @@
         <view class="a-hide" :class="{'a-show':today > '2020-03-26'}">
             <layout>
                 <view class="y-center">
-                    <view class="a-dot" style="margin-right: 6px;"></view>
+                    <view class="a-dot a-mr"></view>
                     <navigator url="/pages/home/auxiliary/webview?url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2F9L3kFI0jdHajnPm83jRbwA"
                         open-type="navigate" class="a-link" hover-class="none">自定义课表配色</navigator>
                 </view>
@@ -64,8 +62,7 @@
 </template>
 
 <script>
-    import util from "@/modules/datetime";
-    import pubFct from "@/vector/pubFct.js";
+    import {tableDispose} from "@/vector/pubFct.js";
     import { formatDate, extDate } from "@/modules/datetime.js";
     export default {
         data: function() {
@@ -74,27 +71,14 @@
                 ad: 1,
                 date: [],
                 table: [],
-                today: util.formatDate()
+                today: formatDate()
             }
         },
         created: function(e) {
             uni.$app.onload(() => {
-                var week = this.week;
-                var today = new Date();
-                var curWeekDate = new Date(this.termStart);
-                curWeekDate.addDate(0, 0, week * 7 - 8);
-                var allWeekDay = [];
-                var week = ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"];
-                for (let i = 0; i < 7; ++i) {
-                    curWeekDate.addDate(0, 0, 1);
-                    allWeekDay.push({
-                        n: week[i],
-                        d: formatDate("MM/dd", curWeekDate),
-                        s: curWeekDate.getDay() === today.getDay() ? "today" : "none"
-                    });
-                }
-                this.date = allWeekDay;
+
                 this.week = uni.$app.data.curWeek;
+                this.getDate();
                 this.getCache(uni.$app.data.curWeek);
             })
         },
@@ -103,7 +87,7 @@
                 var tableCache = uni.getStorageSync("table") || {};
                 if (tableCache.term === uni.$app.data.curTerm && tableCache.classTable && tableCache.classTable[e]) {
                     console.log("GET TABLE FROM CACHE");
-                    var showTableArr = pubFct.tableDispose(tableCache.classTable[e]);
+                    var showTableArr = tableDispose(tableCache.classTable[e]);
                     this.table = showTableArr;
                     this.week = e;
                     this.getDate();
@@ -123,8 +107,8 @@
                     },
                 })
                 console.log("GET TABLE FROM REMOTE WEEK " + e);
-                var showTableArr = pubFct.tableDispose(res.data.data);
-                this.table = showTableArr
+                var showTableArr = tableDispose(res.data.data);
+                this.table = showTableArr;
                 this.week = res.data.week
                 var tableCache = uni.getStorageSync("table") || {
                     term: uni.$app.data.curTerm,
@@ -152,25 +136,22 @@
                 uni.setStorageSync("table", {term: uni.$app.data.curTerm,classTable: []});
                 this.getRemoteTable(week);
             },
-            getDate: function(e) {
+            getDate: function() {
                 var week = this.week;
+                var today = new Date();
                 var curWeekDate = new Date(uni.$app.data.curTermStart);
                 curWeekDate.addDate(0, 0, week * 7 - 8);
-                console.log(week, curWeekDate);
-                var dataObject = [];
+                var allWeekDay = [];
+                var week = ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"];
                 for (let i = 0; i < 7; ++i) {
                     curWeekDate.addDate(0, 0, 1);
-                    var month = curWeekDate.getMonth() + 1;
-                    var day = curWeekDate.getDate();
-                    if (month < 10) month = "0" + month;
-                    if (day < 10) day = "0" + day;
-                    let today = new Date();
-                    dataObject.push({
-                        d: month + "/" + day,
-                        s: curWeekDate.getDay() === today.getDay() ? "today-line" : "none"
+                    allWeekDay.push({
+                        n: week[i],
+                        d: formatDate("MM/dd", curWeekDate),
+                        s: curWeekDate.getDay() === today.getDay() ? "today" : "none"
                     });
                 }
-                this.date = dataObject
+                this.date = allWeekDay;
             }
         }
     }
@@ -224,8 +205,20 @@
         border: none;
     }
     
-    .week-unit view{
+    .week-unit {
+        text-align: center;
+        padding: 5px 0 1px 0;
+        font-size: 10px;
+        width: 100%;
+    }
+    
+    .week-unit>view {
         padding: 3px 0;
+        font-size: 8px;
+    }
+    
+    .today {
+        border-bottom: 3px solid #eee;
     }
 
     .operate {

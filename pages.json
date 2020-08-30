@@ -83,7 +83,7 @@
         }
         // #endif
         , {
-            "path": "pages/ext/exam-arrange/exam-arrange",
+            "path": "pages/ext/exam/exam",
             "style": {}
         }, {
             "path": "pages/ext/card/card",
@@ -117,9 +117,6 @@
         "navigationBarTextStyle": "black",
         "navigationBarTitleText": "山科小站",
         "navigationBarBackgroundColor": "#F1F1F1",
-        // #ifdef MP-ALIPAY
-        "navigationBarBackgroundColor": "#FFFFFF",
-        // #endif
         "backgroundColor": "#F8F8F8"
     },
     "tabBar": {

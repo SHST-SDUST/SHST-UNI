@@ -17,7 +17,7 @@
             <view>记得写上您的名字哦</view>
             <view>感谢您的支持!</view>
 
-            <navigator url="reward-ist" open-type="navigate" class="reward-list a-link" hover-class="none">赞赏记录</navigator>
+            <navigator url="reward-list" open-type="navigate" class="reward-list a-link" hover-class="none">赞赏记录</navigator>
         </view>
 
     </view>
@@ -52,6 +52,13 @@
         width: 497px;
         height: 563px;
         zoom: 0.6;
+    }
+    
+    .tips-reward {
+        margin-top: 20px;
+        font-size: 20px;
+        text-align: center;
+        color: #8f8f8f;
     }
 
     .reward-list {
