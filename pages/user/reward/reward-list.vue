@@ -28,9 +28,10 @@
                 data: []
             }
         },
-        onLoad: async function(options) {
+        created: async function(options) {
             var res = await uni.$app.request({
                 load: 2,
+                throttle: true,
                 url: uni.$app.data.url + "/ext/rewardlist",
             })
             if (res.data.info) {

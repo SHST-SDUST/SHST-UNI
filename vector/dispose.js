@@ -35,19 +35,19 @@ function onLaunch() {
     disposeApp(this);
     var userInfo = uni.getStorageSync("user") || {};
     uni.login({
-        scopes: 'auth_base'
+        scopes: "auth_base"
     }).then((data) => {
         var [err,res] = data;
         if(err) return Promise.reject(err);
         return $app.$scope.request({
             load: 3,
             // #ifdef MP-WEIXIN
-            url: $app.data.url + 'auth/wx',
+            url: $app.data.url + "auth/wx",
             // #endif
             // #ifdef MP-QQ
-            url: $app.data.url + 'auth/QQ',
+            url: $app.data.url + "auth/QQ",
             // #endif
-            method: 'POST',
+            method: "POST",
             data: {
                 "code": res.code,
                 user: JSON.stringify(userInfo)

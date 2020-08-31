@@ -63,12 +63,12 @@
 </template>
 
 <script>
-    import util from "@/modules/datetime";
+    import {formatDate} from "@/modules/datetime";
     export default {
         data: function() {
             return {
                 version: uni.$app.data.version,
-                today: util.formatDate()
+                today: formatDate()
             }
         },
         onShareAppMessage: () => {

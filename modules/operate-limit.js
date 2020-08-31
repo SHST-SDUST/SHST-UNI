@@ -1,6 +1,6 @@
 /**
  * 防抖
- * 定时器实现
+ * 定时器实现 立即防抖
  */
 function debounceGenerater(){
     var timer = null;
@@ -9,6 +9,20 @@ function debounceGenerater(){
         timer = setTimeout(() => funct(...args), wait);
     }
 }
+
+
+/**
+// 防抖
+// 定时器实现 非立即防抖
+function debounceGenerater(){
+    var timer = null;
+    return (wait, funct, ...args) => {
+        if(!timer) funct(...args);
+        clearTimeout(timer);
+        timer = setTimeout(() => timer = null, wait);
+    }
+}
+ */
 
 /**
  * 节流

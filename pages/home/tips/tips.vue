@@ -136,11 +136,12 @@
                     this.getRemoteTable();
                 }
             },
-            getRemoteTable: async function(load = 1) {
+            getRemoteTable: async function(load = 1, limit = false) {
                 if (uni.$app.data.userFlag === 1) {
                     console.log("GET TABLE FROM REMOTE");
                     var res = await uni.$app.request({
                         load: load,
+                        throttle: limit,
                         url: uni.$app.data.url + "/sw/table",
                         data: {
                             week: uni.$app.data.curWeek,
@@ -170,9 +171,9 @@
                 this.tips = info ? "" : "No Class Today";
                 this.tipsInfo = info ? "" : "今天没有课，快去自习室学习吧";
             },
-            refresh: function(e) {
+            refresh: function() {
                 uni.setStorageSync("table", {term: uni.$app.data.curTerm, classTable: []});
-                this.getRemoteTable(2);
+                this.getRemoteTable(2, true);
             },
 
             // #ifndef MP-WEIXIN

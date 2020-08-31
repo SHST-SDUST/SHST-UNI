@@ -68,7 +68,7 @@
         data: function() {
             return {
                 week: 1,
-                ad: 1,
+                ad: true,
                 date: [],
                 table: [],
                 today: formatDate()
@@ -76,37 +76,37 @@
         },
         created: function(e) {
             uni.$app.onload(() => {
-
                 this.week = uni.$app.data.curWeek;
                 this.getDate();
                 this.getCache(uni.$app.data.curWeek);
             })
         },
         methods: {
-            getCache: function(e) {
+            getCache: function(week) {
                 var tableCache = uni.getStorageSync("table") || {};
-                if (tableCache.term === uni.$app.data.curTerm && tableCache.classTable && tableCache.classTable[e]) {
+                if (tableCache.term === uni.$app.data.curTerm && tableCache.classTable && tableCache.classTable[week]) {
                     console.log("GET TABLE FROM CACHE");
-                    var showTableArr = tableDispose(tableCache.classTable[e]);
+                    var showTableArr = tableDispose(tableCache.classTable[week]);
                     this.table = showTableArr;
-                    this.week = e;
+                    this.week = week;
                     this.getDate();
                 } else {
-                    this.getRemoteTable(e);
+                    this.getRemoteTable(week);
                 }
             },
-            getRemoteTable: async function(e) {
+            getRemoteTable: async function(week = null, throttle=false) {
                 var urlTemp = "";
-                if (typeof(e) === "number") urlTemp += ("/" + e);
+                if (typeof(week) === "number") urlTemp += ("/" + week);
                 var res = await uni.$app.request({
                     load: 2,
+                    throttle: throttle,
                     url: uni.$app.data.url + "/sw/table" + urlTemp,
                     data: {
                         week: uni.$app.data.curWeek,
                         term: uni.$app.data.curTerm
                     },
                 })
-                console.log("GET TABLE FROM REMOTE WEEK " + e);
+                console.log("GET TABLE FROM REMOTE WEEK " + week);
                 var showTableArr = tableDispose(res.data.data);
                 this.table = showTableArr;
                 this.week = res.data.week
@@ -124,17 +124,21 @@
             },
             pre: function(week) {
                 if (week <= 1) return;
-                this.getCache(--week);
+                --week;
+                this.week = week;
+                this.getCache(week);
             },
             next: function(week) {
-                this.getCache(++week);
+                ++week;
+                this.week = week;
+                this.getCache(week);
             },
             adError: function(e) {
-                this.ad = 0;
+                this.ad = false;
             },
             refresh: function(week) {
                 uni.setStorageSync("table", {term: uni.$app.data.curTerm,classTable: []});
-                this.getRemoteTable(week);
+                this.getRemoteTable(Number(week), true);
             },
             getDate: function() {
                 var week = this.week;

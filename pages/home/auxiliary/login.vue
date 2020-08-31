@@ -72,6 +72,7 @@
                         url: uni.$app.data.url + "/auth/login/2",
                         // #endif
                         method: "POST",
+                        throttle: true,
                         data: {
                             "account": this.account,
                             "password": encodeURIComponent(this.password),

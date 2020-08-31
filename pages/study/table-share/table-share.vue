@@ -97,6 +97,7 @@
             onloadData: async function(){
                 var res = await uni.$app.request({
                     load: 2,
+                    throttle: true,
                     url: uni.$app.data.url + "/share/tableShare",
                     data: {
                         week: uni.$app.data.curWeek,
@@ -123,6 +124,7 @@
                 }
                 var res = await uni.$app.request({
                     url: uni.$app.data.url + "/share/startReq",
+                    throttle: true,
                     method: "POST",
                     data: {
                         account: this.account,
@@ -134,6 +136,7 @@
             },
             cancelreq: async function() {
                 var res = await uni.$app.request({
+                    throttle: true,
                     method: "POST",
                     url: uni.$app.data.url + "/share/cancelReq",
                 })
@@ -144,6 +147,7 @@
                 var res = await uni.$app.request({
                     load: 2,
                     data: {id},
+                    throttle: true,
                     method: "POST",
                     url: uni.$app.data.url + "/share/agreereq",
                 })
@@ -154,6 +158,7 @@
                 var res = await uni.$app.request({
                     load: 2,
                     data: {id},
+                    throttle: true,
                     method: "POST",
                     url: uni.$app.data.url + "/share/lifting",
                 })
@@ -164,6 +169,7 @@
                 var res = await uni.$app.request({
                     load: 2,
                     data: {id},
+                    throttle: true,
                     method: "POST",
                     url: uni.$app.data.url + "/share/refusereq",
                 })

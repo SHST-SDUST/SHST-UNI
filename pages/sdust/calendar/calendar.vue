@@ -106,6 +106,7 @@
             uni.$app.onload(async () => {
                 var res = await uni.$app.request({
                     load: 2,
+                    throttle: true,
                     url: uni.$app.data.url + 'ext/calendar',
                 })
                 res.data.info = res.data.info.reverse();

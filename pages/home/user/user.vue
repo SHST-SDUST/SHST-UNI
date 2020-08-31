@@ -107,7 +107,8 @@
                 } else {
                     console.log("GET USERINFO FROM REMOTE");
                     var res = await uni.$app.request({
-                        load: 1,
+                        load: 1,                        
+                        throttle: true,
                         url: uni.$app.data.url + "/sw/userInfo",
                     })
                     if (res.data.info) {

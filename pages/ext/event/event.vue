@@ -60,10 +60,9 @@
 </template>
 
 <script>
-    import md5 from "@/utils/md5.js";
-    import util from "@/modules/datetime.js";
-    import pubFct from "@/vector/pubFct.js";
     import headslot from "@/components/headslot.vue";
+    import {todoDateDiff} from "@/vector/pubFct.js";
+    import {formatDate} from "@/modules/datetime.js";
     export default {
         components: {
             headslot
@@ -71,8 +70,8 @@
         data: function() {
             return {
                 addContent: "",
-                dataDo: util.formatDate(), //默认起始时间  
-                dataEnd: util.formatDate(), //默认结束时间 
+                dataDo: formatDate(), //默认起始时间  
+                dataEnd: formatDate(), //默认结束时间 
                 todoList: [],
                 clickFlag: 1,
                 tips: "",
@@ -83,7 +82,7 @@
             uni.$app.onload(async ()=>{
                 var endTime = new Date();
                 endTime.addDate(1);
-                this.dataEnd = util.formatDate("yyyy-MM-dd", endTime);
+                this.dataEnd = formatDate("yyyy-MM-dd", endTime);
                 uni.setStorageSync("event", "");
                 if (uni.$app.data.openid === "") {
                     this.tips = "未正常获取用户信息"
@@ -97,9 +96,9 @@
                             this.tips = "暂没有待办事项"
                             return void 0;
                         }
-                        var curData = util.formatDate();
+                        var curData = formatDate();
                         res.data.data.map(function(value) {
-                            [value.diff, value.color] = pubFct.todoDateDiff(curData, value.todo_time, value.event_content);
+                            [value.diff, value.color] = todoDateDiff(curData, value.todo_time, value.event_content);
                             return value;
                         })
                         console.log(res.data.data);
@@ -134,8 +133,8 @@
                         }
                     })
                     var todoArr = this.todoList;
-                    var curData = util.formatDate();
-                    var diff_color = pubFct.todoDateDiff(curData, this.dataDo, this.addContent);
+                    var curData = formatDate();
+                    var diff_color = todoDateDiff(curData, this.dataDo, this.addContent);
                     todoArr.push({
                         event_content: this.addContent,
                         todo_time: this.dataDo,

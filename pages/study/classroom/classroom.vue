@@ -83,6 +83,7 @@
             loadClassroomSetTime: async function (e) {
                 var res = await uni.$app.request({
                     load: 2,
+                    throttle: true,
                     data: {
                         searchData: this.searchData,
                         searchTime: this.searchTime,

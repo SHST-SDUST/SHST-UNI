@@ -29,6 +29,7 @@
             uni.$app.onload(async () => {
                 var res = await uni.$app.request({
                     load: 2,
+                    throttle: true,
                     url:uni.$app.data.url + "/ext/vacation",
                 })
                 this.data = res.data.info;

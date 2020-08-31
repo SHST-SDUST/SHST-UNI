@@ -25,13 +25,14 @@
                 data: []
             }
         },
-        onLoad: async function(options) {
+        created: async function(options) {
             uni.setStorage({
                 key: "point",
                 data: uni.$app.data.point
             })
             var res = await uni.$app.request({
                 load: 2,
+                throttle: true,
                 url: uni.$app.data.url + "/ext/announce",
             })
             if (res.data.info) {
