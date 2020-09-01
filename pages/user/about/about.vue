@@ -15,7 +15,7 @@
                 </view>
                 <view>{{version}}</view>
             </view>
-            <view class="a-hide" :class="{'a-show':today > '2020-03-26'}">
+            <view class="a-hide" :class="{'a-show':today > '2020-09-01'}">
                 <view class="unit-info">
                     <view class="a-flex">
                         <view>反馈QQ群</view>

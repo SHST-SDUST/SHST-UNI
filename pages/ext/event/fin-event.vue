@@ -8,7 +8,7 @@
                 <view class="y-center unit-todo a-flex-space-between">
                     <view>
                         <view class="y-center a-mt a-mb">
-                            <view class="a-dot a-mr a-ml" :style="{'background':item.color}"></view>
+                            <view class="a-dot" :style="{'background':item.color}"></view>
                             <view>{{item.event_content}}</view>
                         </view>
                         <view class="y-center">
@@ -23,7 +23,7 @@
             </layout>
             <layout v-if="tips">
                 <view class="y-center">
-                    <view class="a-dot a-mr" style="background: #eee;"></view>
+                    <view class="a-dot" style="background: #eee;"></view>
                     <view>{{tips}}</view>
                 </view>
             </layout>

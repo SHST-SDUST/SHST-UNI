@@ -5,7 +5,7 @@
             url: "https://shst.touchczy.top/",
             // url: "http://dev.touchczy.top/",
         },
-        onPagenotFound: (res) => { //处理404
+        onPageNotFound: (res) => { //处理404
             uni.reLaunch({
                 url: "pages/home/auxiliary/not-found"
             })

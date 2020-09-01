@@ -295,10 +295,6 @@
     .arrow-right {
         font-size: 20px;
     }
-    
-    .a-dot {
-        margin-right: 5px; 
-    }
 
     .a-dot+view {
         margin-right: 5px;
