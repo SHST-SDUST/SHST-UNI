@@ -10,10 +10,10 @@ function tableDispose(info, oneDay = false) {
     var week = new Date().getDay() - 1;
     if (week === -1) week = 6;
     info.forEach(value => {
-        if (!value) return;
+        if (!value) return void 0;
         var classObj = {};
         var day = ~~(value.kcsj[0]) - 1;
-        if (oneDay && day !== week) return;
+        if (oneDay && day !== week) return void 0;
         var knot = ~~(~~(value.kcsj.substr(1, 2)) / 2);
         var uniqueNum = Array.prototype.reduce.call(value.kcmc, (pre, cur) => pre+cur.charCodeAt(), 0);
         var colorSignal = app.data.colorList[ uniqueNum % app.data.colorN];

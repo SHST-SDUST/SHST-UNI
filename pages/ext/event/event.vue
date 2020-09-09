@@ -161,7 +161,7 @@
                     uni.$app.toast("标记成功");
                     this.todoList.splice(index, 1);
                     this.todoList = this.todoList;
-                    this.tips = this.todoList.length === 0 ? "暂没有待办事项" : ""
+                    this.tips = this.todoList.length === 0 ? "暂没有待办事项" : "";
                     this.count = this.count - 1;
                 }
             },

@@ -8,8 +8,7 @@
 
 
         <view class="user-info-con">
-            <view class="unit-info" style="border-top: 1px solid #eee;">
-
+            <view class="unit-info top">
                 <view class="a-flex">
                     <view>版本号</view>
                 </view>
@@ -103,6 +102,10 @@
         margin-top: 27px;
         padding: 10px;
     }
+    
+    .top{
+        border-top: 1px solid #eee;
+    }
 
     .unit-info {
         height: 30px;
@@ -122,5 +125,5 @@
     .footer .text {
         color: #aaa;
     }
-    
+
 </style>

@@ -103,7 +103,6 @@
             onloadData: async function(){
                 var res = await uni.$app.request({
                     load: 2,
-                    throttle: true,
                     url: uni.$app.data.url + "/share/tableShare",
                     data: {
                         week: uni.$app.data.curWeek,
@@ -138,7 +137,7 @@
                     },
                 })
                 uni.$app.toast(res.data.msg);
-                this.onloadData();
+                console.log(this.onloadData());
             },
             cancelreq: async function() {
                 var res = await uni.$app.request({

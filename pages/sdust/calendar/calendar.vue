@@ -23,7 +23,7 @@
                     </view>
                     <view class="y-center">
                         <view class="opt y-center x-center" style="background-color: #1E9FFF;" @click="jumpDate(today)">今</view>
-                        <view class="opt y-center x-center" style="background-color: #FF6347;" @click="jumpDate(term-start)">开</view>
+                        <view class="opt y-center x-center" style="background-color: #FF6347;" @click="jumpDate(termStart)">开</view>
                         <view class="opt y-center x-center" style="background-color: #3CB371;" @click="jumpDate(vacationStartDate)">假</view>
                     </view>
                 </view>
