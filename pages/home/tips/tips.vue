@@ -250,7 +250,7 @@
                 if (uni.$app.data.initData && uni.$app.data.initData.articleUrl) {
                     var url = encodeURIComponent(uni.$app.data.initData.articleUrl);
                     // #ifdef MP-WEIXIN
-                    uni.navigateTo({url: "/pages/Home/auxiliary/webview?url=" + url})
+                    uni.navigateTo({url: "/pages/home/auxiliary/webview?url=" + url})
                     // #endif
                     // #ifndef MP-WEIXIN
                     uni.setClipboardData({data: uni.$app.data.initData.articleUrl})
@@ -258,7 +258,7 @@
                 }
             },
             bindSW: function() {
-                if (uni.$app.data.userFlag === 0) uni.navigateTo({url: "/pages/Home/auxiliary/login"})
+                if (uni.$app.data.userFlag === 0) uni.navigateTo({url: "/pages/home/auxiliary/login"})
             },
             onShareAppMessage: function() {}
         }

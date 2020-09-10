@@ -93,9 +93,9 @@
                 })
                 if (uni.$app.data.userFlag === 0) {
                     var tipsInfo = "游客";
-                    this.academy = tipsInfo
-                    this.name = tipsInfo
-                    this.account = tipsInfo
+                    this.academy = tipsInfo;
+                    this.name = tipsInfo;
+                    this.account = tipsInfo;
                     return void 0;
                 }
                 var [err, res] = await uni.getStorage({key: "userInfo"});
