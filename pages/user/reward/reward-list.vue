@@ -12,7 +12,9 @@
                 <view class="amount" style="color: #4C98F7;">{{item.amount}}</view>
             </view>
         </layout>
-        <loading :loading="loading" @click="loadReward(page+1)"></loading>
+        <layout>
+            <loading :loading="loading" @click="loadReward(page+1)"></loading>
+        </layout>
     </view>
 </template>
 

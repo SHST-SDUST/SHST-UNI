@@ -20,10 +20,10 @@
             <view class="a-flex-space-between y-center a-lpl a-lpr">
                 <view>周次：{{week}}</view>
                 <view>
-                    <view class="a-btn a-btn-blue a-btn-mini a-lmr" @click="pre(week)">
+                    <view class="a-btn a-btn-blue a-btn-small a-lmr" @click="pre(week)">
                         <view class="iconfont icon-arrow-lift"></view>
                     </view>
-                    <view class="a-btn a-btn-blue a-btn-mini" @click="next(week)">
+                    <view class="a-btn a-btn-blue a-btn-small" @click="next(week)">
                         <view class="iconfont icon-arrow-right"></view>
                     </view>
                 </view>
@@ -53,17 +53,25 @@
                 <view>3. J5数据收录严重不全，请酌情对待。</view>
             </view>
         </layout>
-        
+
         <layout v-if="show && adShow">
-            <ad-custom  @error="adShow = false" class="adapt" unit-id="adunit-b9b2fd0e829c7388"></ad-custom>
+            <!-- #ifdef MP-WEIXIN -->
+            <advertise :adSelect="1" :compatible="0" @error="adShow = false"></advertise>
+            <!-- #endif -->
+            <!-- #ifdef MP-QQ -->
+            <advertise :adSelect="3" @error="adShow = false"></advertise>
+            <!-- #endif -->
         </layout>
 
     </view>
 </template>
 
 <script>
+    import advertise from "@/components/advertise/advertise.vue";
     export default {
-        components: {},
+        components:{
+            advertise
+        },
         data: function() {
             return {
                 classroom_all: {},
@@ -167,13 +175,12 @@
                         table[v.day_of_week][v.turn_index] = v;
                     })
                     this.table = table;
-                    console.log(table)
                     this.$nextTick(() => this.show = true);
                 })
             },
             pre: function(week){
                 uni.$app.throttle(500, () => {
-                    if(week === 1) return void 0;
+                    if(week <= 1) return void 0;
                     --week;
                     this.week = week;
                     this.loadClassroom();

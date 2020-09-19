@@ -85,12 +85,6 @@ function onLaunch() {
         console.log("SetOpenid:" + res.data.openid);
         $app.data.openid = res.data.openid;
 
-        // #ifdef MP-WEIXIN
-        /* 广告信息 */
-        var sdkVersion = ~~(uni.getSystemInfoSync().SDKVersion.replace(/\./g, ""));
-        console.log("sdk:", sdkVersion);
-        if(sdkVersion < 299) $app.data.initData.adSelect = 0;
-        // #endif
         return Promise.resolve(res);
     }).then((res) => {
         if (!res.data.initData || !res.data.initData.curTerm) return Promise.reject("DATA INIT FAIL");

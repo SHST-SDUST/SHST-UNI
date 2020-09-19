@@ -39,9 +39,9 @@
                 </layout>
             </view>
 
-            <view class="a-lmt a-lmb">
+            <layout>
                 <loading :loading="loading" @click="loadClasses(page+1)" ></loading>
-            </view>
+            </layout>
 
         </view>
 
@@ -57,7 +57,12 @@
 
 
         <layout v-if="adShow">
-            <ad-custom  @error="adShow = false" class="adapt" unit-id="adunit-281c97c91ba73fd7"></ad-custom>
+            <!-- #ifdef MP-WEIXIN -->
+            <advertise :adSelect="1" :compatible="0" @error="adShow = false"></advertise>
+            <!-- #endif -->
+            <!-- #ifdef MP-QQ -->
+            <advertise :adSelect="3" @error="adShow = false"></advertise>
+            <!-- #endif -->
         </layout>
 
     </view>
@@ -66,8 +71,11 @@
 <script>
     import util from "@/modules/datetime";
     import loading from "@/components/loading/loading.vue";
+    import advertise from "@/components/advertise/advertise.vue";
     export default {
-        components: {},
+        components:{
+            loading, advertise
+        },
         data: function() {
             return {
                 page: 1,
@@ -140,11 +148,11 @@
     }
     .classname{
         color: #333;
-        font-size: 16px;
+        font-size: 15px;
     }
     .classroom{
         color: $a-blue;
-        font-size: 20px;
+        font-size: 18px;
     }
     .right-con{
         flex-direction: column;

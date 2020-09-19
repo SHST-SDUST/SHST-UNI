@@ -46,11 +46,10 @@
 
             <layout v-if="ad">
                 <!-- #ifdef MP-WEIXIN -->
-                <ad v-if="adSelect === 0" unit-id="adunit-31c347091893cf0c" @error="ad = false" class="adapt"></ad>
-                <ad-custom v-if="adSelect" @error="adSelect = 0" class="adapt" unit-id="adunit-281c97c91ba73fd7"></ad-custom>
+                <advertise :adSelect="3" :compatible="5" @error="ad = false"></advertise>
                 <!-- #endif -->
                 <!-- #ifdef MP-QQ -->
-                <ad unit-id="e40bef6dbe8ecaf7104fe126bfc34e56" class="adapt" @error="ad = false"></ad>
+                <advertise :adSelect="2" @error="ad = false"></advertise>
                 <!-- #endif -->
             </layout>
 
@@ -62,9 +61,10 @@
 
 <script>
     import headslot from "@/components/headslot/headslot.vue";
+    import advertise from "@/components/advertise/advertise.vue";
     export default {
         components: {
-            headslot
+            headslot, advertise
         },
         data: function() {
             return {

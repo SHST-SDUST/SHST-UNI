@@ -55,10 +55,10 @@
 
         <layout v-if="ad">
             <!-- #ifdef MP-WEIXIN -->
-            <ad unit-id="adunit-ce81890e6ff0b2a7" class="adapt" @error="ad = false"></ad>
+            <advertise :adSelect="4" @error="ad = false"></advertise>
             <!-- #endif -->
             <!-- #ifdef MP-QQ -->
-            <ad unit-id="98766bd6a7f4cc14e978058a3a365551" class="adapt" @error="ad = false"></ad>
+            <advertise :adSelect="1" @error="ad = false"></advertise>
             <!-- #endif -->
         </layout>
 
@@ -68,7 +68,11 @@
 <script>
     import {tableDispose} from "@/vector/pubFct.js";
     import { formatDate, extDate } from "@/modules/datetime.js";
+    import advertise from "@/components/advertise/advertise.vue";
     export default {
+        components:{
+            advertise
+        },
         data: function() {
             return {
                 week: 1,
