@@ -7,22 +7,18 @@
             </view>
 
             <view class="user-info-con">
-
                 <view class="unit-info top">
                     <view>学号</view>
                     <view>{{account}}</view>
                 </view>
-
                 <view class="unit-info">
                     <view>姓名</view>
                     <view>{{name}}</view>
                 </view>
-
                 <view class="unit-info">
                     <view>学院</view>
                     <view>{{academy}}</view>
                 </view>
-
                 <!-- #ifdef MP-WEIXIN -->
                 <view class="a-hide" :class="{'a-show':today > '2020-09-01'}">
                     <view class="unit-info" @click="copy('722942376')">
@@ -37,7 +33,6 @@
                     <view>722942376</view>
                 </button>
                 <!-- #endif -->
-
                 <view class="unit-info" @click="jumpUpdate('/pages/user/announce/announce')">
                     <view class="a-flex">
                         <view>公告</view>
@@ -45,7 +40,6 @@
                     </view>
                     <view class="iconfont icon-arrow-right"></view>
                 </view>
-
                 <!-- #ifdef MP-WEIXIN -->
                 <view class="unit-info"  @click="nav('/pages/user/reward/reward')">
                     <view class="a-flex">赞赏</view>
@@ -60,12 +54,10 @@
                     <view class="iconfont icon-arrow-right"></view>
                 </view>
                 <!-- #endif -->
-
                 <view class="unit-info" @click="nav('/pages/user/about/about')">
                     <view>关于</view>
                     <view class="iconfont icon-arrow-right"></view>
                 </view>
-
                 <view class="a-btn a-btn-orange btn-full" @click="logout">注销</view>
 
             </view>
@@ -124,9 +116,7 @@
         methods: {
             jumpUpdate: function(url) {
                 this.point = "none";
-                if (uni.hideTabBarRedDot) {
-                    uni.hideTabBarRedDot({index: 2});
-                }
+                if(uni.hideTabBarRedDot) uni.hideTabBarRedDot({index: 2});
                 this.nav(url);
             },
             logout: function(e) {

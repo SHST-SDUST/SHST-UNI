@@ -96,7 +96,6 @@ function initAppData(){
         /* 处理弹出式公告 */
         const popup = response.initData.popup;
         const popupCache = storage.get("popup");
-        console.log(methods)
         if(popupCache !== popup.serial && popup.popup) {
             uni.showModal({
                 title: "公告",
