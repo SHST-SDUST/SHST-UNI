@@ -136,7 +136,7 @@
             computedAdSelect: function(){
                 /* 广告信息 */
                 var sdkVersion = ~~(uni.getSystemInfoSync().SDKVersion.replace(/\./g, ""));
-                if(sdkVersion < 299 && /[123]/.test(this.internalAdSelector)) return this.compatible;
+                if(sdkVersion < 299 && /[9234]/.test(this.internalAdSelector)) return this.compatible;
                 else return this.internalAdSelector;
             },
             // #endif

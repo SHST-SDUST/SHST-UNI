@@ -49,12 +49,12 @@ SHST-UNI                              // 山科小站总目录
     │   ├── toast.js                  // 消息提示
     │   └── update.js                 // 自动更新
     ├── pages                         // 页面
-    │   ├── Ext                       // 拓展组
-    │   ├── Home                      // Tabbar、辅助组
-    │   ├── Lib                       // 图书馆功能组
-    │   ├── Sdust                     // 科大组
-    │   ├── Study                     // 学习组
-    │   └── User                      // 用户组
+    │   ├── ext                       // 拓展组
+    │   ├── home                      // Tabbar、辅助组
+    │   ├── lib                       // 图书馆功能组
+    │   ├── sdust                     // 科大组
+    │   ├── study                     // 学习组
+    │   └── user                      // 用户组
     ├── static                        // 静态资源
     │   ├── camptour                  // 校园导览静态资源
     │   └── img                       // 图标等静态资源
@@ -68,7 +68,7 @@ SHST-UNI                              // 山科小站总目录
     │   │   ├── asse.mini.wxss        // 公共样式库
     │   │   └── iconfont.wxss         // 字体图标
     │   ├── dispose.js                // 部署小程序
-    │   └── pubFct.js                 // 公有方法
+    │   └── pub-fct.js                 // 公有方法
     ├── App.vue                       // App全局样式以及监听
     ├── main.js                       // 挂载App，Vue初始化入口文件
     ├── manifest.json                 // 配置Uniapp打包等信息
@@ -80,6 +80,13 @@ SHST-UNI                              // 山科小站总目录
 ![show](https://cdn.jsdelivr.net/gh/WindrunnerMax/SHST@dev/SHST-UNI/static/show.jpg)
 
 ## 更新日志
+
+### 3.5.3 () []
+1. 修复图床图片资源问题
+2. 修复校园导览部分细节
+3. 缓存控制对象全面部署
+4. 添加Mixin全局静态横切
+5. 修复IOS对于Date对象兼容问题
 
 ### 3.5.2 (2021-01-16) [d9c8108]
 1. 修正文字的描述信息

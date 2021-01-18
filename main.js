@@ -1,6 +1,7 @@
 import Vue from "vue";
 import App from "./App";
 // import store from "./store";
+import mixin from "./vector/mixins";
 
 Vue.config.productionTip = false;
 
@@ -16,5 +17,4 @@ const app = new Vue({
     // store
 })
 app.$mount();
-
-
+mixin.run(Vue);

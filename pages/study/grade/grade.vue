@@ -46,7 +46,7 @@
 
             <layout v-if="adShow">
                 <!-- #ifdef MP-WEIXIN -->
-                <advertise :ad-select="adSelect" :compatible="5" @error="adShow = false"></advertise>
+                <advertise :ad-select="adSelect" :compatible="6" @error="adShow = false"></advertise>
                 <!-- #endif -->
                 <!-- #ifdef MP-QQ -->
                 <advertise :ad-select="adSelect" @error="adShow = false"></advertise>

@@ -8,7 +8,7 @@ import util from "@/modules/datetime";
 function tableDispose(info, oneDay = false) {
     const app = getApp();
     var tableArr = [];
-    var week = new Date().getDay() - 1;
+    var week = util.safeDate().getDay() - 1;
     if (week === -1) week = 6;
     info.forEach(value => {
         if (!value) return void 0;
@@ -50,7 +50,7 @@ function todoDateDiff(startDateString, endDateString, content) {
 
 
 function getCurWeek(startTime) {
-    console.log(util.formatDate())
+    console.log(util.formatDate());
     if (util.formatDate() < startTime) return 1;
     var week = (parseInt(util.dayDiff(startTime, util.formatDate()) / 7) + 1);
     return week;

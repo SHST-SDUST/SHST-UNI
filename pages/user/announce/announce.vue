@@ -33,11 +33,7 @@
                 this.data = res.data.info;
             }
         },
-        methods: {
-            copy: function(str) {
-                uni.setClipboardData({data: str})
-            }
-        }
+        methods: {}
     }
 </script>
 
