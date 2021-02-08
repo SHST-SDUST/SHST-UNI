@@ -18,9 +18,10 @@
     }
 </script>
 
-<style>
-    @import "@/vector/resources/asse.mini.wxss";
+<style lang="scss">
+    @import "@/vector/resources/asse.scss";
     @import "@/vector/resources/iconfont.wxss";
+    @import "@/vector/resources/asse.mini.wxss";
     button:after {
         border: none;
     }
@@ -30,17 +31,13 @@
         box-sizing: unset;
         padding: 0;
         margin: 0;
-        font-size: 13px;
+        font-size: inherit;
+        color: inherit;
         line-height: unset;
         height: auto;
     }
     .adapt{
         box-sizing: border-box;
-    }
-    .text-ellipsis{
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
     }
     .tips-con{
         line-height: 27px;

@@ -1,5 +1,6 @@
 @charset "utf-8";
 
+/* start --- body page --- start */
 body,
 page {
 	margin: 0;
@@ -10,33 +11,29 @@ page {
 	background-color: #F8F8F8;
 	--color-blue: #4C98F7;
 	--color-green: #009688;
+    --color-white: #FFFFFF;
 	--color-yellow: #FFB800;
 	--color-orange: #FF5722;
 }
+/* end --- body page --- end */
 
-/**
- * 动画
- */
+/* start --- 动画 --- start */
 @keyframes shallow {
 	from {
 		opacity: 1;
+        visibility: visible;
 	}
-
 	to {
 		opacity: 0.9;
+        visibility: hidden;
 	}
 }
+/* end --- 动画 --- end */
 
-/**
- * Button
- * Color Size
- */
-
+/* start --- Button --- start */
 .a-btn {
 	display: inline-block;
-	height: 36px;
-	line-height: 36px;
-	padding: 0 20px;
+	padding: 7px 15px;
 	margin: 3px;
 	border-radius: 3px;
 	text-align: center;
@@ -58,9 +55,6 @@ page {
 }
 
 .a-btn-white {
-	height: 34px;
-	line-height: 34px;
-	padding: 0 19px;
 	background: #fff;
 	color: #000;
 	border: 1px solid #eee;
@@ -74,6 +68,31 @@ page {
 	background: var(--color-orange);
 }
 
+.a-btn-success-plain {
+    color: #19be6b !important;
+    border: 1px solid #71d5a1 !important;
+    background-color: #dbf1e1 !important;
+}
+
+.a-btn-blue-plain{
+    color: #2979ff !important;
+    border: 1px solid #a0cfff !important;
+    background-color: #ecf5ff !important;
+}
+
+.a-btn-yellow-plain{
+    color: #f90 !important;
+    border: 1px solid #fcbd71 !important;
+    background-color: #fdf6ec !important;
+}
+
+.a-btn-orange-plain {
+    color: #fa3534 !important;
+    border: 1px solid #fab6b6 !important;
+    background-color: #fef0f0 !important;
+}
+
+
 .a-btn-disable {
 	background: #FBFBFB;
 	color: #C9C9C9;
@@ -82,39 +101,80 @@ page {
 }
 
 .a-btn-large {
-	height: 40px;
-	line-height: 40px;
-	padding: 0 23px;
-	font-size: 16px;
+	padding: 10px 20px;
 }
 
 .a-btn-small {
-	height: 30px;
-	line-height: 30px;
-	padding: 0 10px;
+	padding: 5px 10px;
 	font-size: 12px;
 }
 
 .a-btn-mini {
-	height: 22px;
-	line-height: 22px;
-	padding: 0 5px;
+	padding: 3px 5px;
 	border-radius: 2px;
 	font-size: 10px;
 }
 
 .a-btn-cicle {
-	height: 36px;
-	width: 36px;
-	line-height: 36px;
-	border-radius: 36px;
-	padding: 0;
+	border-radius: 50px;
 }
 
-/**
- * 组件
- */
+.a-btn-square{
+    padding: 7px 7.5px;
+}
+/* end --- Button --- end */
 
+/* start --- 颜色 --- start */
+.a-color-blue {
+	color: var(--color-blue);
+}
+
+.a-color-white {
+	color: var(--color-white);
+}
+
+.a-color-green {
+	color: var(--color-green);
+}
+
+.a-color-yellow {
+	color: var(--color-yellow);
+}
+
+.a-color-orange {
+	color: var(--color-orange);
+}
+
+.a-color-grey {
+	color: #606266;
+}
+
+.a-background-blue {
+	background-color: var(--color-blue);
+}
+
+.a-background-white {
+	background-color: var(--color-white);
+}
+
+.a-background-green {
+	background-color: var(--color-green);
+}
+
+.a-background-yellow {
+	background-color: var(--color-yellow);
+}
+
+.a-background-orange {
+	background-color: var(--color-orange);
+}
+
+.a-background-grey {
+	background-color: #EEE;
+}
+/* end --- 颜色 --- end */
+
+/* start --- 组件 --- start */
 .a-hr {
 	display: block;
 	height: 1px;
@@ -136,11 +196,9 @@ page {
 	margin-top: 10px;
 	color: #aaa;
 }
+/* end --- 组件 --- end */
 
-/**
- * 面板
- */
-
+/* start --- 面板 响应式 --- start */
 @media screen and (max-width:600px) { /* <=600 */
 	.a-panel {
 		margin: 5px;
@@ -182,11 +240,9 @@ page {
 		background: #eee;
 	}
 }
+/* end --- 面板 响应式 --- end */
 
-
-/**
- * 表格
- */
+/* start --- 表格 --- start */
 .a-table {
 	margin-top: 5px;
 	border-top: 1px solid #E6E6E6;
@@ -221,11 +277,9 @@ page {
 .a-table tbody :hover {
 	background-color: #f2f2f2;
 }
+/* end --- 表格 --- end */
 
-/**
- * 样式
- */
-
+/* start --- 样式 --- start */
 .a-show {
 	display: block !important;
 }
@@ -253,15 +307,10 @@ page {
 	margin: 2px 5px;
 	background-color: var(--color-blue);
 }
+/* end --- 样式 --- end */
 
-.a-retract{
-    padding: 0 5px;
-}
 
-/**
- * flex
- */
-
+/* start --- flex --- start */
 .a-flex{
     display: flex;
 }
@@ -290,6 +339,11 @@ page {
     flex-wrap: wrap;
 }
 
+.a-flex-column{
+    display: flex;
+    flex-direction: column;
+}
+
 .a-flex-space-between{
     display: flex;
     justify-content: space-between;
@@ -299,10 +353,9 @@ page {
     display: flex;
     justify-content: space-around;
 }
+/* end --- flex --- end */
 
-/**
- * 布局
- */
+/* start --- 布局 --- start */
 .x-full{
     width: 100%;
     box-sizing: border-box;
@@ -312,17 +365,26 @@ page {
     height: 100%;
 }
 
-.inline-block{
-    display: inline-block;
-}
-
 .text-center{
     text-align: center;
 }
 
-/**
- * 卡片
- */
+.text-ellipsis{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.inline-block{
+    display: inline-block;
+}
+
+.retract{
+    padding: 0 5px;
+}
+/* end --- 布局 --- end */
+
+/* start --- 卡片 --- start */
 .a-card .a-card-title {
 	background-color: #FFFFFF;
 	padding: 12px 5px 10px 11px;
@@ -338,10 +400,9 @@ page {
 	box-sizing: border-box;
 	margin-bottom: 15px;
 }
+/* end --- 卡片 --- end */
 
-/**
- * 表单
- */
+/* start --- 表单 --- start */
 .a-select {
 	height: 22px;
 	padding: 0 5px;
@@ -404,8 +465,9 @@ page {
 	padding: 0;
 	outline: none;
 }
+/* end --- 表单 --- end */
 
-/* 微距 */
+/* start --- 微距 --- start */
 .a-mt{
     margin-top: 3px !important;
 }
@@ -437,8 +499,9 @@ page {
 .a-pl{
     padding-left: 3px !important;
 }
+/* end --- 微距 --- end */
 
-/* 长距 */
+/* start --- 长距 --- start */
 .a-lmt{
     margin-top: 10px !important;
 }
@@ -470,3 +533,4 @@ page {
 .a-lpl{
     padding-left: 10px !important;
 }
+/* end --- 长距 --- end */
