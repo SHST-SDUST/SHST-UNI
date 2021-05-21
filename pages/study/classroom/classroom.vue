@@ -50,8 +50,8 @@
         }),
         created: function() {
             uni.$app.onload(() => {
-                var queryData = this.getTimeArr();
-                var queryTime = [
+                const queryData = this.getTimeArr();
+                const queryTime = [
                     ["12节", "0102", "12节(8:00-9:50)"],
                     ["34节", "0304", "34节(10:10-12:00)"],
                     ["56节", "0506", "56节(14:00-15:50)"],
@@ -61,16 +61,21 @@
                     ["下午", "pm", "下午(14:00-17:50)"],
                     ["全天", "allday", "全天(8:00-20:50)"]
                 ];
-                var queryFloor = [
+                const queryFloor = [
                     ["J1", "1", 1],
                     ["J3", "3", 1],
                     ["J5", "5", 1],
                     ["J7", "7", 1],
                     ["J14", "14", 1],
                     ["S1", "S1", 1],
-                    ["济1", "0301", 3],
-                    ["济2", "0302", 3],
-                    ["济3", "0303", 3],
+                    ["泰-1", "0201", 2],
+                    ["泰-2", "0202", 2],
+                    ["泰-3", "0203", 2],
+                    ["泰-4", "0204", 2],
+                    ["泰-5", "0205", 2],
+                    ["济-1", "0301", 3],
+                    ["济-2", "0302", 3],
+                    ["济-3", "0303", 3],
                 ];
                 this.queryData = queryData;
                 this.queryTime = queryTime;
@@ -78,12 +83,12 @@
             })
         },
         methods: {
-            loadClassroom:function (e) {
+            loadClassroom: function (e) {
                 uni.setNavigationBarTitle({title: "加载中..."})
                 setTimeout(() => this.loadClassroomSetTime(e), 300);
             },
             loadClassroomSetTime: async function (e) {
-                var res = await uni.$app.request({
+                const res = await uni.$app.request({
                     load: 2,
                     throttle: true,
                     url: uni.$app.data.url + "/sw/classroom",
@@ -94,16 +99,16 @@
                         searchCampus: this.searchCampus,
                     },
                 })
-                var data = res.data.data;
+                const data = res.data.data;
                 if(!data) {
                     uni.$app.toast("加载失败，请重试");
                     return void 0;
                 }
-                if (res.data.data.flag) {
+                if(res.data.data.flag) {
                     uni.$app.toast("该日期不在教学周期内");
                     return void 0;
                 }
-                if (!data[0]) data = [{
+                if(!data[0]) data = [{
                     "jxl": this.searchFloor + "号楼",
                     jsList: [{jsmc: "无空教室"}]
                 }];
@@ -114,13 +119,13 @@
                 this.searchData = this.searchData;
             },
             getTimeArr: function() {
-                var weekShow = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
-                var date = util.safeDate();
-                var year = date.getFullYear();
-                var queryDataArr = [];
-                var week = util.safeDate().getDay();
+                const weekShow = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+                const date = util.safeDate();
+                const year = date.getFullYear();
+                const queryDataArr = [];
+                const week = util.safeDate().getDay();
                 console.log(week);
-                for (var i = 0; i < 7; ++i) {
+                for (let i = 0; i < 7; ++i) {
                     let monthTemp = date.getMonth() + 1;;
                     let dayTemp = date.getDate();
                     let weekTemp = week + i;
@@ -133,7 +138,7 @@
             },
             bindPickerChange: function(e) {
                 this.index = e.detail.value;
-                var [dataIndex, timeIndex, floorIndex] = e.detail.value;
+                const [dataIndex, timeIndex, floorIndex] = e.detail.value;
                 this.searchData = this.queryData[dataIndex][0];
                 this.searchTime = this.queryTime[timeIndex][1];
                 this.searchFloor = this.queryFloor[floorIndex][1];

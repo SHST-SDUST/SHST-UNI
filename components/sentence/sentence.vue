@@ -49,6 +49,7 @@
 </script>
 <style>
     .tips{
+        color: #606266;
         margin: 6px 0 8px 3px;
     }
     .sent-image {

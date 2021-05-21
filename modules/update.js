@@ -11,7 +11,7 @@ function checkUpdate() {
                     title: "更新提示",
                     content: "新版本已经准备好，单击确定重启应用",
                     success: (res) => {
-                        if (res.confirm) uni.getUpdateManager().applyUpdate(); // applyUpdate 应用新版本并重启
+                        if(res.confirm) uni.getUpdateManager().applyUpdate(); // applyUpdate 应用新版本并重启
                     }
                 })
             })

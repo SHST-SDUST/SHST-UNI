@@ -75,6 +75,7 @@
     }
 
     .title{
+        font-size: 14px;
         align-self: center;
     }
 
