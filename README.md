@@ -1,6 +1,6 @@
 # SHST-UNI
 
-![山科小站二维码](https://cdn.jsdelivr.net/gh/SHST-SDUST/SHST-UNI/static/exhibition/shst-wx.jpg)
+![山科小站二维码](https://cdn.jsdelivr.net/gh/SHST-SDUST/SHST-UNI/vector/resources/exhibition/shst-wx.jpg)
 
 ### 配置相关
 
@@ -77,9 +77,13 @@ SHST-UNI                              // 山科小站总目录
 ```
 
 ### 小程序
-![山科小站宣传图](https://cdn.jsdelivr.net/gh/SHST-SDUST/SHST-UNI/static/exhibition/show.jpg)
+![山科小站宣传图](https://cdn.jsdelivr.net/gh/SHST-SDUST/SHST-UNI/vector/resources/exhibition/show.jpg)
 
 ## 更新日志
+
+### 3.5.6 (2021-05-21) [c8c8a41]
+1. 增加泰安校区空教室查询
+2. 调整字体大小等细节处理
 
 ### 3.5.5 (2021-03-23) [9229a8f]
 1. 处理课表异常报错
