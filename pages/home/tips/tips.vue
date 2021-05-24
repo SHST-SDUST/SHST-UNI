@@ -132,13 +132,16 @@
                 this.adSelect = uni.$app.data.initData.adSelect.tips;
                 this.adShow = true;
                 this.getTable();
-                // #ifndef MP-WEIXIN
-                this.getEvent();
-                // #endif
                 if (!uni.$app.data.userFlag) {
                     this.tips = "点我前去绑定教务系统账号";
                     this.tipsInfo = "绑定强智教务系统就可以使用山科小站咯";
                 }
+                // #ifdef MP-QQ
+                this.getEvent();
+                if(formatDate() <= "2021-05-26") this.swiper = [
+                    {img: "http://dev.shst.touchczy.top/public/static/img/exam.jpg", url: ""},
+                ];
+                // #endif
             })
             uni.$app.eventBus.on("RefreshTable", this.getRemoteTable);
         },
@@ -260,8 +263,8 @@
                 // #ifdef MP-WEIXIN
                 this.nav(url, "webview");
                 // #endif
-                // #ifndef MP-WEIXIN
-                if(formatDate() > "2021-03-15") this.copy(url);
+                // #ifdef MP-QQ
+                if(formatDate() > "2021-05-26") this.copy(url);
                 // #endif
             },
             bindSW: function() {

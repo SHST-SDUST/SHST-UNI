@@ -1,18 +1,18 @@
-import {startLoading, endLoading} from "./loading";
+import loading from "./loading";
 import {getCookies} from "./cookies";
 import {extend} from "./copy";
 import {toast} from "./toast";
 import operateLimit from "./operate-limit";
 
-var throttle = operateLimit.throttleGenerater();
-var debounce = operateLimit.debounceGenerater();
-var headers = {"content-type": "application/x-www-form-urlencoded"};
+const throttle = operateLimit.throttleGenerater();
+const debounce = operateLimit.debounceGenerater();
+const headers = {"content-type": "application/x-www-form-urlencoded"};
 
 /**
  * HTTP请求
  */
 function ajax(requestInfo) {
-    var option = {
+    const option = {
         load: 1,
         url: "",
         method: "GET",
@@ -29,8 +29,8 @@ function ajax(requestInfo) {
         completeLoad: () => {}
     };
     extend(option, requestInfo);
-    var run = function(){
-        startLoading(option);
+    const run = function(){
+        loading.start(option);
         console.log("Request for", option.url);
         uni.request({
             url: option.url,
@@ -52,7 +52,7 @@ function ajax(requestInfo) {
                         option.success(res);
                         option.resolve(res);
                     } catch (e) {
-                        option.completeLoad = () => toast("External Error");
+                        option.completeLoad = () => toast("Internal Error");
                         console.log(e);
                     }
                 }else{
@@ -65,7 +65,7 @@ function ajax(requestInfo) {
                 option.fail(res);
             },
             complete: function(res) {
-                endLoading(option);
+                loading.end(option);
                 try {
                     option.complete(res);
                 } catch (e) {

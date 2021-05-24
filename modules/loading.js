@@ -1,7 +1,7 @@
 /**
- * startLoading
+ * start
  */
-function startLoading(option) {
+function start(option) {
     switch (option.load) {
         case 1:
             uni.showNavigationBarLoading();
@@ -22,9 +22,9 @@ function startLoading(option) {
 }
 
 /**
- * endLoading
+ * end
  */
-function endLoading(option) {
+function end(option) {
     switch (option.load) {
         case 1:
             uni.hideNavigationBarLoading();
@@ -41,5 +41,5 @@ function endLoading(option) {
     }
 }
 
-export { startLoading, endLoading }
-export default { startLoading, endLoading }
+export { start as startLoading, end as endLoading }
+export default { start, end }

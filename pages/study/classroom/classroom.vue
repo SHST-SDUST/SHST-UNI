@@ -33,13 +33,14 @@
 </template>
 
 <script>
-    import util from "@/modules/datetime";
+    import loading from "@/modules/loading";
+    import datetime from "@/modules/datetime";
     export default {
         data: () => ({
             room: [],
             qShow: "",
             show: false,
-            searchData: util.formatDate(),
+            searchData: datetime.formatDate(),
             searchTime: "0102",
             searchFloor: 1,
             searchCampus: 1,
@@ -84,12 +85,15 @@
         },
         methods: {
             loadClassroom: function (e) {
-                uni.setNavigationBarTitle({title: "加载中..."})
-                setTimeout(() => this.loadClassroomSetTime(e), 300);
+                loading.start({load: 2});
+                setTimeout(async () => {
+                    await this.loadClassroomSetTime(e);
+                    loading.end({load: 2});
+                }, 300);
             },
             loadClassroomSetTime: async function (e) {
                 const res = await uni.$app.request({
-                    load: 2,
+                    load: 0,
                     throttle: true,
                     url: uni.$app.data.url + "/sw/classroom",
                     data: {
@@ -120,10 +124,10 @@
             },
             getTimeArr: function() {
                 const weekShow = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
-                const date = util.safeDate();
+                const date = datetime.safeDate();
                 const year = date.getFullYear();
                 const queryDataArr = [];
-                const week = util.safeDate().getDay();
+                const week = datetime.safeDate().getDay();
                 console.log(week);
                 for (let i = 0; i < 7; ++i) {
                     let monthTemp = date.getMonth() + 1;;

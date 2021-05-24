@@ -1,8 +1,9 @@
 import {toast} from "@/modules/toast";
 import {extend} from  "@/modules/copy";
 import request from "@/modules/request";
-import storage from "@/modules/storage.js";
-import {methods} from "@/vector/mixins.js";
+import storage from "@/modules/storage";
+import {methods} from "@/vector/mixins";
+import loading from "@/modules/loading";
 import {data} from "@/modules/global-data";
 import eventBus from "@/modules/event-bus";
 import {extDate} from "@/modules/datetime";
@@ -32,8 +33,9 @@ function disposeApp($app){
 }
 
 function initAppData(){
-    var $app = this;
-    var userInfo = storage.get("user") || {};
+    loading.start({load: 3, title: "加载中"});
+    const $app = this;
+    const userInfo = storage.get("user") || {};
     uni.login({
         // #ifdef MP-WEIXIN
         provider: "weixin",
@@ -42,10 +44,10 @@ function initAppData(){
         provider: "qq",
         // #endif
     }).then((data) => {
-        var [err,res] = data;
+        const [err, res] = data;
         if(err) return Promise.reject(err);
         return $app.$scope.request({
-            load: 3,
+            load: 0,
             // #ifdef MP-WEIXIN
             url: $app.data.url + "/auth/wx",
             // #endif
@@ -132,8 +134,10 @@ function initAppData(){
             showCancel: false,
             success: (res) => initAppData.apply($app)
         })
+    }).finally((res) => {
+        loading.end({load: 3});
     })
-    uni.request({url: "https://blog.touchczy.top/"}); // 保持CF缓存
+    // uni.request({url: "https://blog.touchczy.top/"}); // 保持CF缓存
 }
 
 /**

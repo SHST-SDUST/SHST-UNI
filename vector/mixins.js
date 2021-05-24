@@ -4,7 +4,7 @@ const filters = {
 
 const methods = {
     copy: function(str) {
-        uni.setClipboardData({data: str});
+        if(str) uni.setClipboardData({data: str});
     },
     nav: function(url, type = "nav"){
         const fail = e => console.log(e);

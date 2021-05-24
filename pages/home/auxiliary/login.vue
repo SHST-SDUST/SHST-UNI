@@ -9,11 +9,23 @@
             <view class="input-con">
                 <view class="input-view y-center x-full">
                     <i class="iconfont icon-account"></i>
-                    <input class="a-input x-full" name="account" placeholder="账号" v-model="account" type="number"></input>
+                    <input
+                        class="a-input x-full"
+                        name="account"
+                        placeholder="账号"
+                        v-model="account"
+                        type="number">
+                    </input>
                 </view>
                 <view class="input-view y-center x-full a-lmt">
                     <i class="iconfont icon-password"></i>
-                    <input class="a-input x-full" name="password" placeholder="密码" :password="hidePassword" v-model="password"></input>
+                    <input
+                        class="a-input x-full"
+                        name="password"
+                        placeholder="密码"
+                        :password="hidePassword"
+                        v-model="password"
+                    ></input>
                     <switch @change="hidePassword = !hidePassword"></switch>
                 </view>
             </view>
@@ -71,7 +83,7 @@
                 if (this.account.length == 0 || this.password.length == 0) {
                     uni.$app.toast("用户名和密码不能为空");
                 } else {
-                    var res = await uni.$app.request({
+                    const res = await uni.$app.request({
                         load: 3,
                         // #ifdef MP-WEIXIN
                         url: uni.$app.data.url + "/auth/login/1",
@@ -113,7 +125,7 @@
                 this.nav("/pages/home/tips/tips", "relunch");
             },
             reStartApp: async function(){
-                var [err,choice] = await uni.showModal({
+                const [err,choice] = await uni.showModal({
                     title: "提示",
                     content: "确定要重载小程序吗？",
                 })
