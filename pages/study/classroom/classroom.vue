@@ -112,10 +112,7 @@
                     uni.$app.toast("该日期不在教学周期内");
                     return void 0;
                 }
-                if(!data[0]) data = [{
-                    "jxl": this.searchFloor + "号楼",
-                    jsList: [{jsmc: "无空教室"}]
-                }];
+                if(!data[0]) data[0] = { "jxl": this.searchFloor + "号楼", jsList: [{jsmc: "无空教室"}]};
                 data[0].jsList.sort((a, b) => a.jsmc > b.jsmc ? 1 : -1);
                 this.room = data;
                 this.show = true;

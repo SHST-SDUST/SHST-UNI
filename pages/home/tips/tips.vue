@@ -36,7 +36,12 @@
                 <i class="iconfont icon-gonggao icon"></i>
                 <rich-text class="a-link" :nodes="article"></rich-text>
             </view>
-            <navigator url="/pages/user/announce/announce" open-type="navigate" class="article-con text-ellipsis" hover-class="none">
+            <navigator
+                url="/pages/user/announce/announce"
+                open-type="navigate"
+                class="article-con text-ellipsis"
+                hover-class="none"
+            >
                 <i class="iconfont icon-gonggao icon"></i>
                 <text class="a-link">更多公告...</text>
             </navigator>
@@ -137,8 +142,9 @@
                     this.tipsInfo = "绑定强智教务系统就可以使用山科小站咯";
                 }
                 // #ifdef MP-QQ
+                this.separateDate = "2021-06-18";
                 this.getEvent();
-                if(formatDate() <= "2021-05-26") this.swiper = [
+                if(formatDate() <= this.separateDate) this.swiper = [
                     {img: "http://dev.shst.touchczy.top/public/static/img/exam.jpg", url: ""},
                 ];
                 // #endif
@@ -264,7 +270,7 @@
                 this.nav(url, "webview");
                 // #endif
                 // #ifdef MP-QQ
-                if(formatDate() > "2021-05-26") this.copy(url);
+                if(formatDate() > this.separateDate) this.copy(url);
                 // #endif
             },
             bindSW: function() {
