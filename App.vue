@@ -3,13 +3,13 @@
     import log from "@/modules/realtime-log";
     export default {
         globalData: {},
-        onPageNotFound: (res) => { //处理404
+        onPageNotFound: () => { //处理404
             uni.reLaunch({
                 url: "pages/home/auxiliary/not-found"
-            })
+            });
         },
         onLaunch: function() {
-            console.log("APP INIT");
+            console.log("APP INIT ");
             dispose.onLaunch.apply(this); //启动加载事件
         },
         onError: (err) => {
@@ -21,7 +21,7 @@
                 console.log(e);
             }
         }
-    }
+    };
 </script>
 
 <style lang="scss">

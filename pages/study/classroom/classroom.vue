@@ -81,7 +81,7 @@
                 this.queryData = queryData;
                 this.queryTime = queryTime;
                 this.queryFloor = queryFloor;
-            })
+            });
         },
         methods: {
             loadClassroom: function (e) {
@@ -91,7 +91,7 @@
                     loading.end({load: 2});
                 }, 300);
             },
-            loadClassroomSetTime: async function (e) {
+            loadClassroomSetTime: async function() {
                 const res = await uni.$app.request({
                     load: 0,
                     throttle: true,
@@ -102,7 +102,7 @@
                         searchFloor: this.searchFloor,
                         searchCampus: this.searchCampus,
                     },
-                })
+                });
                 const data = res.data.data;
                 if(!data) {
                     uni.$app.toast("加载失败，请重试");
@@ -127,9 +127,9 @@
                 const week = datetime.safeDate().getDay();
                 console.log(week);
                 for (let i = 0; i < 7; ++i) {
-                    let monthTemp = date.getMonth() + 1;;
+                    let monthTemp = date.getMonth() + 1;
                     let dayTemp = date.getDate();
-                    let weekTemp = week + i;
+                    const weekTemp = week + i;
                     if (monthTemp < 10) monthTemp = "0" + monthTemp;
                     if (dayTemp < 10) dayTemp = "0" + dayTemp;
                     queryDataArr.push([year + "-" + monthTemp + "-" + dayTemp, weekShow[weekTemp % 7]]);
@@ -146,7 +146,7 @@
                 this.searchCampus = this.queryFloor[floorIndex][2];
             }
         }
-    }
+    };
 </script>
 
 <style scoped>

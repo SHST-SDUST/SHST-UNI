@@ -81,52 +81,52 @@
         created: function() {
             // 处理学期
             uni.$app.onload(() => {
-                var year = parseInt(uni.$app.data.curTerm.split("-")[1]);
-                var yearArr = [{ show: "全部学期", value: "" }];
-                for (var i = 1; i <= 4; ++i) {
-                    let firstTerm = (year - i) + "-" + (year - i + 1) + "-2";
-                    let secondTerm = (year - i) + "-" + (year - i + 1) + "-1";
+                const year = parseInt(uni.$app.data.curTerm.split("-")[1]);
+                const yearArr = [{ show: "全部学期", value: "" }];
+                for (let i = 1; i <= 4; ++i) {
+                    const firstTerm = (year - i) + "-" + (year - i + 1) + "-2";
+                    const secondTerm = (year - i) + "-" + (year - i + 1) + "-1";
                     if (firstTerm <= uni.$app.data.curTerm) {
-                        yearArr.push({ show: firstTerm, value: firstTerm })
+                        yearArr.push({ show: firstTerm, value: firstTerm });
                     }
                     if (secondTerm <= uni.$app.data.curTerm) {
-                        yearArr.push({ show: secondTerm, value: secondTerm })
+                        yearArr.push({ show: secondTerm, value: secondTerm });
                     }
                 }
                 this.yearArr = yearArr;
                 this.initGrade();
-            })
+            });
         },
         methods: {
             bindPickerChange: function(e) {
                 console.log(this.yearArr[e.detail.value].value);
-                var stuYear = this.yearArr[e.detail.value].value;
-                var query = (stuYear === "" ? "" : "/" + stuYear);
+                const stuYear = this.yearArr[e.detail.value].value;
+                const query = (stuYear === "" ? "" : "/" + stuYear);
                 this.showSelect = this.yearArr[e.detail.value].show;
-                this.index = e.detail.value
+                this.index = e.detail.value;
                 this.getGradeRemote(query);
             },
-            initGrade:function() {
-                var stuYear = this.showSelect = uni.$app.data.curTerm;
-                var query = (stuYear === "" ? "" : "/" + stuYear);
+            initGrade: function() {
+                const stuYear = this.showSelect = uni.$app.data.curTerm;
+                const query = (stuYear === "" ? "" : "/" + stuYear);
                 this.getGradeRemote(query);
             },
             getGradeRemote: async function(query) {
-                var res = await uni.$app.request({
+                const res = await uni.$app.request({
                     load: 2,
                     throttle: true,
                     url: uni.$app.data.url + "/sw/grade" + query,
-                })
+                });
                 if(!res.data.data) {
                     uni.$app.toast("加载失败，请重试");
                     return void 0;
                 }
                 if (res.data.data[0]) {
-                    var info = res.data.data;
-                    var point = 0;
-                    var pointN = 0;
-                    var pointW = 0;
-                    var n = 0;
+                    const info = res.data.data;
+                    let point = 0;
+                    let pointN = 0;
+                    let pointW = 0;
+                    let n = 0;
                     info.forEach(function(value) {
                         if (value.kclbmc !== "公选") {
                             n++;
@@ -143,26 +143,28 @@
                             } else if (value.zcj === "及格") {
                                 pointN += 1.5;
                                 pointW += (1.5 * value.xf);
-                            } else if (value.zcj === "不及格") {} else {
-                                var s = parseInt(value.zcj);
+                            } else if (value.zcj === "不及格") {
+                                null;
+                            } else {
+                                const s = parseInt(value.zcj);
                                 if (s >= 60) {
                                     pointN += ((s - 50) / 10);
                                     pointW += (((s - 50) / 10) * value.xf);
                                 }
                             }
                         }
-                    })
+                    });
                     this.point = point;
                     this.pointN = (pointN / n).toFixed(2);
                     this.pointW = (pointW / point).toFixed(2);
                 }
-                let defaultValue = {kclbmc: "暂无",kcmc: this.showSelect + "学期暂无成绩", ksxzmc: "暂无成绩", xf: 0, zcj: "100"}
+                const defaultValue = {kclbmc: "暂无",kcmc: this.showSelect + "学期暂无成绩", ksxzmc: "暂无成绩", xf: 0, zcj: "100"};
                 this.grade = !res.data.data[0] ? [defaultValue] : res.data.data;
                 this.adShow = this.grade.length >= 3 ? true : false;
                 this.show = true;
             }
         }
-    }
+    };
 </script>
 
 <style scoped>

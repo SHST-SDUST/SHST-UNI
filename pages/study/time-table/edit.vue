@@ -179,29 +179,29 @@
         },
         created: function() {
             uni.$app.onload(async () => {
-                var res = await uni.$app.request({
+                const res = await uni.$app.request({
                     load: 2,
                     url: uni.$app.data.url + "/sw/getCustomTable",
-                })
-                let data = JSON.parse(res.data.info)
+                });
+                const data = JSON.parse(res.data.info);
                 this.tables = data.map(v => {
-                    let tmp = {};
-                    for(let key in this.maper) tmp[key] = v[this.maper[key]];
+                    const tmp = {};
+                    for(const key in this.maper) tmp[key] = v[this.maper[key]];
                     return tmp;
-                })
+                });
                 if(this.tables.length > 0) this.operate = true;
-            })
+            });
         },
         filters: {},
         computed: {},
         methods: {
             weekPickerChange: function(e){
-                let select = e.detail.value;
+                const select = e.detail.value;
                 if(select[0] > select[1]) select[1] = select[0];
                 this.unit.week.index = select;
             },
             classPickerChange: function(e){
-                let select = e.detail.value;
+                const select = e.detail.value;
                 if(select[0] > select[1]) select[1] = select[0];
                 this.unit.time.index = select;
             },
@@ -209,8 +209,8 @@
                 this.unit.day.index = e.detail.value;
             },
             save: function(mode){
-                let unit = {};
-                let tmp = this.unit;
+                const unit = {};
+                const tmp = this.unit;
                 propsCopy(unit, tmp, "className", "classroom");
                 unit.term = uni.$app.data.curTerm;
                 unit.teacherName = tmp.teacherName || "无";
@@ -235,7 +235,7 @@
             },
             editUnit: function(index){
                 this.edit = index;
-                let unit = this.tables[index];
+                const unit = this.tables[index];
                 propsCopy(this.unit, unit, "className", "teacherName", "classroom");
                 this.unit.week.index = [unit.weekStart, unit.weekEnd];
                 this.unit.time.index = [unit.timeStart - 1, unit.timeEnd - 1];
@@ -243,33 +243,31 @@
                 uni.pageScrollTo({ scrollTop: -1 });
             },
             deleteUnit: async function(index){
-                var [err,choice] = await uni.showModal({
+                const [ , choice] = await uni.showModal({
                     title: "提示",
                     content: "确定要删除吗？",
-                })
-                if (choice.confirm) {
-                    this.tables.splice(index, 1);
-                }
+                });
+                if (choice.confirm)  this.tables.splice(index, 1);
             },
             submit: function(){
-                let data = this.tables.map(v => {
-                    let tmp = {};
-                    for(let key in this.maper) tmp[this.maper[key]] = v[key];
+                const data = this.tables.map(v => {
+                    const tmp = {};
+                    for(const key in this.maper) tmp[this.maper[key]] = v[key];
                     return tmp;
-                })
+                });
                 uni.$app.throttle(1000, async () => {
-                    var res = await uni.$app.request({
+                    await uni.$app.request({
                         load: 2,
                         method: "POST",
                         url: uni.$app.data.url + "/sw/setCustomTable",
                         data:{
                             data: JSON.stringify(data)
                         }
-                    })
+                    });
                     uni.$app.toast("保存成功");
                     this.edit = -2;
                     uni.$app.eventBus.commit("RefreshTable", uni.$app.data.curWeek);
-                })
+                });
             },
             clear: function(){
                 this.unit = {
@@ -288,7 +286,7 @@
                         index: [0, 0],
                         range: [[1, 2, 3, 4, 5], [1, 2, 3, 4, 5]]
                     }
-                }
+                };
             },
             clearAll: function(){
                 this.edit = -2;
@@ -296,7 +294,7 @@
                 this.tables = [];
             }
         }
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

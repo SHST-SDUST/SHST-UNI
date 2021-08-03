@@ -73,10 +73,10 @@
                         this.account = res.account;
                         this.password = res.password;
                     }
-                })
+                });
                 uni.$app.data.url = uni.$app.data.url.replace("/example/", "");
                 uni.$app.data.userFlag = 0;
-            })
+            });
         },
         methods: {
             enter: async function() {
@@ -89,6 +89,7 @@
                         url: uni.$app.data.url + "/auth/login/1",
                         // #endif
                         // #ifdef MP-QQ
+                        /* eslint-disable-next-line no-dupe-keys */
                         url: uni.$app.data.url + "/auth/login/2",
                         // #endif
                         method: "POST",
@@ -98,18 +99,18 @@
                             password: encodeURIComponent(this.password),
                             openid: uni.$app.data.openid
                         },
-                    })
+                    });
                     console.log(res.data);
                     if(res.data.status === 1) {
                         storage.clearPrmise().then(() => {
                             storage.setPromise("user", {
                                 account: this.account,
                                 password: this.password,
-                            }).then(succ => {
+                            }).then(() => {
                                 uni.$app.data.userFlag = 1;
                                 this.nav("/pages/home/tips/tips", "relunch");
-                            })
-                        })
+                            });
+                        });
                     }else if(res.data.status === 2) {
                         this.status = res.data.msg;
                         uni.$app.toast(res.data.msg);
@@ -125,10 +126,10 @@
                 this.nav("/pages/home/tips/tips", "relunch");
             },
             reStartApp: async function(){
-                const [err,choice] = await uni.showModal({
+                const [ , choice] = await uni.showModal({
                     title: "提示",
                     content: "确定要重载小程序吗？",
-                })
+                });
                 if(choice.confirm) {
                     uni.$app.data.openid = "";
                     uni.$app.reInitApp();
@@ -136,7 +137,7 @@
                 }
             }
         }
-    }
+    };
 </script>
 
 <style>
