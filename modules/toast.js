@@ -7,9 +7,9 @@ export const toast = function(msg, time = 2000, icon = "none") {
         icon: icon,
         mask: true,
         duration: time
-    })
-    return new Promise((resolve, reject) => setTimeout(() => resolve(msg), time));
-}
+    });
+    return new Promise(resolve => setTimeout(() => resolve(msg), time));
+};
 
 export const confirm = function(title, content){
     return new Promise(resolve => {
@@ -20,8 +20,8 @@ export const confirm = function(title, content){
                 if(choice.confirm) resolve(true);
                 else resolve(false);
             }
-        })
-    })
-}
+        });
+    });
+};
 
-export default { toast, confirm }
+export default { toast, confirm };

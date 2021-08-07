@@ -15,8 +15,8 @@ const data = {
     curTerm: "2019-2020-1",
     curTermStart: "2019-08-26",
     colorList : ["#FE9E9F", "#93BAFF", "#D999F9", "#81C784", "#FFCA62", "#FFA477"]
-}
-
+};
+ 
 console.log("Version:", data.version);
 
 if(process.env.NODE_ENV === "development"){
@@ -32,5 +32,5 @@ if(process.env.NODE_ENV === "development"){
 // ];
 
 
-export {data}
-export default {data}
+export {data};
+export default {data};

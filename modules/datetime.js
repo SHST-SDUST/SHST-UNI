@@ -5,7 +5,7 @@ const safeDate = (...args) => {
     if(args[0] !== void 0 && typeof(args[0]) === "string") args[0] = args[0].replace(/-/g, "/");
     return new Date(...args);
 };
-
+ 
 /**
  * yyyy年 MM月 dd日 hh1~12小时制(1-12) HH24小时制(0-23) mm分 ss秒 S毫秒 K周
  */

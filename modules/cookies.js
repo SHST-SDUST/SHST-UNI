@@ -4,11 +4,11 @@ import stroage from "./storage.js";
  * GetCookie
  */
 function getCookies(res) {
-    var cookies = "";
+    let cookies = "";
     if (res && res.header) {
-        for(let item in res.header){
+        for(const item in res.header){
             if(item.toLowerCase() === "set-cookie"){
-                let cookie = res.header[item].match(/.*?=.*?;/);
+                const cookie = res.header[item].match(/.*?=.*?;/);
                 cookies += cookie; // [] + "" = ""
             }
         }
@@ -19,7 +19,7 @@ function getCookies(res) {
         cookies = stroage.get("cookies") || "";
     }
     return cookies;
-}
+} 
 
-export { getCookies }
-export default { getCookies }
+export { getCookies };
+export default { getCookies };

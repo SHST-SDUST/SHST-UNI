@@ -1,5 +1,6 @@
 // 更详细的配置文档请参考：https://github.com/vuejs/eslint-plugin-vue#gear-configs
 // 不使用@vue/cli创建的话就需要在HBuildX中配置eslint-vue插件
+/* eslint-disable */
 module.exports = {
     "extends": [ "eslint:recommended", "plugin:vue/base"],
     "parserOptions": {
@@ -8,7 +9,14 @@ module.exports = {
     },
     "globals": {
         "uni": true,
-        "wx": true
+        "wx": true,
+        "console": true,
+        "process": true,
+        "setTimeout": true,
+        "setInterval": true,
+        "clearTimeout": true,
+        "clearInterval": true,
+        "Promise": true
      },
     "rules":{
         // 分号

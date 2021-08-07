@@ -3,11 +3,11 @@
  * 定时器实现 立即防抖
  */
 function debounceGenerater(){
-    var timer = null;
-    return (wait, funct, ...args) => {
+    let timer = null;
+    return (wait, funct, ...args) => { 
         clearTimeout(timer);
         timer = setTimeout(() => funct(...args), wait);
-    }
+    };
 }
 
 
@@ -29,14 +29,14 @@ function debounceGenerater(){
  * 时间戳实现
  */
 function throttleGenerater(){
-    var previous = 0;
+    let previous = 0;
     return (wait, funct, ...args) => {
-        var now = +new Date();
+        const now = +new Date();
         if(now - previous > wait){
             funct(...args);
             previous = now;
         }
-    }
+    };
 }
 
 /*
@@ -48,10 +48,10 @@ function throttleGenerater(){
         if(!timer){
             funct(...args);
             timer = setTimeout(() => timer = null, wait);
-        }  
+        }
     }
 }
  */
 
-export { debounceGenerater, throttleGenerater }
-export default { debounceGenerater, throttleGenerater }
+export { debounceGenerater, throttleGenerater };
+export default { debounceGenerater, throttleGenerater };

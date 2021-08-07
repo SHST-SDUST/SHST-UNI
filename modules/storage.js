@@ -1,4 +1,4 @@
-import {formatDate, addDate, safeDate} from "./datetime.js";
+import {safeDate} from "./datetime.js";
 
 
 const convertKey = (key) => String(key).replace(/-storage$/g, "") + "-storage"; // 避免跟之前没有封装的缓存冲突
@@ -13,14 +13,13 @@ const convertToOrigin = (str) => {
         console.log(e);
         return str;
     }
-    return str;
-}
+};
 
 const convertToStr = (origin, expire) => {
     const data = {origin, expire: null};
     if(expire) data.expire = expire.getTime();
     return JSON.stringify(data);
-}
+};
 
 const storage = {
     get: function(key){
@@ -58,7 +57,7 @@ const storage = {
     setPromise: function(key, data, expire = null){
         key = convertKey(key);
         const str = convertToStr(data, expire);
-        return uni.setStorage({ key, data: str }).then(([err, res]) => !err);
+        return uni.setStorage({ key, data: str }).then(([err]) => !err);
     },
     remove: function(key){
         key = convertKey(key);
@@ -69,7 +68,7 @@ const storage = {
     },
     removePromise: function(key){
         key = convertKey(key);
-        return uni.removeStorage({ key }).then(([err, res]) => !err);
+        return uni.removeStorage({ key }).then(([err]) => !err);
     },
     clear: function(){
         return uni.clearStorageSync();
@@ -78,8 +77,8 @@ const storage = {
         return this.clear();
     },
     clearPrmise: function(){
-        return uni.clearStorage().then(([err, res]) => !err);
+        return uni.clearStorage().then(([err]) => !err);
     }
-}
+};
 
 export default storage;

@@ -1,7 +1,7 @@
-var PubSub = function() {
+const PubSub = function() {
     this.handlers = {};
-}
-
+};
+ 
 PubSub.prototype = {
     constructor: PubSub,
     on: function(key, handler) { // 订阅
@@ -19,7 +19,7 @@ PubSub.prototype = {
         const onceHandler = (...args) => {
             handler.apply(this, args);
             this.off(key, onceHandler);
-        }
+        };
         this.handlers[key].push(onceHandler);
         return true;
     },
@@ -39,6 +39,6 @@ PubSub.prototype = {
         return true;
     },
 
-}
+};
 
 export default new PubSub();

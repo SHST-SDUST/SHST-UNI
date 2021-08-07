@@ -1,16 +1,16 @@
 const shallowCopy = function(target, ...origin) {
     return Object.assign(target, ...origin);
-}
+};
 
-const extend = shallowCopy;
+const extend = shallowCopy; 
 
 const propsCopy = function(target, origin, ...props) {
     props.forEach(v => target[v] = origin[v]);
     return target;
-}
+};
 
 const deepCopy = function(target, origin) {
-    for (let item in origin) {
+    for (const item in origin) {
         if (origin[item] && typeof(origin[item]) === "object") {
             // Object Array Date RegExp 深拷贝
             if (Object.prototype.toString.call(origin[item]) === "[object Object]") {
@@ -29,8 +29,8 @@ const deepCopy = function(target, origin) {
         }
     }
     return target;
-}
+};
 
-export { shallowCopy as extend, shallowCopy, deepCopy, propsCopy }
+export { shallowCopy as extend, shallowCopy, deepCopy, propsCopy };
 
-export default { extend, shallowCopy, deepCopy, propsCopy }
+export default { extend, shallowCopy, deepCopy, propsCopy };

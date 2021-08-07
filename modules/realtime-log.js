@@ -4,12 +4,12 @@ const log = uni.getRealtimeLogManager ? uni.getRealtimeLogManager() : null;
 
 export default {
     info: function(...args) {
-        if(!log) return void 0;
-        log.info(...args)
+        if(!log) return void 0; 
+        log.info(...args);
     },
     warn: function(...args) {
         if(!log) return void 0;
-        log.warn(...args)
+        log.warn(...args);
     },
     error: function(...args) {
         if(!log) return void 0;
@@ -25,4 +25,4 @@ export default {
         if(typeof msg !== "string") return void 0;
         log.addFilterMsg(msg);
     }
-}
+};

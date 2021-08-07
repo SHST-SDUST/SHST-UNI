@@ -74,7 +74,7 @@ function ajax(requestInfo) {
                 option.completeLoad(res);
             }
         });
-    }
+    };
     if(option.debounce) debounce(500, () => run());
     else if(option.throttle) throttle(500, () => run());
     else run();
@@ -82,17 +82,17 @@ function ajax(requestInfo) {
 
 /**
  * request promise封装
- */
+ */ 
 function request(option) {
     return new Promise((resolve,reject) => {
         option.resolve = resolve;
         option.reject = reject;
         ajax(option);
-    })
+    });
 }
 
 ajax.headers = headers;
 request.headers = headers;
 
-export { ajax, request }
-export default { ajax, request }
+export { ajax, request };
+export default { ajax, request };
