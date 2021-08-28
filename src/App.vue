@@ -25,8 +25,8 @@
 </script>
 
 <style lang="scss">
-    @import "@/vector/resources/iconfont.wxss";
-    @import "@/vector/resources/asse.mini.wxss";
+    @import "./vector/resources/iconfont.css";
+    @import "./vector/resources/asse.mini.css";
     button:after {
         border: none;
     }

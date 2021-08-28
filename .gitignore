@@ -10,7 +10,7 @@ node_modules
 .env.*.local
 
 # Log files
-.log*
+*.log*
 
 # Editor directories and files
 .idea

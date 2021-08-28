@@ -7,15 +7,16 @@ module.exports = {
         "ecmaVersion": 2017,
         "sourceType": 'module'
     },
+    "env": {
+        "browser": true,
+        "node": true,
+        "commonjs": true,
+        "es2021": true,
+    },
     "globals": {
         "uni": true,
         "wx": true,
-        "console": true,
         "process": true,
-        "setTimeout": true,
-        "setInterval": true,
-        "clearTimeout": true,
-        "clearInterval": true,
         "Promise": true
      },
     "rules":{
