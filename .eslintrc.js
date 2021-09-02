@@ -1,6 +1,7 @@
 // 更详细的配置文档请参考：https://github.com/vuejs/eslint-plugin-vue#gear-configs
 // 不使用@vue/cli创建的话就需要在HBuildX中配置eslint-vue插件
 module.exports = {
+    parser: "vue-eslint-parser",
     extends: [
         "eslint:recommended",
         "plugin:vue/base",
@@ -15,7 +16,7 @@ module.exports = {
         },
     ],
     parserOptions: {
-        ecmaVersion: 2017,
+        ecmaVersion: 2020,
         sourceType: "module",
     },
     env: {

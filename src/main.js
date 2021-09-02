@@ -9,12 +9,12 @@ Vue.config.productionTip = false;
 App.mpType = "app";
 
 mixin.run(Vue);
-Vue.component("layout",layout);
+Vue.component("layout", layout);
 
 // Vue.prototype.$store = store;
 
 const app = new Vue({
     ...App,
     // store
-})
+});
 app.$mount();
