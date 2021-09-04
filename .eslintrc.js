@@ -2,11 +2,7 @@
 // 不使用@vue/cli创建的话就需要在HBuildX中配置eslint-vue插件
 module.exports = {
     parser: "vue-eslint-parser",
-    extends: [
-        "eslint:recommended",
-        "plugin:vue/base",
-        "plugin:prettier/recommended",
-    ],
+    extends: ["eslint:recommended", "plugin:vue/base", "plugin:prettier/recommended"],
     overrides: [
         {
             files: ["*.ts"],
@@ -33,7 +29,9 @@ module.exports = {
     },
     rules: {
         // 分号
-        semi: "error",
+        "semi": "error",
+        // 对象键值引号样式保持一致
+        "quote-props": ["error", "consistent-as-needed"],
         // 箭头函数允许单参数不带括号
         "arrow-parens": ["error", "as-needed"],
         // no var

@@ -107,8 +107,5 @@
   ],
   "uni-app": {
     "scripts": {}
-  },
-  "prettier": {
-    "arrowParens": "avoid"
   }
 }
