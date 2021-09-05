@@ -1,12 +1,12 @@
 import loading from "./loading";
-import {getCookies} from "./cookies";
-import {extend} from "./copy";
-import {toast} from "./toast";
+import { getCookies } from "./cookies";
+import { extend } from "./copy";
+import { toast } from "./toast";
 import operateLimit from "./operate-limit";
 
 const throttle = operateLimit.throttleGenerater();
 const debounce = operateLimit.debounceGenerater();
-const headers = {"content-type": "application/x-www-form-urlencoded"};
+const headers = { "content-type": "application/x-www-form-urlencoded" };
 
 /**
  * HTTP请求
@@ -16,20 +16,22 @@ function ajax(requestInfo) {
         load: 1,
         url: "",
         method: "GET",
-        data:{},
+        data: {},
         cookie: true,
         debounce: false,
         throttle: false,
         headers: headers,
         success: () => {},
         resolve: () => {},
-        fail: function() { this.completeLoad = () => toast("External Error"); },
+        fail: function () {
+            this.completeLoad = () => toast("External Error");
+        },
         reject: () => {},
         complete: () => {},
-        completeLoad: () => {}
+        completeLoad: () => {},
     };
     extend(option, requestInfo);
-    const run = function(){
+    const run = function () {
         loading.start(option);
         console.log("Request for", option.url);
         uni.request({
@@ -37,15 +39,15 @@ function ajax(requestInfo) {
             data: option.data,
             method: option.method,
             header: headers,
-            success: function(res) {
-                if(option.cookie && !headers.cookie) headers.cookie = getCookies(res);
-                if(option.cookie && !headers.cookie) {
+            success: function (res) {
+                if (option.cookie && !headers.cookie) headers.cookie = getCookies(res);
+                if (option.cookie && !headers.cookie) {
                     option.fail(res);
                     option.reject(res);
                 }
-                if(res.statusCode === 200 && res.data.status){
-                    if(res.data.status === -1 && res.data.msg){
-                        option.completeLoad = (res) => toast(res.data.msg);
+                if (res.statusCode === 200 && res.data.status) {
+                    if (res.data.status === -1 && res.data.msg) {
+                        option.completeLoad = res => toast(res.data.msg);
                         return void 0;
                     }
                     try {
@@ -55,16 +57,15 @@ function ajax(requestInfo) {
                         option.completeLoad = () => toast("Internal Error");
                         console.log(e);
                     }
-                }else{
+                } else {
                     option.fail(res);
                     option.reject(res);
                 }
-
             },
-            fail: function(res) {
+            fail: function (res) {
                 option.fail(res);
             },
-            complete: function(res) {
+            complete: function (res) {
                 loading.end(option);
                 try {
                     option.complete(res);
@@ -72,19 +73,19 @@ function ajax(requestInfo) {
                     console.log(e);
                 }
                 option.completeLoad(res);
-            }
+            },
         });
     };
-    if(option.debounce) debounce(500, () => run());
-    else if(option.throttle) throttle(500, () => run());
+    if (option.debounce) debounce(500, () => run());
+    else if (option.throttle) throttle(500, () => run());
     else run();
 }
 
 /**
  * request promise封装
- */ 
+ */
 function request(option) {
-    return new Promise((resolve,reject) => {
+    return new Promise((resolve, reject) => {
         option.resolve = resolve;
         option.reject = reject;
         ajax(option);
