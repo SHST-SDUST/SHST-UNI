@@ -1,4 +1,4 @@
-import stroage from "./storage.js";
+import storage from "./storage.js";
 
 /**
  * GetCookie
@@ -6,20 +6,20 @@ import stroage from "./storage.js";
 function getCookies(res) {
     let cookies = "";
     if (res && res.header) {
-        for(const item in res.header){
-            if(item.toLowerCase() === "set-cookie"){
+        for (const item in res.header) {
+            if (item.toLowerCase() === "set-cookie") {
                 const cookie = res.header[item].match(/.*?=.*?;/);
                 cookies += cookie; // [] + "" = ""
             }
         }
         console.log("SetCookie:", cookies);
-        stroage.setPromise("cookies", cookies);
+        storage.setPromise("cookies", cookies);
     } else {
         console.log("Get Cookie From Cache");
-        cookies = stroage.get("cookies") || "";
+        cookies = storage.get("cookies") || "";
     }
     return cookies;
-} 
+}
 
 export { getCookies };
 export default { getCookies };
