@@ -94,6 +94,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^7.17.0",
     "jest": "^25.4.0",
+    "lint-staged": "^11.1.2",
     "mini-types": "*",
     "miniprogram-api-typings": "*",
     "postcss-comment": "^2.0.0",
@@ -108,5 +109,14 @@
   ],
   "uni-app": {
     "scripts": {}
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,vue,ts}": [
+      "eslint --fix",
+      "git add"
+    ]
   }
 }
