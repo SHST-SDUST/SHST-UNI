@@ -57,7 +57,7 @@
 </template>
 
 <script>
-    import storage from "@/modules/storage.js";
+    import storage from "@/modules/storage";
     export default {
         data: () => ({
                 account: "",

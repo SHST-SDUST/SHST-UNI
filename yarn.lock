@@ -9975,6 +9975,15 @@ shellwords@^0.1.1:
   resolved "https://registry.nlark.com/shellwords/download/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
   integrity sha1-1rkYHBpI05cyTISHHvvPxz/AZUs=
 
+shst-campus@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.nlark.com/shst-campus/download/shst-campus-1.0.0.tgz#0c8630b5d11a0ec272022ea4f198a5d7bceee929"
+  integrity sha1-DIYwtdEaDsJyAi6k8Zil17zu6Sk=
+  dependencies:
+    vue "^2.6.11"
+    vue-class-component "^6.3.2"
+    vue-property-decorator "^8.0.0"
+
 side-channel@^1.0.4:
   version "1.0.4"
   resolved "https://registry.nlark.com/side-channel/download/side-channel-1.0.4.tgz#efce5c8fdc104ee751b25c58d4290011fa5ea2cf"

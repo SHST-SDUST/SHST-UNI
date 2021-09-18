@@ -1,4 +1,4 @@
-import { safeDate } from "./datetime.js";
+import { safeDate } from "./datetime";
 
 const convertKey = key => String(key).replace(/-storage$/g, "") + "-storage"; // 避免跟之前没有封装的缓存冲突
 

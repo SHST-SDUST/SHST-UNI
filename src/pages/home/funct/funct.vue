@@ -1,13 +1,12 @@
 <template>
     <view>
-
-        <layout title="学习" color="#FF6347" inherit-color>
+        <c-card title="学习" color="#FF6347" inherit-color>
             <view class="y-center">
                 <view class="icon" @click="jump('/pages/study/time-table/time-table', 1)">
                     <i class="iconfont icon-kebiao"></i>
                     <view>查课表</view>
                 </view>
-                <view class="icon"  @click="jump('/pages/study/classroom/classroom', 1)">
+                <view class="icon" @click="jump('/pages/study/classroom/classroom', 1)">
                     <i class="iconfont icon-classroom"></i>
                     <view>查教室</view>
                 </view>
@@ -20,9 +19,9 @@
                     <view>共享课表</view>
                 </view>
             </view>
-        </layout>
+        </c-card>
 
-        <layout title="信息" color="#3CB371;" inherit-color>
+        <c-card title="信息" color="#3CB371;" inherit-color>
             <view class="y-center">
                 <view class="icon" @click="jump('/pages/library/library/search', 0)">
                     <i class="iconfont icon-lib"></i>
@@ -33,19 +32,37 @@
                     <view>借阅查询</view>
                 </view>
                 <!-- #ifdef MP-WEIXIN -->
-                <navigator class="icon" target="miniProgram" app-id="wxa53da62a53aaddea" hover-class="none" version="release">
-                    <i class="iconfont icon-lubiao-xf "></i>
+                <navigator
+                    class="icon"
+                    target="miniProgram"
+                    app-id="wxa53da62a53aaddea"
+                    hover-class="none"
+                    version="release"
+                >
+                    <i class="iconfont icon-lubiao-xf"></i>
                     <view>迎新专版</view>
                 </navigator>
-                <navigator class="icon" target="miniProgram" app-id="wx3e1205c6aa103080" hover-class="none" version="release">
-                    <i class="iconfont icon-shujia "></i>
+                <navigator
+                    class="icon"
+                    target="miniProgram"
+                    app-id="wx3e1205c6aa103080"
+                    hover-class="none"
+                    version="release"
+                >
+                    <i class="iconfont icon-shujia"></i>
                     <view>二手教材</view>
                 </navigator>
                 <!-- #endif -->
 
                 <!-- #ifdef MP-QQ -->
-                <navigator class="icon" target="miniProgram" app-id="1110074303" hover-class="none" version="release">
-                    <i class="iconfont icon-lubiao-xf "></i>
+                <navigator
+                    class="icon"
+                    target="miniProgram"
+                    app-id="1110074303"
+                    hover-class="none"
+                    version="release"
+                >
+                    <i class="iconfont icon-lubiao-xf"></i>
                     <view>迎新专版</view>
                 </navigator>
                 <!-- <navigator class="icon" url="/pages/sdust/news/news" open-type="switchTab" hover-class="none" >
@@ -53,11 +70,10 @@
                     <view>新鲜事</view>
                 </navigator> -->
                 <!-- #endif -->
-
             </view>
-        </layout>
+        </c-card>
 
-        <layout title="科大" color="#9F8BEC;" inherit-color>
+        <c-card title="科大" color="#9F8BEC;" inherit-color>
             <view class="y-center">
                 <view class="icon" @click="jump('/pages/sdust/map/map', 0)">
                     <i class="iconfont icon-map"></i>
@@ -76,9 +92,9 @@
                     <view>校园导览</view>
                 </view>
             </view>
-        </layout>
+        </c-card>
 
-        <layout title="拓展" color="#6495ED" inherit-color>
+        <c-card title="拓展" color="#6495ED" inherit-color>
             <view class="y-center">
                 <view class="icon" @click="jump('/pages/ext/link/link', 0)">
                     <i class="iconfont icon-link"></i>
@@ -94,9 +110,9 @@
                     <i class="iconfont icon-biji-copy"></i>
                     <view>考试安排</view>
                 </view>
-                
+
                 <!-- #ifdef MP-WEIXIN -->
-                               <navigator
+                <navigator
                     class="icon"
                     target="miniProgram"
                     app-id="wx3e1205c6aa103080"
@@ -113,26 +129,25 @@
                     <i class="iconfont icon-xuehao"></i>
                     <view>校园卡</view>
                 </view>
-
             </view>
-        </layout>
+        </c-card>
 
-        <layout v-if="adShow" top-space>
+        <c-card v-if="adShow" top-space>
             <!-- #ifdef MP-WEIXIN -->
             <advertise :ad-select="adSelect" @error="adShow = false"></advertise>
             <!-- #endif -->
             <!-- #ifdef MP-QQ -->
             <advertise :ad-select="0" @error="adShow = false"></advertise>
             <!-- #endif -->
-        </layout>
+        </c-card>
 
-        <layout title="数据" color="#FF6347" inherit-color>
+        <c-card title="数据" color="#FF6347" inherit-color>
             <view class="y-center">
                 <view class="icon" @click="jump('/pages/study/classroom/search-classes', 1)">
                     <i class="iconfont icon-kebiao1"></i>
                     <view>教室课表</view>
                 </view>
-                <view class="icon"  @click="jump('/pages/study/table-share/join-classes', 1)">
+                <view class="icon" @click="jump('/pages/study/table-share/join-classes', 1)">
                     <i class="iconfont icon-tubiao-"></i>
                     <view>蹭课查询</view>
                 </view>
@@ -144,72 +159,77 @@
                     <i class="iconfont icon-gonggao1"></i>
                     <view>校内公告</view>
                 </view>
-                
+
                 <!-- #ifdef MP-WEIXIN -->
-                <navigator class="icon" target="miniProgram" app-id="wx2facb7b57eedf7e6" hover-class="none" version="release">
+                <navigator
+                    class="icon"
+                    target="miniProgram"
+                    app-id="wx2facb7b57eedf7e6"
+                    hover-class="none"
+                    version="release"
+                >
                     <i class="iconfont icon-ku"></i>
                     <view>资料分享</view>
                 </navigator>
                 <!-- #endif -->
-                
+
                 <!-- #ifdef MP-QQ -->
                 <button open-type="feedback" class="icon" hover-class="none">
                     <i class="iconfont icon-bianji"></i>
                     <view>意见反馈</view>
                 </button>
                 <!-- #endif -->
-
             </view>
-        </layout>
-
+        </c-card>
     </view>
 </template>
 
 <script>
-    import {formatDate} from "@/modules/datetime";
-    import advertise from "@/components/advertise/advertise.vue";
-    export default {
-        components:{ advertise },
-        data: () => ({
-            adShow: true,
-            now: formatDate(),
-            adSelect: uni.$app.data.initData.adSelect
-        }),
-        methods: {
-            jump: async function(path, check) {
-                if (check === 1 && uni.$app.data.userFlag !== 1) {
-                    let [err, choice] = await uni.showModal({
-                        title: "提示",
-                        content: "该功能需要绑定强智教务系统，是否前去绑定",
-                    })
-                    if (choice.confirm) {
-                        this.nav("/pages/home/auxiliary/login?status=E");
-                    }
-                    return void 0;
+import { formatDate } from "@/modules/datetime";
+import advertise from "@/components/advertise/advertise.vue";
+import CCard from "@shst-campus/card/card.vue";
+export default {
+    components: { advertise, CCard },
+    data: () => ({
+        adShow: true,
+        now: formatDate(),
+        adSelect: uni.$app.data.initData.adSelect,
+    }),
+    methods: {
+        jump: async function (path, check) {
+            if (check === 1 && uni.$app.data.userFlag !== 1) {
+                const [err, choice] = await uni.showModal({
+                    title: "提示",
+                    content: "该功能需要绑定强智教务系统，是否前去绑定",
+                });
+                if (choice.confirm) {
+                    this.nav("/pages/home/auxiliary/login?status=E");
                 }
-                this.nav(path);
+                return void 0;
             }
-        }
-    }
+            this.nav(path);
+        },
+    },
+};
 </script>
 
 <style>
-    .icon {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 5px 0;
-    }
+.icon {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 0;
+}
 
-    .icon view {
-        color: #000000;
-    }
+.icon view {
+    color: #000000;
+}
 
-    .iconfont {
-        font-size: 27px;
-        color: inherit !important;
-        margin: 10px 0;
-    }
+.iconfont {
+    font-size: 27px;
+    color: inherit !important;
+    margin: 10px 0;
+}
 </style>

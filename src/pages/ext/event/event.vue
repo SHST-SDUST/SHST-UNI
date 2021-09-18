@@ -60,10 +60,10 @@
 </template>
 
 <script>
-    import storage from "@/modules/storage.js";
-    import {todoDateDiff} from "@/vector/pub-fct.js";
+    import storage from "@/modules/storage";
+    import {todoDateDiff} from "@/vector/pub-fct";
     import headslot from "@/components/headslot/headslot.vue";
-    import {formatDate, safeDate, addDate} from "@/modules/datetime.js";
+    import {formatDate, safeDate, addDate} from "@/modules/datetime";
     export default {
         components: { headslot },
         data: () => ({
@@ -79,28 +79,28 @@
                 this.dataEnd = formatDate("yyyy-MM-dd", addDate(safeDate(), 1));
                 storage.remove("event");
                 if(uni.$app.data.openid === "") {
-                    this.tips = "未正常获取用户信息"
+                    this.tips = "未正常获取用户信息";
                 }else{
-                    var res = await uni.$app.request({
+                    const res = await uni.$app.request({
                         load: 2,
                         url: uni.$app.data.url + "/todo/getEvent",
-                    })
+                    });
                     if(res.data.data) {
                         if (res.data.data.length === 0) {
-                            this.tips = "暂没有待办事项"
+                            this.tips = "暂没有待办事项";
                             return void 0;
                         }
-                        var curData = formatDate();
+                        const curData = formatDate();
                         res.data.data.map(function(value) {
                             [value.diff, value.color] = todoDateDiff(curData, value.todo_time, value.event_content);
                             return value;
-                        })
+                        });
                         console.log(res.data.data);
-                        this.todoList = res.data.data
-                        this.count = res.data.data.length
+                        this.todoList = res.data.data;
+                        this.count = res.data.data.length;
                     }
                 }
-            })
+            });
         },
         methods: {
             add: async function() {
@@ -108,17 +108,17 @@
                     uni.$app.toast("事件内容不能为空");
                     return void 0;
                 }
-                var res = await uni.$app.request({
+                const res = await uni.$app.request({
                     url: uni.$app.data.url + "/todo/addEvent",
                     method: "POST",
                     data: {
                         content: this.addContent,
                         date: this.dataDo
                     }
-                })
-                var todoArr = this.todoList;
-                var curData = formatDate();
-                var diff_color = todoDateDiff(curData, this.dataDo, this.addContent);
+                });
+                const todoArr = this.todoList;
+                const curData = formatDate();
+                const diff_color = todoDateDiff(curData, this.dataDo, this.addContent);
                 todoArr.push({
                     event_content: this.addContent,
                     todo_time: this.dataDo,
@@ -133,16 +133,16 @@
                 uni.$app.toast("添加成功");
             },
             setStatus: async function(id, index) {
-                var [err,choice] = await uni.showModal({
+                const [err,choice] = await uni.showModal({
                     title: "提示",
                     content: "确定标记为已完成吗",
-                })
+                });
                 if (choice.confirm) {
-                    var res = await uni.$app.request({
+                    const res = await uni.$app.request({
                         url: uni.$app.data.url + "/todo/setStatus",
                         method: "POST",
                         data: {id},
-                    })
+                    });
                     uni.$app.toast("标记成功");
                     this.todoList.splice(index, 1);
                     this.todoList = this.todoList;
@@ -151,25 +151,25 @@
                 }
             },
             deleteUnit: async function(id, index) {
-                var [err,choice] = await uni.showModal({
+                const [err,choice] = await uni.showModal({
                     title: "提示",
                     content: "确定删除吗",
-                })
+                });
                 if (choice.confirm) {
-                    var res = await uni.$app.request({
+                    const res = await uni.$app.request({
                         url: uni.$app.data.url + "/todo/deleteUnit",
                         method: "POST",
                         data: {id},
-                    })
+                    });
                     uni.$app.toast("删除成功");
                     this.todoList.splice(index, 1);
                     this.todoList = this.todoList;
-                    this.tips = this.todoList.length === 0 ? "暂没有待办事项" : ""
+                    this.tips = this.todoList.length === 0 ? "暂没有待办事项" : "";
                     this.count = this.count - 1;
                 }
             },
         }
-    }
+    };
 </script>
 
 <style scoped>
