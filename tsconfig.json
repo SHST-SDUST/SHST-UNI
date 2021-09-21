@@ -22,9 +22,6 @@
       "@/*": [
         "./src/*"
       ],
-      "@shst-campus/*": [
-        "./node_modules/shst-campus/*"
-      ]
     },
     "lib": [
       "esnext",

@@ -6,3 +6,9 @@ declare module "*.vue" {
 interface Date {
     addDate(): function;
 }
+
+declare namespace UniApp {
+    interface Uni {
+        $app: any; // 之后补充
+    }
+}

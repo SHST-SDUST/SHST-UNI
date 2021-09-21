@@ -187,7 +187,7 @@
 <script>
 import { formatDate } from "@/modules/datetime";
 import advertise from "@/components/advertise/advertise.vue";
-import CCard from "@shst-campus/card/card.vue";
+import { CCard } from "shst-campus";
 export default {
     components: { advertise, CCard },
     data: () => ({
@@ -198,7 +198,7 @@ export default {
     methods: {
         jump: async function (path, check) {
             if (check === 1 && uni.$app.data.userFlag !== 1) {
-                const [err, choice] = await uni.showModal({
+                const [, choice] = await uni.showModal({
                     title: "提示",
                     content: "该功能需要绑定强智教务系统，是否前去绑定",
                 });
