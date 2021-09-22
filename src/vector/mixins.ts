@@ -1,8 +1,15 @@
 import Vue from "vue";
+declare module "vue/types/vue" {
+    interface Vue {
+        copy: (str: string) => void;
+        nav: (url: string, type?: string) => void;
+        viewImage: (url: string, list: Array<string>) => void;
+    }
+}
 
-const filters: { [key: string]: () => string } = {};
+export const filters: { [key: string]: () => string } = {};
 
-const methods = {
+export const methods = {
     copy: (str: string): void => {
         if (str) uni.setClipboardData({ data: str });
     },
@@ -33,9 +40,7 @@ const methods = {
 };
 
 const filterMount = (): void => {
-    Object.keys(filters).forEach((key: string) =>
-        Vue.filter(key, filters[key])
-    );
+    Object.keys(filters).forEach((key: string) => Vue.filter(key, filters[key]));
 };
 
 const methodMount = (): void => {
@@ -47,5 +52,4 @@ const run = (): void => {
     methodMount();
 };
 
-export { filters, methods };
 export default { run };

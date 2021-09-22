@@ -184,33 +184,36 @@
     </view>
 </template>
 
-<script>
+<script lang="ts">
 import { formatDate } from "@/modules/datetime";
 import advertise from "@/components/advertise/advertise.vue";
-import { CCard } from "shst-campus";
-export default {
+import CCard from "shst-campus/lib/c-card/c-card.vue";
+// import { CCard } from "shst-campus";
+// export default Vue.extend({
+//     components: { CCard },
+// });
+import { confirm } from "@/modules/toast";
+import { Component, Vue } from "vue-property-decorator";
+
+@Component({
     components: { advertise, CCard },
-    data: () => ({
-        adShow: true,
-        now: formatDate(),
-        adSelect: uni.$app.data.initData.adSelect,
-    }),
-    methods: {
-        jump: async function (path, check) {
-            if (check === 1 && uni.$app.data.userFlag !== 1) {
-                const [, choice] = await uni.showModal({
-                    title: "提示",
-                    content: "该功能需要绑定强智教务系统，是否前去绑定",
-                });
-                if (choice.confirm) {
-                    this.nav("/pages/home/auxiliary/login?status=E");
-                }
-                return void 0;
+})
+export default class Funct extends Vue {
+    adShow: boolean = true;
+    now: string = formatDate();
+    adSelect: number = uni.$app.data.initData.adSelect;
+
+    async jump(path: string, check: number) {
+        if (check === 1 && uni.$app.data.userFlag !== 1) {
+            const choice = await confirm("提示", "该功能需要绑定强智教务系统，是否前去绑定");
+            if (choice) {
+                this.nav("/pages/home/auxiliary/login?status=E");
             }
-            this.nav(path);
-        },
-    },
-};
+            return void 0;
+        }
+        this.nav(path);
+    }
+}
 </script>
 
 <style>

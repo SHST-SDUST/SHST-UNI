@@ -10134,10 +10134,10 @@ shellwords@^0.1.1:
   resolved "https://registry.nlark.com/shellwords/download/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
   integrity sha1-1rkYHBpI05cyTISHHvvPxz/AZUs=
 
-shst-campus@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.nlark.com/shst-campus/download/shst-campus-1.1.0.tgz?cache=0&sync_timestamp=1632235718716&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fshst-campus%2Fdownload%2Fshst-campus-1.1.0.tgz#2be8f828afac31169b890effdf43af307ebf5cb6"
-  integrity sha1-K+j4KK+sMRabiQ7/30OvMH6/XLY=
+shst-campus@1.1.1:
+  version "1.1.1"
+  resolved "https://mirrors.tencent.com/npm/shst-campus/-/shst-campus-1.1.1.tgz#a346acc3448729a24e8f100f93e2ba019f107316"
+  integrity sha512-2F3JPe5TbMBdGFQm5wxNaE4jE+wZ2mzWWgouOvXlXvIGevsLJ/uDFKOT8Mbkqpjsb0++eOtAT+lEAQb1Ee7+Hg==
   dependencies:
     vue "^2.6.11"
     vue-class-component "^6.3.2"
