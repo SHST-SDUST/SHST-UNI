@@ -187,11 +187,7 @@
 <script lang="ts">
 import { formatDate } from "@/modules/datetime";
 import advertise from "@/components/advertise/advertise.vue";
-import CCard from "shst-campus/lib/c-card/c-card.vue";
-// import { CCard } from "shst-campus";
-// export default Vue.extend({
-//     components: { CCard },
-// });
+import { CCard } from "shst-campus";
 import { confirm } from "@/modules/toast";
 import { Component, Vue } from "vue-property-decorator";
 
