@@ -3,7 +3,7 @@ import storage from "./storage";
 /**
  * GetCookie
  */
-function getCookies(res) {
+export const getCookies = (res: { header: { [key: string]: string } }): string => {
     let cookies = "";
     if (res && res.header) {
         for (const item in res.header) {
@@ -19,7 +19,6 @@ function getCookies(res) {
         cookies = storage.get("cookies") || "";
     }
     return cookies;
-}
+};
 
-export { getCookies };
 export default { getCookies };

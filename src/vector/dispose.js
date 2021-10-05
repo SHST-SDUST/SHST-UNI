@@ -9,7 +9,7 @@ import eventBus from "@/modules/event-bus";
 import { extDate } from "@/modules/datetime";
 import { getCurWeek } from "@/vector/pub-fct";
 import { checkUpdate } from "@/modules/update";
-import { throttleGenerater } from "@/modules/operate-limit";
+import { throttle } from "@/modules/operate-limit";
 
 function disposeApp($app) {
     extDate(); //拓展Date原型
@@ -19,12 +19,12 @@ function disposeApp($app) {
     $app.$scope.extend = extend;
     $app.data = $app.globalData;
     $app.$scope.data = $app.data;
+    $app.$scope.throttle = throttle;
     $app.$scope.eventBus = eventBus;
     $app.$scope.extend($app.data, data);
     $app.$scope.extend($app.$scope, request);
     $app.data.colorN = $app.data.colorList.length;
     $app.$scope.reInitApp = initAppData.bind($app);
-    $app.$scope.throttle = new throttleGenerater();
     $app.data.curWeek = getCurWeek($app.data.curTermStart);
     $app.$scope.onload = (funct, ...args) => {
         if ($app.data.openid) funct(...args);
@@ -34,6 +34,7 @@ function disposeApp($app) {
 
 function initAppData() {
     loading.start({ load: 3, title: "加载中" });
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const $app = this;
     const userInfo = storage.get("user") || {};
     uni.login({
@@ -41,6 +42,7 @@ function initAppData() {
         provider: "weixin",
         // #endif
         // #ifdef MP-QQ
+        // eslint-disable-next-line no-dupe-keys
         provider: "qq",
         // #endif
     })
@@ -53,6 +55,7 @@ function initAppData() {
                 url: $app.data.url + "/auth/wx",
                 // #endif
                 // #ifdef MP-QQ
+                // eslint-disable-next-line no-dupe-keys
                 url: $app.data.url + "/auth/QQ",
                 // #endif
                 method: "POST",
@@ -85,10 +88,7 @@ function initAppData() {
 
             /* 用户使用信息  1 已注册用户  2 未注册用户*/
             $app.data.userFlag = response.status === 1 ? 1 : 0;
-            console.log(
-                "Status:",
-                $app.data.userFlag === 1 ? "User Login" : "New user"
-            );
+            console.log("Status:", $app.data.userFlag === 1 ? "User Login" : "New user");
 
             /* dot */
             const notify = response.initData.tips;

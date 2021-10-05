@@ -195,11 +195,11 @@ import { Component, Vue } from "vue-property-decorator";
     components: { advertise, CCard },
 })
 export default class Funct extends Vue {
-    adShow: boolean = true;
-    now: string = formatDate();
-    adSelect: number = uni.$app.data.initData.adSelect;
+    public adShow = true;
+    public now: string = formatDate();
+    public adSelect: number = uni.$app.data.initData.adSelect;
 
-    async jump(path: string, check: number) {
+    public async jump(path: string, check: number): Promise<void> {
         if (check === 1 && uni.$app.data.userFlag !== 1) {
             const choice = await confirm("提示", "该功能需要绑定强智教务系统，是否前去绑定");
             if (choice) {
