@@ -1,18 +1,24 @@
 type PossibleParams = string | number | boolean | undefined | null | void | Record<string, unknown>;
+type LimitFunction = <T extends PossibleParams[]>(
+    wait: number,
+    funct: (...args: T) => void,
+    ...args: T
+) => void;
 
 /**
  * 防抖
  * 定时器实现 立即防抖
  */
-const debounceGenerator = () => {
+const debounceGenerator = (): LimitFunction => {
     let timer: number;
-    return <T extends PossibleParams[]>(wait: number, funct: (...args: T) => void, ...args: T) => {
+    return (wait, funct, ...args) => {
         clearTimeout(timer);
         timer = setTimeout(() => funct(...args), wait);
     };
 };
 export const debounce = debounceGenerator();
 
+// debounce(500, (n1: number, n2: number) => n1 + n2, 1, 2);
 // debounce<[number, number]>(500, (n1: number, n2: number) => n1 + n2, 1, 2);
 
 /**
@@ -32,9 +38,9 @@ function debounceGenerator(){
  * 节流
  * 时间戳实现
  */
-const throttleGenerator = () => {
+const throttleGenerator = (): LimitFunction => {
     let previous = 0;
-    return <T extends PossibleParams[]>(wait: number, funct: (...args: T) => void, ...args: T) => {
+    return (wait, funct, ...args) => {
         const now = +new Date();
         if (now - previous > wait) {
             funct(...args);
@@ -44,6 +50,7 @@ const throttleGenerator = () => {
 };
 export const throttle = throttleGenerator();
 
+// throttle(500, (n1: number, n2: number) => n1 + n2, 1, 2);
 // throttle<[number, number]>(500, (n1: number, n2: number) => n1 + n2, 1, 2);
 
 /*

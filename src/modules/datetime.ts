@@ -38,6 +38,18 @@ export function safeDate(
     }
     throw new Error("No suitable parameters");
 }
+
+// type DateParams =
+//     | []
+//     | [string]
+//     | [number, number?, number?, number?, number?, number?, number?]
+//     | [Date];
+// const safeDate = <T extends DateParams>(...args: T): Date => {
+//     const copyParams = args.slice(0);
+//     if (typeof copyParams[0] === "string") copyParams[0] = copyParams[0].replace(/-/g, "/");
+//     return new Date(...(args as ConstructorParameters<typeof Date>));
+// };
+
 /**
  * yyyy年 MM月 dd日 hh1~12小时制(1-12) HH24小时制(0-23) mm分 ss秒 S毫秒 K周
  */
@@ -65,6 +77,7 @@ export const formatDate = (fmt = "yyyy-MM-dd", date = safeDate()): string => {
     });
     return fmt;
 };
+
 /**
  * 增加时间
  */
@@ -74,6 +87,7 @@ export const addDate = (date: Date, years = 0, months = 0, days = 0): Date => {
     if (years !== 0) date.setFullYear(date.getFullYear() + years);
     return date;
 };
+
 /**
  * 拓展Date原型 增加时间
  */
@@ -84,6 +98,7 @@ export const extDate = (): void => {
         if (years !== 0) this.setFullYear(this.getFullYear() + years);
     };
 };
+
 /**
  * 日期相差天数
  */
@@ -96,6 +111,7 @@ export const dayDiff = (startDateString: string, endDateString: string): number 
     const diff = Math.floor((endDate.getTime() - startDate.getTime()) / 1000 / 60 / 60 / 24); //把相差的毫秒数转换为天数
     return diff;
 };
+
 /**
  * 精确的时间差
  */
@@ -117,4 +133,5 @@ export const timeDiff = (
     const seconds = Math.floor(diffTime % 60);
     return { days, hours, minutes, seconds };
 };
+
 export default { safeDate, formatDate, extDate, dayDiff, addDate, timeDiff };
