@@ -1,23 +1,25 @@
-/**
- * 引入`*.vue`的`module`
- */
+// 引入`*.vue`的`module`
 declare module "*.vue" {
     import Vue from "vue/types/vue";
     export default Vue;
 }
 
-/**
- * `Date`原型方法
- */
+// `Date`原型方法
 interface Date {
     addDate: (years: number, months: number, days: number) => void;
 }
 
-/**
- * `$app`全局对象
- */
+// `uni.$app`全局对象
 declare namespace UniApp {
     interface Uni {
-        $app: any; // 之后补充
+        $app: {
+            data: import("./modules/global-data").Data;
+            throttle: typeof import("./modules/operate-limit").throttle;
+            eventBus: typeof import("./modules/event-bus").default;
+            request: typeof import("./modules/request").request;
+            ajax: typeof import("./modules/request").ajax;
+            reInitApp: () => void;
+            onload: <T extends Array<unknown>>(funct: (...args: T) => void, ...args: T) => void;
+        };
     }
 }

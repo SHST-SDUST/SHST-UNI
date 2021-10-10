@@ -1,6 +1,6 @@
 const shallowCopy = function (
     target: Record<string, unknown>,
-    ...origin: Record<string, unknown>[]
+    ...origin: Array<Record<string, unknown>>
 ): Record<string, unknown> {
     return Object.assign(target, ...origin);
 };
@@ -10,7 +10,7 @@ const extend = shallowCopy;
 const propsCopy = function (
     target: Record<string, unknown>,
     origin: Record<string, unknown>,
-    ...props: string[]
+    ...props: Array<string>
 ): Record<string, unknown> {
     props.forEach(v => (target[v] = origin[v]));
     return target;

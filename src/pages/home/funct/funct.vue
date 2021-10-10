@@ -197,7 +197,7 @@ import { Component, Vue } from "vue-property-decorator";
 export default class Funct extends Vue {
     public adShow = true;
     public now: string = formatDate();
-    public adSelect: number = uni.$app.data.initData.adSelect;
+    public adSelect: number = uni.$app.data.initData.adSelect.funct;
 
     public async jump(path: string, check: number): Promise<void> {
         if (check === 1 && uni.$app.data.userFlag !== 1) {
