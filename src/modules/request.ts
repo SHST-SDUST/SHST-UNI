@@ -29,19 +29,14 @@ export interface RequestInfo {
     [key: string]: unknown;
 }
 
-export type RequestOptions = RequestInfo & {
-    resolve?: (res: UniApp.RequestSuccessCallbackResult) => void;
-    reject?: (res: UniApp.GeneralCallbackResult) => void;
-};
-
 type NoUndefinedField<T> = { [P in keyof T]-?: NonNullable<T[P]> };
 
-export type RequestOptionsAllNeeded = NoUndefinedField<RequestOptions>;
+export type RequestOptionsAllNeeded = NoUndefinedField<RequestInfo>;
 
 /**
  * HTTP请求
  */
-export const ajax = (requestInfo: RequestOptions): void => {
+export const ajax = (requestInfo: RequestInfo): void => {
     const option: RequestOptionsAllNeeded = {
         title: "",
         load: 1,
@@ -53,11 +48,9 @@ export const ajax = (requestInfo: RequestOptions): void => {
         throttle: false,
         headers: headers,
         success: () => void 0,
-        resolve: () => void 0,
         fail: function () {
             this.completeLoad = () => toast("External Error");
         },
-        reject: () => void 0,
         complete: () => void 0,
         completeLoad: () => void 0,
     };
@@ -73,32 +66,30 @@ export const ajax = (requestInfo: RequestOptions): void => {
             success: function (res) {
                 if (option.cookie && !headers.cookie) headers.cookie = getCookies(res);
                 if (option.cookie && !headers.cookie) {
-                    const resWithReason = { ...res, errMsg: "Not Have Cookies" };
-                    option.fail(resWithReason);
-                    option.reject(resWithReason);
+                    option.fail({ ...res, errMsg: "No Cookies" });
                 }
-                if (
-                    res.statusCode === 200 &&
-                    typeof res.data === "object" &&
-                    !(res.data instanceof ArrayBuffer) &&
-                    res.data.status
-                ) {
-                    if (res.data.status === -1 && res.data.msg) {
-                        const popupMsg = res.data.msg;
-                        option.completeLoad = () => toast(popupMsg);
-                        return void 0;
+                if (res.statusCode === 200) {
+                    if (
+                        typeof res.data === "object" &&
+                        !(res.data instanceof ArrayBuffer) &&
+                        res.data.status
+                    ) {
+                        if (res.data.status === -1 && res.data.msg) {
+                            const popupMsg = res.data.msg;
+                            option.completeLoad = () => toast(popupMsg);
+                            return void 0;
+                        }
                     }
                     try {
                         option.success(res);
-                        option.resolve(res);
                     } catch (e) {
-                        option.completeLoad = () => toast("Internal Error");
+                        const ERROR_MSG = "Execute Fail";
+                        option.fail({ ...res, errMsg: ERROR_MSG });
+                        option.completeLoad = () => toast(ERROR_MSG);
                         console.log(e);
                     }
                 } else {
-                    const resWithReason = { ...res, errMsg: "Response No Status" };
-                    option.fail(resWithReason);
-                    option.reject(resWithReason);
+                    option.fail({ ...res, errMsg: "Response No Status" });
                 }
             },
             fail: function (res) {
@@ -123,10 +114,16 @@ export const ajax = (requestInfo: RequestOptions): void => {
 /**
  * request promise封装
  */
-export const request = (requestInfo: RequestOptions): Promise<any> => {
+type ResponseDataType = UniApp.RequestSuccessCallbackResult["data"];
+type PromiseFulfilled<T> = Omit<UniApp.RequestSuccessCallbackResult, "data"> & {
+    data: T;
+};
+export const request = <T extends ResponseDataType>(
+    requestInfo: RequestInfo
+): Promise<PromiseFulfilled<T>> => {
     return new Promise((resolve, reject) => {
-        requestInfo.resolve = resolve;
-        requestInfo.reject = reject;
+        requestInfo.success = res => resolve(res as PromiseFulfilled<T>);
+        requestInfo.fail = res => reject(res);
         ajax(requestInfo);
     });
 };

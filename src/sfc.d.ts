@@ -5,7 +5,7 @@ declare module "*.vue" {
 }
 
 // `Date`原型方法
-interface Date {
+declare interface Date {
     addDate: (years: number, months: number, days: number) => void;
 }
 

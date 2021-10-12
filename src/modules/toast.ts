@@ -1,7 +1,7 @@
 /**
  * 弹窗提示
  */
-export const toast = (msg: string, time = 2000, icon = "none", mask = true): Promise<string> => {
+export const toast = (msg: string, time = 2000, icon = "none", mask = false): Promise<string> => {
     uni.showToast({
         title: msg,
         icon: icon as Parameters<typeof uni.showToast>[0]["icon"],
