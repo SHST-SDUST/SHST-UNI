@@ -115,7 +115,7 @@ export const ajax = (requestInfo: RequestInfo): void => {
  * request promise封装
  */
 type ResponseDataType = UniApp.RequestSuccessCallbackResult["data"];
-type PromiseFulfilled<T> = Omit<UniApp.RequestSuccessCallbackResult, "data"> & {
+export type PromiseFulfilled<T> = Omit<UniApp.RequestSuccessCallbackResult, "data"> & {
     data: T;
 };
 export const request = <T extends ResponseDataType>(

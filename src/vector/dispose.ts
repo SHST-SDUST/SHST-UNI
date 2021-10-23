@@ -1,17 +1,23 @@
 import { toast } from "@/modules/toast";
 import { extend } from "@/modules/copy";
-import request from "@/modules/request";
 import storage from "@/modules/storage";
-import { methods } from "@/vector/mixins";
 import loading from "@/modules/loading";
-import { data } from "@/modules/global-data";
+import { methods } from "@/vector/mixins";
 import eventBus from "@/modules/event-bus";
+import { data } from "@/modules/global-data";
 import { extDate } from "@/modules/datetime";
 import { getCurWeek } from "@/vector/pub-fct";
 import { checkUpdate } from "@/modules/update";
 import { throttle } from "@/modules/operate-limit";
+import request, { PromiseFulfilled } from "@/modules/request";
 
-function disposeApp($app) {
+interface GlobalVueComponent {
+    data: typeof data;
+    globalData: typeof data;
+    $scope: typeof uni.$app;
+}
+
+function disposeApp($app: GlobalVueComponent) {
     extDate(); //拓展Date原型
     checkUpdate(); // 检查更新
     uni.$app = $app.$scope;
@@ -26,36 +32,52 @@ function disposeApp($app) {
     $app.data.colorN = $app.data.colorList.length;
     $app.$scope.reInitApp = initAppData.bind($app);
     $app.data.curWeek = getCurWeek($app.data.curTermStart);
-    $app.$scope.onload = (funct, ...args) => {
+    $app.$scope.onload = <T extends Array<unknown>>(
+        funct: (...args1: T) => void,
+        ...args: T
+    ): void => {
         if ($app.data.openid) funct(...args);
-        else $app.$scope.eventBus.once("LoginEvent", funct);
+        else $app.$scope.eventBus.once<T>("LoginEvent", funct);
     };
 }
 
-function initAppData() {
+interface InitRemoteRequest {
+    status: number;
+    openid: string;
+    initData: typeof data["initData"];
+}
+
+function initAppData(this: GlobalVueComponent) {
     loading.start({ load: 3, title: "加载中" });
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const $app = this;
     const userInfo = storage.get("user") || {};
-    uni.login({
-        // #ifdef MP-WEIXIN
-        provider: "weixin",
-        // #endif
-        // #ifdef MP-QQ
-        // eslint-disable-next-line no-dupe-keys
-        provider: "qq",
-        // #endif
+    new Promise<[null | Error, null | UniApp.LoginRes]>(resolve => {
+        uni.login({
+            // #ifdef MP-WEIXIN
+            provider: "weixin",
+            // #endif
+            // #ifdef MP-QQ
+            // eslint-disable-next-line no-dupe-keys
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            provider: "qq",
+            // #endif
+            success: res => resolve([null, res]),
+            fail: (err: Error) => resolve([err, null]),
+        });
     })
-        .then(data => {
-            const [err, res] = data;
-            if (err) return Promise.reject(err);
-            return $app.$scope.request({
+        .then(([err, res]) => {
+            if (err || !res) return Promise.reject(err);
+            return $app.$scope.request<InitRemoteRequest>({
                 load: 0,
                 // #ifdef MP-WEIXIN
                 url: $app.data.url + "/auth/wx",
                 // #endif
                 // #ifdef MP-QQ
                 // eslint-disable-next-line no-dupe-keys
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
                 url: $app.data.url + "/auth/QQ",
                 // #endif
                 method: "POST",
@@ -65,7 +87,7 @@ function initAppData() {
                 },
             });
         })
-        .then(res => {
+        .then((res: PromiseFulfilled<InitRemoteRequest>) => {
             /* 判断是否正常初始化 */
             const response = res.data;
             if (!response || !response.initData || !response.initData.curTerm)
@@ -107,7 +129,7 @@ function initAppData() {
 
             /* 处理弹出式公告 */
             const popup = response.initData.popup;
-            const popupCache = storage.get("popup");
+            const popupCache = storage.get<number>("popup");
             if (popupCache !== popup.serial && popup.popup) {
                 uni.showModal({
                     title: "公告",
@@ -116,7 +138,7 @@ function initAppData() {
                     content: popup.popup,
                     success: res => {
                         if (res.confirm) {
-                            storage.setPromise("popup", popup.serial);
+                            storage.setPromise<number>("popup", popup.serial);
                             // #ifdef MP-WEIXIN
                             if (popup.path) methods.nav(popup.path, "webview");
                             // #endif
@@ -131,28 +153,26 @@ function initAppData() {
             /* resolve */
             return Promise.resolve(res);
         })
-        .then(res => {
+        .then((res: PromiseFulfilled<InitRemoteRequest>) => {
             $app.$scope.eventBus.commit("LoginEvent", res);
         })
-        .catch(err => {
+        .catch((err: Error) => {
             console.log(err);
             uni.showModal({
                 title: "警告",
                 content: "数据初始化失败,点击确定重新初始化数据",
                 showCancel: false,
-                success: res => initAppData.apply($app),
+                success: () => initAppData.apply($app),
             });
         })
-        .finally(res => {
+        .finally(() => {
             loading.end({ load: 3 });
         });
-    // uni.request({url: "https://blog.touchczy.top/"}); // 保持CF缓存
 }
 
-/**
- * APP启动事件
- */
-function onLaunch() {
+// APP启动事件
+// eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/explicit-module-boundary-types
+function onLaunch(this: any): void {
     disposeApp(this);
     initAppData.apply(this);
 }

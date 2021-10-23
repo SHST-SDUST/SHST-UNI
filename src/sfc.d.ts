@@ -13,6 +13,8 @@ declare interface Date {
 declare namespace UniApp {
     interface Uni {
         $app: {
+            toast: typeof import("./modules/toast").toast;
+            extend: typeof import("./modules/copy").extend;
             data: import("./modules/global-data").Data;
             throttle: typeof import("./modules/operate-limit").throttle;
             eventBus: typeof import("./modules/event-bus").default;

@@ -1,6 +1,7 @@
-type Handler = (...args: unknown[]) => unknown;
+type Handler<T extends unknown[]> = (...args: T) => unknown;
+
 interface Handlers {
-    [key: string]: Array<Handler>;
+    [key: string]: Array<Handler<any>>;
 }
 
 class PubSub {
@@ -9,7 +10,7 @@ class PubSub {
     constructor() {
         this.handlers = {};
     }
-    public on(key: string, handler: Handler) {
+    public on<T extends unknown[]>(key: string, handler: Handler<T>) {
         // 订阅
         if (!(key in this.handlers)) this.handlers[key] = [];
         if (!this.handlers[key].includes(handler)) {
@@ -18,18 +19,18 @@ class PubSub {
         }
         return false;
     }
-    public once(key: string, handler: Handler) {
+    public once<T extends unknown[]>(key: string, handler: Handler<T>) {
         // 一次性订阅
         if (!(key in this.handlers)) this.handlers[key] = [];
         if (this.handlers[key].includes(handler)) return false;
-        const onceHandler = (...args: unknown[]) => {
+        const onceHandler = (...args: T) => {
             handler.apply(this, args);
             this.off(key, onceHandler);
         };
         this.handlers[key].push(onceHandler);
         return true;
     }
-    public off(key: string, handler: Handler) {
+    public off<T extends unknown[]>(key: string, handler: Handler<T>) {
         // 卸载
         const index = this.handlers[key].findIndex(item => item === handler);
         if (index < 0) return false;
@@ -37,7 +38,7 @@ class PubSub {
         else this.handlers[key].splice(index, 1);
         return true;
     }
-    commit(key: string, ...args: unknown[]) {
+    public commit<T extends unknown[]>(key: string, ...args: T) {
         // 触发
         if (!this.handlers[key]) return false;
         console.log(key, "Execute");

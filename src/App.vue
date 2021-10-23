@@ -1,19 +1,20 @@
-<script>
+<script lang="ts">
 import dispose from "@/vector/dispose";
 import log from "@/modules/realtime-log";
+
 export default {
     globalData: {},
     //处理404
-    onPageNotFound: () => {
+    onPageNotFound: (): void => {
         uni.reLaunch({
             url: "pages/home/auxiliary/not-found",
         });
     },
-    onLaunch: function () {
+    onLaunch: function (): void {
         console.log("APP INIT ");
         dispose.onLaunch.apply(this); //启动加载事件
     },
-    onError: err => {
+    onError: (err: string): void => {
         // 避免无限递归调用
         try {
             log.error(err);

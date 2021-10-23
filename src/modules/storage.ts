@@ -2,52 +2,57 @@ import { safeDate } from "./datetime";
 
 const convertKey = (key: string) => String(key).replace(/-storage$/g, "") + "-storage"; // 避免跟之前没有封装的缓存冲突
 
-const convertToOrigin = (str: string) => {
+interface SavedStructure<T> {
+    origin: T;
+    expire: number;
+}
+
+const convertToOrigin = <T>(str: string): null | T => {
     try {
-        const data = JSON.parse(str);
+        const data: SavedStructure<T> = JSON.parse(str);
         if (Number.isNaN(data.expire)) return null; // 之前IOS的缓存可能会存储NaN
         if (data.expire && safeDate().getTime() > data.expire) return null;
         return data.origin;
     } catch (e) {
         console.log(e);
-        return str;
+        return null;
     }
 };
 
-const convertToStr = (origin: string, expire?: Date | null) => {
-    const data: { origin: string; expire: null | number } = { origin, expire: null };
+const convertToStr = <T = string>(origin: T, expire?: Date | null) => {
+    const data: { origin: T; expire: null | number } = { origin, expire: null };
     if (expire) data.expire = expire.getTime();
     return JSON.stringify(data);
 };
 
 const storage = {
-    get: function (originKey: string): string | null {
+    get: function <T = string>(originKey: string): null | T {
         const key = convertKey(originKey);
         const str = uni.getStorageSync(key);
         if (str === "") return null;
-        const origin = convertToOrigin(str);
+        const origin = convertToOrigin<T>(str);
         if (origin === null) this.removePromise(key);
         return origin;
     },
-    set: function (originKey: string, data: string, expire = null): void {
+    set: function <T = string>(originKey: string, data: T, expire = null): void {
         const key = convertKey(originKey);
-        const str = convertToStr(data, expire);
+        const str = convertToStr<T>(data, expire);
         return uni.setStorageSync(key, str);
     },
-    getSync: function (originKey: string): string | null {
+    getSync: function <T = string>(originKey: string): null | T {
         return this.get(originKey);
     },
-    setSync: function (originKey: string, data: string, expire = null): void {
-        return this.set(originKey, data, expire);
+    setSync: function <T = string>(originKey: string, data: T, expire = null): void {
+        return this.set<T>(originKey, data, expire);
     },
-    getPromise: function (originKey: string): Promise<string | null> {
+    getPromise: function <T = string>(originKey: string): Promise<T | null> {
         const key = convertKey(originKey);
-        return new Promise<string | null>(resolve => {
+        return new Promise<T | null>(resolve => {
             uni.getStorage({
                 key,
                 success: res => {
                     if (res.data === "") return null;
-                    const origin = convertToOrigin(res.data);
+                    const origin = convertToOrigin<T>(res.data);
                     if (origin === null) this.removePromise(key);
                     resolve(origin);
                 },
@@ -61,9 +66,9 @@ const storage = {
         const key = convertKey(originKey);
         return uni.getStorageSync(key);
     },
-    setPromise: function (originKey: string, data: string, expire = null): Promise<boolean> {
+    setPromise: function <T = string>(originKey: string, data: T, expire = null): Promise<boolean> {
         const key = convertKey(originKey);
-        const str = convertToStr(data, expire);
+        const str = convertToStr<T>(data, expire);
         return new Promise<boolean>(resolve => {
             uni.setStorage({
                 key,

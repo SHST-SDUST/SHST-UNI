@@ -1,10 +1,9 @@
-import { RequestOptionsAllNeeded } from "./request";
 import { data } from "./global-data";
 
 /**
  * start
  */
-export const startLoading = (option: RequestOptionsAllNeeded): void => {
+export const startLoading = (option: { load: number; title?: string }): void => {
     switch (option.load) {
         case 1:
             uni.showNavigationBarLoading();
@@ -27,7 +26,7 @@ export const startLoading = (option: RequestOptionsAllNeeded): void => {
 /**
  * end
  */
-export const endLoading = (option: RequestOptionsAllNeeded): void => {
+export const endLoading = (option: { load: number; title?: string }): void => {
     switch (option.load) {
         case 1:
             uni.hideNavigationBarLoading();

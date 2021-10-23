@@ -15,6 +15,7 @@ export interface Data {
     project: string;
     initData:
         | {
+              tips: string;
               curTerm: string;
               termStart: string;
               curWeek: number;
@@ -35,12 +36,16 @@ export interface Data {
                   table: number;
                   grade: number;
               };
+              custom: {
+                  color_list: string;
+              };
           }
         | Record<string, never>;
     version: string;
     curTerm: string;
     curTermStart: string;
     colorList: Array<string>;
+    [key: string]: unknown;
 }
 
 export const data: Data = {
