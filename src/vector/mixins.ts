@@ -13,7 +13,10 @@ export const methods = {
     copy: (str: string): void => {
         if (str) uni.setClipboardData({ data: str });
     },
-    nav: (url: string, type = "nav"): void => {
+    nav: (
+        url: string,
+        type: "nav" | "tab" | "relunch" | "back" | "redirect" | "webview" = "nav"
+    ): void => {
         const fail = (e: Error) => console.log(e);
         const webviewPath = "/pages/home/auxiliary/webview?url=";
         switch (type) {
