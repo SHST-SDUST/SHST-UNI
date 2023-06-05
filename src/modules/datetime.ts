@@ -31,7 +31,7 @@ export function safeDate(
         return new Date(p1);
     } else if (typeof p1 === "number" && typeof p2 === "number") {
         // 第一和第二个参数都为`Number`
-        return new Date(p1, p2, p3, p4, p5, p6, p7);
+        return new Date(p1, p2, p3 || 1, p4 || 0, p5 || 0, p6 || 0, p7 || 0);
     } else if (typeof p1 === "string") {
         // 第一个参数为`String`
         return new Date(p1.replace(/-/g, "/"));
@@ -108,6 +108,7 @@ export const dayDiff = (startDateString: string, endDateString: string): number 
     const endDates = endDateString.split(separator).map(v => Number(v));
     const startDate = safeDate(startDates[0], startDates[1] - 1, startDates[2]);
     const endDate = safeDate(endDates[0], endDates[1] - 1, endDates[2]);
+    console.log("first", startDates[0], startDates[1] - 1, startDates[2]);
     const diff = Math.floor((endDate.getTime() - startDate.getTime()) / 1000 / 60 / 60 / 24); //把相差的毫秒数转换为天数
     return diff;
 };
