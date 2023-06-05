@@ -98,7 +98,7 @@
             <view class="y-center">
                 <view class="icon" @click="jump('/pages/ext/link/link', 0)">
                     <i class="iconfont icon-link"></i>
-                    <view>分享链接</view>
+                    <view>常用链接</view>
                 </view>
                 <!-- #ifdef MP-QQ -->
                 <view class="icon" @click="jump('/pages/ext/event/event', 0)">
@@ -160,25 +160,10 @@
                     <view>校内公告</view>
                 </view>
 
-                <!-- #ifdef MP-WEIXIN -->
-                <navigator
-                    class="icon"
-                    target="miniProgram"
-                    app-id="wx2facb7b57eedf7e6"
-                    hover-class="none"
-                    version="release"
-                >
-                    <i class="iconfont icon-ku"></i>
-                    <view>资料分享</view>
-                </navigator>
-                <!-- #endif -->
-
-                <!-- #ifdef MP-QQ -->
                 <button open-type="feedback" class="icon" hover-class="none">
                     <i class="iconfont icon-bianji"></i>
                     <view>意见反馈</view>
                 </button>
-                <!-- #endif -->
             </view>
         </c-card>
     </view>

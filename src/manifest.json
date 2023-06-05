@@ -56,7 +56,8 @@
         "navigateToMiniProgramAppIdList" : [ "wxa53da62a53aaddea", "wx2facb7b57eedf7e6", "wx3e1205c6aa103080" ],
         "uniStatistics" : {
             "enable" : true
-        }
+        },
+        "requiredPrivateInfos": ["getLocation"]
     },
     "mp-alipay" : {
         "usingComponents" : true,
