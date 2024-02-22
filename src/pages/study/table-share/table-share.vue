@@ -1,15 +1,15 @@
 <template>
     <view>
         <layout title="共享课表">
-            <view class="x-center a-flex-warp" v-if="data.status === 1">
+            <view v-if="data.status === 1" class="x-center a-flex-warp">
                 <view class="x-center" style="flex-direction: column">
-                    <input class="a-input" placeholder="对方学号" v-model="account" type="number" />
-                    <input class="a-input a-mt" placeholder="对方姓名" v-model="name" />
+                    <input v-model="account" class="a-input" placeholder="对方学号" type="number" />
+                    <input v-model="name" class="a-input a-mt" placeholder="对方姓名" />
                     <view class="a-btn a-btn-blue a-btn-large" @click="req">发起请求</view>
                 </view>
             </view>
 
-            <view class="x-center a-flex-warp" v-if="data.status === 2">
+            <view v-if="data.status === 2" class="x-center a-flex-warp">
                 <view class="y-center">
                     <view>{{ data.pair_user[0] }}</view>
                     <view class="a-ml">{{ data.pair_user[1] }}</view>
@@ -17,10 +17,10 @@
                 </view>
             </view>
 
-            <view class="a-hr a-mb" v-if="data.status !== 0"></view>
+            <view v-if="data.status !== 0" class="a-hr a-mb"></view>
 
-            <view class="x-center a-flex-warp" v-if="data.status !== 0">
-                <view v-for="(item, index) in data.data" class="y-center" :key="index">
+            <view v-if="data.status !== 0" class="x-center a-flex-warp">
+                <view v-for="(item, index) in data.data" :key="index" class="y-center">
                     <view>{{ item.account }}</view>
                     <view class="a-ml">{{ item.name }}</view>
                     <view class="a-btn a-btn-blue a-btn-small" @click="agree(item.id)">同意</view>
@@ -33,13 +33,13 @@
                     <view class="a-flex">
                         <view v-for="inner in 7" :key="inner" class="division a-ml">
                             <view
-                                class="table-unit-con"
                                 v-if="
                                     (data.succ.timeTable1[inner] &&
                                         data.succ.timeTable1[inner][item]) ||
                                     (data.succ.timeTable2[inner] &&
                                         data.succ.timeTable2[inner][item])
                                 "
+                                class="table-unit-con"
                             >
                                 <view
                                     v-if="
@@ -77,7 +77,7 @@
                                         data.succ.timeTable1[inner][item]
                                     "
                                     class="timetable-hide-top"
-                                    style="background:rgb(234, 167, 140);}}"
+                                    style="background: rgb(234, 167, 140)"
                                 >
                                     <view
                                         v-for="(classObj, classIndex) in data.succ.timeTable1[
@@ -119,7 +119,7 @@
             </view>
         </layout>
 
-        <layout title="Tips" v-if="data.status === 1">
+        <layout v-if="data.status === 1" title="Tips">
             <view class="tips-con">
                 <view>
                     1.向对方发起请求(对方必须是正常登陆过软件或者小程序才可以)，对方通过后，你们将能够在此看到自己与对方的课表

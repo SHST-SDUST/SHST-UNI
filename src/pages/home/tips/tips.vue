@@ -1,17 +1,17 @@
 <template>
     <view>
-        <layout :topSpace="true">
+        <layout :top-space="true">
             <view class="swiper-con">
                 <swiper :indicator-dots="true" :interval="5000" :duration="1000" autoplay circular>
                     <swiper-item
-                        class="x-center y-center"
                         v-for="(item, index) in swiper"
                         :key="item.img"
+                        class="x-center y-center"
                         @click="articleJump(item.url)"
                     >
                         <image class="x-full" mode="aspectFill" :src="item.img" lazy-load></image>
                     </swiper-item>
-                    <swiper-item class="x-center y-center" v-if="adShow">
+                    <swiper-item v-if="adShow" class="x-center y-center">
                         <!-- #ifdef MP-WEIXIN -->
                         <advertise
                             class="x-full"
@@ -31,7 +31,7 @@
             </view>
         </layout>
 
-        <layout :topSpace="true" :title="today">
+        <layout :top-space="true" :title="today">
             <view slot="headslot">
                 <view class="y-center">
                     <view class="iconfont icon-shuaxin icon refresh" @click="refresh"></view>
@@ -60,10 +60,10 @@
         <layout title="今日课程">
             <view v-for="(item, index) in table" :key="index">
                 <view
-                    class="unit-table"
-                    v-if="item"
                     v-for="(classObj, classIndex) in item.table"
+                    v-if="item"
                     :key="classIndex"
+                    class="unit-table"
                 >
                     <view class="y-center a-mr a-mt">
                         <view class="a-dot" :style="{ 'background': classObj.background }"></view>
@@ -78,7 +78,7 @@
                     </view>
                 </view>
             </view>
-            <view class="unit-table" v-if="tips" @click="bindSW">
+            <view v-if="tips" class="unit-table" @click="bindSW">
                 <view class="y-center a-mt a-mr">
                     <view class="a-dot" style="background: #eee"></view>
                     <view>{{ tips }}</view>
@@ -109,7 +109,7 @@
                     </view>
                 </view>
             </view>
-            <view class="unit-table" v-if="tips2">
+            <view v-if="tips2" class="unit-table">
                 <view class="y-center a-mt a-mb">
                     <view class="a-dot" style="background: #eee"></view>
                     <view>{{ tips2 }}</view>

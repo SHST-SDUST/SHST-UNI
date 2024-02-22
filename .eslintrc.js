@@ -54,6 +54,8 @@ module.exports = {
         "vue/no-dupe-keys": "error",
         //不允许重复的attributes
         "vue/no-duplicate-attributes": "warn",
+        // 显示返回
+        "@typescript-eslint/explicit-module-boundary-types": "off",
         //在 <template> 标签下不允许解析错误
         "vue/no-parsing-error": [
             "error",

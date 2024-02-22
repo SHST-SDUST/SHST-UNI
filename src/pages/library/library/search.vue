@@ -3,7 +3,7 @@
 
         <layout title="图书检索">
             <view class="x-center y-center a-lmt a-mb">
-                <input class="a-input a-lmr" v-model="book"></input>
+                <input v-model="book" class="a-input a-lmr"></input>
                 <view class="a-btn a-btn-blue" @click="query(1)">检索</view>
             </view>
         </layout>
@@ -35,14 +35,14 @@
         <layout v-if="show">
             <view class="a-flex-space-between y-center">
                 <view class="y-center">
-                    <view @click="pre" class="a-btn a-btn-blue">上一页</view>
-                    <view @click="next" class="a-btn a-btn-blue">下一页</view>
+                    <view class="a-btn a-btn-blue" @click="pre">上一页</view>
+                    <view class="a-btn a-btn-blue" @click="next">下一页</view>
                 </view>
                 <view class="a-color-grey">{{pageInfo}}</view>
             </view>
         </layout>
 
-        <layout title="Tips:" v-if="!show">
+        <layout v-if="!show" title="Tips:">
             <view class="tips-con">
                 <view>1.图书馆的服务器挺容易崩溃的，如果出现External Error，那一般是学校图书馆崩溃了</view>
                 <view>2.学校图书馆外网访问会定时关闭，正常使用时间大约是在 7:00-22:00</view>
@@ -66,9 +66,9 @@
         }),
         created: function() {
             uni.$app.onload(() => {
-                let startTime = "07:00";
-                let endTime = "22:30";
-                let curTime = formatDate("hh:mm");
+                const startTime = "07:00";
+                const endTime = "22:30";
+                const curTime = formatDate("hh:mm");
                 if (startTime > curTime || curTime > endTime) uni.$app.toast("当前时间图书馆服务已关闭");
             })
         },
@@ -78,21 +78,21 @@
                     uni.$app.toast("请输入书籍信息");
                     return void 0;
                 }
-                let unImg = "https://img3.doubanio.com/f/shire/5522dd1f5b742d1e1394a17f44d590646b63871d/pics/book-default-lpic.gif";
-                let param = "?q=" + this.book.replace(/\s/g, "") + "&page=" + page;
+                const unImg = "https://img3.doubanio.com/f/shire/5522dd1f5b742d1e1394a17f44d590646b63871d/pics/book-default-lpic.gif";
+                const param = "?q=" + this.book.replace(/\s/g, "") + "&page=" + page;
                 let res = await uni.$app.request({
                     load: 2,
                     throttle: true,
                     url: uni.$app.data.url + "/lib/query" + param,
                 })
                 let isbnStr = "";
-                let bookList = [];
-                let pageInfo = regMatch(/[0-9][\S]*页/g, res.data.info);
+                const bookList = [];
+                const pageInfo = regMatch(/[0-9][\S]*页/g, res.data.info);
                 regMatch(/<li (onclick.*?>[\s\S]*?)<\/li>/g, res.data.info).forEach((value, index, array) => {
-                    let listObject = {};
+                    const listObject = {};
                     listObject.infoList = regMatch(/<em>(.*?)<\/em>/g,value);
                     listObject.id = regMatch(/javascript:bookDetail\(['"]\/opac\/m\/book\/(.*)['"]\)/g, value)[0];
-                    let isbn = regMatch(/isbn="(.*?)"/g, value)[0];
+                    const isbn = regMatch(/isbn="(.*?)"/g, value)[0];
                     listObject.isbn = isbn ? String(/\d+/.exec(isbn.replace(/-/g, ""))) : "";
                     listObject.img = unImg;
                     if(listObject.isbn) isbnStr = isbnStr + "," + listObject.isbn;
@@ -120,13 +120,13 @@
                 console.log(bookList);
             },
             pre: function() {
-                let curPage = Number(this.page);
+                const curPage = Number(this.page);
                 if (curPage <= 1) return void 0;
                 this.query(curPage - 1);
                 this.$nextTick(() => uni.pageScrollTo({scrollTop: 0, duration: 0}));
             },
             next: function() {
-                let curPage = Number(this.page);
+                const curPage = Number(this.page);
                 this.query(curPage + 1);
                 this.$nextTick(() => uni.pageScrollTo({scrollTop: 0, duration: 0}));
             },
