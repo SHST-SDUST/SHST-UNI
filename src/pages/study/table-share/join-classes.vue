@@ -85,8 +85,6 @@ export default {
             });
         },
     },
-    beforeCreate: function () {},
-    created: function () {},
     methods: {
         confirm: function () {
             this.classes = [];
