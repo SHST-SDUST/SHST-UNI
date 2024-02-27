@@ -92,7 +92,7 @@ export default {
                 this.account = tipsInfo;
                 return void 0;
             }
-            var res = await storage.getPromise("user-info");
+            let res = await storage.getPromise("user-info");
             if (res && res.account) {
                 console.log("GET USERINFO FROM CACHE");
                 this.academy = res.academy;
@@ -100,7 +100,7 @@ export default {
                 this.account = res.account;
             } else {
                 console.log("GET USERINFO FROM REMOTE");
-                var res = await uni.$app.request({
+                res = await uni.$app.request({
                     load: 1,
                     throttle: true,
                     url: uni.$app.data.url + "/sw/userInfo",
